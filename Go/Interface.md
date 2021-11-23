@@ -1,5 +1,11 @@
-Golang Interface에 대한 고찰...
+Interface 연구
 -----
+Go에서 Interface는 Method의 집합이다...???
+
+뭐 맞는 말이지만 틀린 말이기도 하다. Interface에는 Method만 들어가는 것이 아니라 Interface도 들어 갈수도 있다. 그리고 Method가 없는 빈 Interface도 존재한다.
+
+Interface는 Object의 Method를 연결해주는 역활을 한다. Go에서는 OOPL처럼 Object라는 개념이 없는 뭔 개소리(?)냐고 하는 분들이 있을수 있다. 이런 분들에게는 Struct를 Object처럼 봐 달라고 부탁하고 싶다. 실제로 Struct를 사용하다 보면 '어... 이거 Object와 똑같네...!!!' 라고 느낄 것이다.
+
 ### 일반적인 Interface 사용 방법
 <pre>
 <code>
@@ -75,17 +81,31 @@ func main() {
 </code>
 </pre>
 
-일반적인 Go Sample인 것처럼 보이지만
+Rect과 Circle를 OOPL의 Class로 인식해 주었으면 한다. 그리고 Class에서 사용할 Method를 정의하게 되는데 이 부분을 Go에서는 Receiver를 사용해서 누구의 Method인지 지정을 해준다.
 
+<pre>
+<code>
 func <u>(r Rect)</u> Area() float64 {
+	// [...]
+}
+</code>
+</pre>
 
-일반적인 Go의 function선언 방식과 약간의 차이가 있다.
+(r Rect)가 Receiver라고 불리는 부분이다.
 
+참고로 위 Sample이 일반적인 Go Sample인 것처럼 보이지만 보통 Receiver를 사용하는 경우에는 Pointer Receiver를 주로 사용한다.
+
+<pre>
+<code>
 func <u>(r *Rect)</u> Area() float64 {
+	// [...]
+}
+</code>
+</pre>
 
-Pointer Receiver를 사용하지 않았다.
+(r *Rect)처럼 *를 사용해서 Receiver가 Call by Value가 아닌 Call by Reference라는 것을 지정해 준다.
 
-이 Sample에서는 Receiver가 변경될 일이 없기 때문에 Pointer를 사용하지 않았지만 Pointer를 사용해야 되는 경우라면 아래와 같이 변경하면 된다.
+Sample에서는 Receiver가 변경될 일이 없기 때문에 Pointer를 사용하지 않았지만 OOPL의 Get, Set기능을 구현하고자 한다면 Pointer를 사용해야 되고 아래 Sample처럼 변경하면 된다.
 
 <pre>
 <code>
@@ -160,7 +180,13 @@ func main() {
 }
 </code>
 </pre>
-Sample에 Comment한 것처럼 Interface는 Call by Reference 방식이라 단순 전달만으로 참조가 가능하다.
+처음 Go를 접하는 분들에게는 어려울 수 있는 Sample이지만 최대한 OOPL적으로 생각하면 뭐 그리 어렵지 않은 Source가 될 것이다.
+
+&Rect{10.0, 3.0} 이 부분은 Instance생성이라 이해하면 된다. &는 Pointer Receiver를 사용하였기 때문에 Address를 전달해주기 위해 사용이 되었다.
+
+이후 부터는 Interface에 기술된 Method를 사용하기만 하면 된다. Source에서 처럼 어떤 Struct가 넘어 왔는지는 무시해도 관련 Method를 호출해 준다.
+
+닭이 울때는 '꼬끼오'라고 하고 오리가 울때는 '꽥꽥'이라고 하지만 Interface를 사용하면 대상이 무엇이든 상관없이 운다는 Method만 집중하면 되는 것이다.
 
 ### Interface를 Parameter로 전달해야 하는 경우
 <pre>
