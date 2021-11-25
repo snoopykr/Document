@@ -166,15 +166,17 @@ func main() {
 	}
 	defer conn.Close()
 
-	// 서버에서 처럼 호출하는 방식도 단순하다...
+	// 설정...!!!
 	c := config.NewConfigureClient(conn)
 
 	// 5초 타임아웃 설정...!!!
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
-	// 예외사항 발생 처리...
+	// 서버에서 처럼 호출하는 방식도 단순하다...
 	r, err := c.SetConfigure(ctx, &config.ConfigRequest{})
+
+	// 예외사항 발생 처리...
 	if err != nil {
 		sError, ok := status.FromError(err)
 		if ok {
