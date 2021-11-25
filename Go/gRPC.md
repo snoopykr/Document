@@ -11,6 +11,33 @@ XML로 정해진 형식만 맞추면 멀리 떨어져 있는 컴퓨터에 평션
 
 이런 이론적인 부분은 인터넷이 많이 있으니 이곳에 기술하지는 않겠다.
 
+[ Proto ]
+
+<pre>
+<code>
+syntax = "proto3";
+
+option go_package = "tagmemo.com/snoopy_kr/config";
+
+package config;
+
+// 설정 조회 서비스
+service Configure {
+  rpc SetConfigure (ConfigRequest) returns (ConfigResponse) {}
+}
+
+// 요청
+message ConfigRequest {
+}
+
+// 응답
+message ConfigResponse {
+}
+</code>
+</pre>
+
+일부러 Parameter가 없는 Sample을 사용했다. 인터넷을 찾아보면 Parameter가 있는 Sample들이 대부분이므로 비교하면서 보면 도움이 될 것이다.
+
 [ Server ]
 
 <pre>
@@ -145,30 +172,3 @@ func main() {
 </pre>
 
 Client 관련 Sample도 Comment처리 했으니 참조해서 파악하기 바란다.
-
-[ Proto ]
-
-<pre>
-<code>
-syntax = "proto3";
-
-option go_package = "tagmemo.com/snoopy_kr/config";
-
-package config;
-
-// 설정 조회 서비스
-service Configure {
-  rpc SetConfigure (ConfigRequest) returns (ConfigResponse) {}
-}
-
-// 요청
-message ConfigRequest {
-}
-
-// 응답
-message ConfigResponse {
-}
-</code>
-</pre>
-
-일부러 Parameter가 없는 Sample을 사용했다. 인터넷을 찾아보면 Parameter가 있는 Sample들이 대부분이므로 비교하면서 보면 도움이 될 것이다.
