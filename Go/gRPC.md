@@ -38,6 +38,34 @@ message ConfigResponse {
 
 일부러 Parameter가 없는 Sample을 사용했다. 인터넷을 찾아보면 Parameter가 있는 Sample들이 대부분이므로 비교하면서 보면 도움이 될 것이다.
 
+<pre>
+<code>
+$ go get -u google.golang.org/grpc
+$ go get -u github.com/golang/protobuf/protoc-gen-go
+</code>
+</pre>
+
+gRPC를 사용하기 위한 모듈 설치. 모듈이 설치되어 있다면 생략해도 된다.
+
+<pre>
+<code>
+$ protoc -I config config.proto --go_out=plugins=grpc:config
+
+-I => 입력
+config => 디렉토리 (현재 디렉토리에는 config디렉토리가 있고 그안에는 config.proto 파일이 존재한다.)
+config.proto => 파일
+--go_out=plugins=grpc:config => 출력
+</code>
+</pre>
+
+protobuf를 사용해서 go파일을 생성한다.
+
+config.pb.go가 생성이 되는데... go_package의 영향인지 몰라도 ./config/tagmemo.com/snoopy_kr/config/에 config.pb.go파일이 생성된다. 이 부분 해결하신 분은 도움 부탁드린다.
+
+아무튼 config.pb.go파일은 proto파일이 있는 위치(./config/)로 옮겨주면 된다.
+
+참고로 'go mod init tagmemo.com/snoopy_kr' 명령으로 모듈을 생성했다.
+
 [ Server ]
 
 <pre>
@@ -57,11 +85,11 @@ import (
 )
 
 type server struct {
-	// UnimplementedConfigureServer 당황스럽겠지만 안심해도 된다 gRPC를 사용하면 자주보게 될 단어이다.
+	// UnimplementedConfigureServer 당황스럽겠지만 안심해도 된다 gRPC를 사용하면 자주보게 될 단어다.
 	config.UnimplementedConfigureServer
 }
 
-// 서버가 클라이언트에게 제공할 RPC의 함수이다.
+// 서버가 클라이언트에게 제공할 RPC의 함수다.
 func (s *server) SetConfigure(ctx context.Context, in *config.ConfigRequest) (*config.ConfigResponse, error) {
 	log.Printf("Received profile")
 
