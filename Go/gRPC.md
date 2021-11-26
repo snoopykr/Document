@@ -64,7 +64,7 @@ protobuf를 사용해서 go파일을 생성한다.
 
 <pre>
 <code>
-package main
+ppackage main
 
 import (
 	"context"
@@ -74,17 +74,17 @@ import (
 	"google.golang.org/grpc/status"
 	"log"
 	"net"
-	"tagmemo.com/snoopy_kr/config"
+	"tagmemo.com/snoopy_kr/config/proto"
 	"time"
 )
 
 type server struct {
 	// UnimplementedConfigureServer 당황스럽겠지만 안심해도 된다 gRPC를 사용하면 자주보게 될 단어다.
-	config.UnimplementedConfigureServer
+	proto.UnimplementedConfigureServer
 }
 
 // 서버가 클라이언트에게 제공할 RPC의 함수다.
-func (s *server) SetConfigure(ctx context.Context, in *config.ConfigRequest) (*config.ConfigResponse, error) {
+func (s *server) SetConfigure(ctx context.Context, in *proto.ConfigRequest) (*proto.ConfigResponse, error) {
 	log.Printf("Received profile")
 
 	// 예외사항이 발생되지 않는 다면 SetConfigure()함수는 return &config.ConfigResponse{}, nil 이렇게 한줄로 마무리 된다.
@@ -110,7 +110,7 @@ func (s *server) SetConfigure(ctx context.Context, in *config.ConfigRequest) (*c
 	// 클라이언트의 취소를 이끌어 내기 위해 3초를 활당했다.
 	case <-time.After(3 * time.Second):
 		fmt.Println("Server response the gRPC call...!!!")
-		return &config.ConfigResponse{}, nil
+		return &proto.ConfigResponse{}, nil
 	}
 }
 
@@ -122,7 +122,7 @@ func main() {
 
 	// 하는 일에 비해 소스는 너무 단순하다...
 	s := grpc.NewServer()
-	config.RegisterConfigureServer(s, &server{})
+	proto.RegisterConfigureServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
@@ -145,7 +145,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
-	"tagmemo.com/snoopy_kr/config"
+	"tagmemo.com/snoopy_kr/config/proto"
 	"time"
 )
 
@@ -161,14 +161,14 @@ func main() {
 	defer conn.Close()
 
 	// 설정...!!!
-	c := config.NewConfigureClient(conn)
+	c := proto.NewConfigureClient(conn)
 
 	// 5초 타임아웃 설정...!!!
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
 	// 서버에서 처럼 호출하는 방식도 단순하다...
-	r, err := c.SetConfigure(ctx, &config.ConfigRequest{})
+	r, err := c.SetConfigure(ctx, &proto.ConfigRequest{})
 
 	// 예외사항 발생 처리...
 	if err != nil {
