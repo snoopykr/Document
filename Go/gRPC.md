@@ -3,11 +3,11 @@ gRPC 활용
 
 내가 처음 접한 것은 Go가 아닌 gRPC이다. 2002년도 리눅스코리아 소속 당시 XML-RPC기술을 사용해서 프로젝트를 진행하면서 RPC의 매력에 빠졌다고 보는 것이 맞을 것이다.
 
-XML로 정해진 형식만 맞추면 멀리 떨어져 있는 컴퓨터에 평션을 마음대로 콜을 할수 있다는 사실이 너무 충격적이였다. 이때의 충격은 C을 처음 접하고 function이라는 힘을 느낀 것 처럼 너무 획기적인 것이였다.
+XML를 통해 멀리 떨어져 있는 컴퓨터에 Function을 마음대로 콜을 할수 있다는 사실이 너무 충격적이였다. 이때의 충격은 C을 처음 접하고 Function이라는 힘을 느낀 것 처럼 너무 획기적인 것이였다.
 
-중간에 Json형식의 RPC도 있었지만 내부 구조는 XML-RPC와 동일함으로 패스...!!!
+중간에 Json형식의 RPC도 있었지만 구조는 XML-RPC와 대동소이함으로 패스...!!!
 
-아무튼 gPRC는 프로토콜, 내부 구조부터 달랐고 양방향이라는 메리트는 마치 신문물을 접하는 것 같았다.
+아무튼 gPRC는 프로토콜, 구조부터 달랐고 양방향이라는 메리트는 마치 신문물을 접하는 것 같았다.
 
 이론적인 부분은 인터넷을 검색하면 관련 정보를 쉽게 확인할수 있으니 이곳에 기술하지는 않겠다.
 
@@ -197,6 +197,6 @@ func main() {
 
 Client 관련 Sample도 Comment처리 했으니 참조해서 파악하기 바란다.
 
-Sample을 테스트 하려면 Server를 먼저 구동하고 Client를 실행하자 마자 Client를 죽이게 되면 Server에서 Exception이 발생되고
+Sample을 테스트 하려면 먼저 Server를 구동하고 Client를 실행하고 바로 Client를 죽이게 되면 Server에서 Exception이 발생된다.
 
-Server를 'case <-time.After(10 * time.Second):'라고 수정하게 되면 Client에서 Timeout Exception이 발생되는 것을 확인할수 있다.
+그리고 Server를 'case <-time.After(10 * time.Second):'와 같이 Response 타임을 10후로 수정하면 Client에서 Timeout Exception이 발생되는 것을 확인할수 있다.
