@@ -17,7 +17,8 @@ XML로 정해진 형식만 맞추면 멀리 떨어져 있는 컴퓨터에 평션
 <code>
 syntax = "proto3";
 
-option go_package = "tagmemo.com/snoopy_kr/config";
+// --go_out에 지정된 디렉토리 밑에 디렉토리가 생성된다.
+option go_package = "config/proto";
 
 package config;
 
@@ -49,22 +50,15 @@ gRPC를 사용하기 위한 모듈 설치. 모듈이 설치되어 있다면 생�
 
 <pre>
 <code>
-$ protoc -I config config.proto --go_out=plugins=grpc:config
-
--I => 입력
-config => 디렉토리 (현재 디렉토리에는 config디렉토리가 있고 그안에는 config.proto 파일이 존재한다.)
-config.proto => 파일
---go_out=plugins=grpc:config => 출력
+$ protoc -I config config.proto --go_out=plugins=grpc:.
 </code>
 </pre>
 
 protobuf를 사용해서 go파일을 생성한다.
 
-config.pb.go가 생성이 되는데... go_package의 영향인지 몰라도 ./config/tagmemo.com/snoopy_kr/config/에 config.pb.go파일이 생성된다. 이 부분 해결하신 분은 도움 부탁드린다.
+-I config config.proto : proto파일이 위치한 디렉토리와 proto파일을 지정해 준다
 
-아무튼 config.pb.go파일은 proto파일이 있는 위치(./config/)로 옮겨주면 된다.
-
-참고로 'go mod init tagmemo.com/snoopy_kr' 명령으로 모듈을 생성했다.
+--go_out=plugins=grpc:. : Output위치 지정해 준다. (현재 디렉토리에 'option go_package = "config/proto";'의 영향으로 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
 
 [ Server ]
 
