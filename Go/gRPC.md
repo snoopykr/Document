@@ -196,3 +196,7 @@ func main() {
 </pre>
 
 Client 관련 Sample도 Comment처리 했으니 참조해서 파악하기 바란다.
+
+Sample을 테스트 하려면 Server를 먼저 구동하고 Client를 실행하자 마자 Client를 죽이게 되면 Server에서 Exception이 발생되고
+
+Server를 'case <-time.After(10 * time.Second):'라고 수정하게 되면 Client에서 Timeout Exception이 발생되는 것을 확인할수 있다.
