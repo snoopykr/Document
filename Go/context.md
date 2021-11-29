@@ -7,7 +7,7 @@ context는 go에서 사용되는 패키지의 이름이다...!!! 인터넷을 �
 
 Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대로 된 처리를 시간내에 request를 처리하지 못하는 경우(timeout, deadline) 또는 Browser가 다운되서 더이상 response할 필요가 없는 경우(Cancel) 등 예외사항이 발생된 경우를 처리하기 위해 필요한 패키지이다.
 
-참고로 contest에는 위에 말한 Cancel, timeout, deadline외에 value로 처리하는 부분도 포함이 되어 있다.
+참고로 contest에는 위에 말한 Cancel, timeout, deadline외에 value를 처리하는 부분도 포함이 되어 있다.
 
 [ Cancel 처리 ]
 <pre>
@@ -166,3 +166,64 @@ Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다..
 단순히 ctx, cancel := context.WithTimeout(context.Background(), maxDuration)에서 WithDeadline으로 변경하고 Now() + timeout시간으로 변경하면 된다.
 
 즉 Timeout은 after개념이고 Deadline은 when개념이다.
+
+[ value ]
+
+<pre>
+<code>
+package main
+
+import (
+	"context"
+	"errors"
+	"fmt"
+)
+
+type User struct {
+	Name string
+}
+
+func main() {
+	currentUser := User{Name: "snoopy_kr"}
+
+	// 컨텍스트 생성
+	ctx := context.Background()
+
+	// 컨텍스트에 값 추가 - context.WithValue 함수를 사용하여 값을 전달.
+	ctx = context.WithValue(ctx, "current_user", currentUser)
+
+	// 시작.
+	myFunc(ctx)
+
+}
+
+func myFunc(ctx context.Context) error {
+	var currentUser User
+
+	// 컨텍스트에서 'current_user'값을 추출...
+	if v := ctx.Value("current_user"); v != nil {
+
+		// ctx.Value로는 interface를 리턴 받게 된다.
+		// User struct로 cascading...!!!
+		u, ok := v.(User)
+		if !ok {
+			return errors.New("Not authorized")
+		}
+		currentUser = u
+	} else {
+		return errors.New("Not authorized")
+	}
+	
+	fmt.Println(currentUser)
+
+	// 출력
+	// {snoopy_kr}
+
+	return nil
+}
+</code>
+</pre>
+
+context에 값을 지정해서 전달하는 Sample이다. 다른 Source보다 복잡하지 않아서 쉽게 이해될 것이다.
+
+myFunc에서 Interface를 사용하고 Cascading해 주었는데... 관련 해서는 Interface를 참조하면 Source를 좀더 쉽게 이해할수 있을 것이다.
