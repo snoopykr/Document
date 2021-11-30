@@ -3,7 +3,7 @@ minikube 실습
 
 minikube는 로컬에서 kubernetes환경을 간단하게 구성할수 있기 때문에 많이 사용이 된다.
 
-사용법도 단순해서 kubenetes를 학습하기 위한 최적의 방법을 제공해 준다.
+사용법도 간단해서 kubenetes를 학습하기 위한 최적의 방법을 제공해 준다.
 
 [Windows 설치파일](https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe "minikube-installer.exe")
 
