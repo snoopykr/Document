@@ -7,7 +7,6 @@ minikube는 로컬에서 kubernetes환경을 간단하게 구성할수 있기 �
 
 [Windows 설치파일](https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe "minikube-installer.exe")
 
-
 버전확인
 <pre>
 <code>
