@@ -15,8 +15,7 @@ kubectl 기본 명령
 
 wordpress-k8s.yml
 
-<pre>
-<code>
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -102,15 +101,12 @@ spec:
   selector:
     app: wordpress
     tier: frontend
-</code>
-</pre>
+```
 
 apply
-<pre>
-<code>
-kubectl apply -f wordpress-k8s.yml
-</code>
-</pre>
+```console
+$ kubectl apply -f wordpress-k8s.yml
+```
 
 get
 <pre>

@@ -50,9 +50,9 @@ $ protoc -I config config.proto --go_out=plugins=grpc:.
 
 protobuf를 사용해서 go파일을 생성한다.
 
--I config config.proto : proto파일이 위치한 디렉토리와 proto파일을 지정해 준다
+`-I config config.proto` : proto파일이 위치한 디렉토리와 proto파일을 지정해 준다
 
---go_out=plugins=grpc:. : Output위치 지정해 준다. (현재 디렉토리에 'option go_package = "config/proto";'의 영향으로 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
+`--go_out=plugins=grpc:.` : Output위치 지정해 준다. (현재 디렉토리에 'option go_package = "config/proto";'의 영향으로 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
 
 [ Server ]
 

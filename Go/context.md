@@ -1,17 +1,16 @@
 context 학습
 -----
 
-context는 go에서 사용되는 패키지의 이름이다...!!! 인터넷을 찾아보면 우리나라말로 쓰여 있어도 뭔 말인지 도대체 이해를 하지 못하겠다.
+context는 go에서 사용되는 패키지의 이름이다. context를 인터넷에서 찾아보면 우리나라말로 쓰여 있어도 뭔 말인지 도대체 이해가 가지 않는다. (본인의 국어 실력이 낮아서...)
 
-그냥 간단하게 정리하면 context는 프로세스, API 또는 RPC 등 혼자서 하는 일이 아닌 뭔가를 호출하고 기다려야 할때 발생하는 예외사항을 위해 사용된다.
+그냥 간단하게 정리하면 context는 프로세스, API 또는 RPC처럼 뭔가를 호출하고 답을 기다려야 할때 사용되며 예외사항이 발생되는 경우 관련 처리를 원활하게 해준다.
 
-Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대로 된 처리를 시간내에 request를 처리하지 못하는 경우(timeout, deadline) 또는 Browser가 다운되서 더이상 response할 필요가 없는 경우(Cancel) 등 예외사항이 발생된 경우를 처리하기 위해 필요한 패키지이다.
+Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대로 된 처리를 시간내에 request를 처리하지 못하는 경우(t`imeout`, `deadline`) 또는 Browser가 다운되서 더이상 response할 필요가 없는 경우(`Cancel`) 등 예외사항이 발생된 경우를 처리하기 위해 필요한 패키지이다.
 
 참고로 contest에는 위에 말한 Cancel, timeout, deadline외에 value를 처리하는 부분도 포함이 되어 있다.
 
 [ Cancel 처리 ]
-<pre>
-<code>
+```go
 package main
 
 import (
@@ -85,15 +84,13 @@ func longFunc() string {
 	<-time.After(time.Second * 5)
 	return "Success"
 }
-</code>
-</pre>
+```
 
 이 Sample은 실무에서 쓰기보다는 이해를 돕기위해 준비한 Source이다. 단일 프로세스지만 예외사항을 체크하고 어떻게 처리가 되는지 확인하기에는 안성맞춤 Sample이다.
 
 [ Timeout, Deadline 처리 ]
 
-<pre>
-<code>
+```go
 package main
 
 import (
@@ -156,8 +153,7 @@ func longFunc() string {
 	<-time.After(time.Second * 3)
 	return "Success"
 }
-</code>
-</pre>
+```
 
 이 Sample에서는 3초의 딜레이 동안 Timeout를 발생시켜 예외사항을 만드는 Source이다. 1초만에 Timeout이 걸리게 되어 모든 처리가 완료 되기 이전에 예외사항이 발생하는 것이다.
 
@@ -169,8 +165,7 @@ Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다..
 
 [ value ]
 
-<pre>
-<code>
+```go
 package main
 
 import (
@@ -221,8 +216,7 @@ func myFunc(ctx context.Context) error {
 
 	return nil
 }
-</code>
-</pre>
+```
 
 context에 값을 지정해서 전달하는 Sample이다. 다른 Source보다 복잡하지 않아서 쉽게 이해될 것이다.
 
