@@ -13,7 +13,7 @@ XML를 통해 멀리 떨어져 있는 컴퓨터의 Function을 마음대로 콜�
 
 [ Proto ]
 
-```Proto
+```proto
 syntax = "proto3";
 
 // --go_out에 지정된 디렉토리 밑에 디렉토리가 생성된다.
@@ -56,7 +56,7 @@ protobuf를 사용해서 go파일을 생성한다.
 
 [ Server ]
 
-```Server
+```go
 ppackage main
 
 import (
@@ -126,7 +126,7 @@ Sample내에 Comment처리를 했기 때문에 Sample를 파악하는 것은 어
 
 [ Client ]
 
-```Client
+```go
 package main
 
 import (
