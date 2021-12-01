@@ -8,136 +8,104 @@ minikube는 로컬에서 kubernetes환경을 간단하게 구성할수 있기 �
 [Windows 설치파일](https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe "minikube-installer.exe")
 
 버전확인
-<pre>
-<code>
-minikube version
-</code>
-</pre>
+```bash
+$ minikube version
+```
 
 가상머신 시작 
-<pre>
-<code>
-minikube start                                  // 기본
-minikube start --driver=docker                  // docker desktop 이용
-minikube start --driver=hyperv                  // hyperv 이용
-minikube start --driver=virtualbox              // virtual box 이용
-minikube start --kubernetes-version=v1.20.0     // kubenetes 버전 지정
-</code>
-</pre>
+```bash
+$ minikube start                                  // 기본
+$ minikube start --driver=docker                  // docker desktop 이용
+$ minikube start --driver=hyperv                  // hyperv 이용
+$ minikube start --driver=virtualbox              // virtual box 이용
+$ minikube start --kubernetes-version=v1.20.0     // kubenetes 버전 지정
+```
 
 상태확인
-<pre>
-<code>
-minikube status
-</code>
-</pre>
+```bash
+$ minikube status
+```
 
 정지
-<pre>
-<code>
-minikube stop
-</code>
-</pre>
+```bash
+$ minikube stop
+```
 
 삭제
-<pre>
-<code>
-minikube delete
-</code>
-</pre>
+```bash
+$ minikube delete
+```
 
 ssh 접속
-<pre>
-<code>
-minikube ssh
-</code>
-</pre>
+```bash
+$ minikube ssh
+```
 
 ip 확인
-<pre>
-<code>
-minikube ip
-</code>
-</pre>
+```bash
+$ minikube ip
+```
 
 다중 노드
-<pre>
-<code>
-minikube start
-minikube start -n 3     // 다중 노드
-</code>
-</pre>
+```bash
+$ minikube start
+$ minikube start -n 3     // 다중 노드
+```
 
 프로필
-<pre>
-<code>
-minikube start                  // minikube profile로 생성
-minikube start -p helloworld    // helloworld profile로 생성
-</code>
-</pre>
+```bash
+$ minikube start                  // minikube profile로 생성
+$ minikube start -p helloworld    // helloworld profile로 생성
+```
 
 profile 목록
-<pre>
-<code>
-minikube profile list
-</code>
-</pre>
+```bash
+$ minikube profile list
+```
 
 현재 profile 확인
-<pre>
-<code>
-minikube profile
-</code>
-</pre>
+```bash
+$ minikube profile
+```
 
 profile로 변경
-<pre>
-<code>
-minikube profile helloworld     // helloworld profile로 변경
-minikube profile minikube       // minikube profile로 변경
-</code>
-</pre>
+```bash
+$ minikube profile helloworld     // helloworld profile로 변경
+$ minikube profile minikube       // minikube profile로 변경
+```
 
 가상머신 제거
-<pre>
-<code>
-minikube delete                 // 현재 profile 가상머신 제거
-minikube delete --all           // 전체 제거
-</code>
-</pre>
+```bash
+$ minikube delete                 // 현재 profile 가상머신 제거
+$ minikube delete --all           // 전체 제거
+```
 
 대쉬보드
-<pre>
-<code>
-minikube dashboard
-</code>
-</pre>
+```bash
+$ minikube dashboard
+```
 
 일시정지
-<pre>
-<code>
-minikube pause                  // 일시정지
-minikube unpause                // 일시정지 해제
-</code>
-</pre>
+```bash
+$ minikube pause                  // 일시정지
+$ minikube unpause                // 일시정지 해제
+```
 
 일시정지
-<pre>
-<code>
-minikube config set memory 16384        // 메모리 설정
-minikube config unset memory            // 메모리 설정 초기화
-minikube config view                    // 설정 보기
-</code>
-</pre>
+```bash
+$ minikube config set memory 16384        // 메모리 설정
+$ minikube config unset memory            // 메모리 설정 초기화
+$ minikube config view                    // 설정 보기
+```
 
 설정 옵션
 | 값 | 설명 |
 |---|:---:|
-| defaults |    Lists all valid default values for PROPERTY_NAME |
-| get |         Gets the value of PROPERTY_NAME from the minikube config file |
-| set |        Sets an individual value in a minikube config file |
-| unset |      unsets an individual value in a minikube config file |
-| view |       Display values currently set in the minikube config file |
+| `defaults` |    Lists all valid default values for PROPERTY_NAME |
+| `get` |         Gets the value of PROPERTY_NAME from the minikube config file |
+| `set` |        Sets an individual value in a minikube config file |
+| `unset` |      unsets an individual value in a minikube config file |
+| `view` |       Display values currently set in the minikube config file |
 
 설정 가능한 항목
  * driver
