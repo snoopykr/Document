@@ -13,8 +13,7 @@ XML를 통해 멀리 떨어져 있는 컴퓨터의 Function을 마음대로 콜�
 
 [ Proto ]
 
-<pre>
-<code>
+```Proto
 syntax = "proto3";
 
 // --go_out에 지정된 디렉토리 밑에 디렉토리가 생성된다.
@@ -34,25 +33,20 @@ message ConfigRequest {
 // 응답
 message ConfigResponse {
 }
-</code>
-</pre>
+```
 
 일부러 Parameter가 없는 Sample을 사용했다. 인터넷을 찾아보면 Parameter가 있는 Sample들이 대부분이므로 비교하면서 보면 도움이 될 것이다.
 
-<pre>
-<code>
+```bash
 $ go get -u google.golang.org/grpc
 $ go get -u github.com/golang/protobuf/protoc-gen-go
-</code>
-</pre>
+```
 
 gRPC를 사용하기 위한 모듈 설치. 모듈이 설치되어 있다면 생략해도 된다.
 
-<pre>
-<code>
+```bash
 $ protoc -I config config.proto --go_out=plugins=grpc:.
-</code>
-</pre>
+```
 
 protobuf를 사용해서 go파일을 생성한다.
 
@@ -62,8 +56,7 @@ protobuf를 사용해서 go파일을 생성한다.
 
 [ Server ]
 
-<pre>
-<code>
+```Server
 ppackage main
 
 import (
@@ -127,15 +120,13 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
-</code>
-</pre>
+```
 
 Sample내에 Comment처리를 했기 때문에 Sample를 파악하는 것은 어렵지 않을 것이다.
 
 [ Client ]
 
-<pre>
-<code>
+```Client
 package main
 
 import (
@@ -192,8 +183,7 @@ func main() {
 
 	log.Printf("Config: %v", r)
 }
-</code>
-</pre>
+```
 
 Client 관련 Sample도 Comment처리 했으니 참조해서 파악하기 바란다.
 
