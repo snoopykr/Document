@@ -9,14 +9,32 @@ Go에서 Interface는 Method의 집합이다...!!!
 
 Go에서는 OOPL처럼 Object라는 개념이 없는데 뭔 개소리(?)냐고 하는 분들이 있을수 있다. 이런 분들에게는 Struct를 Object처럼 봐 달라고 부탁하고 싶다. 실제로 Struct를 사용하다 보면 '어... 이거 Object와 똑같네...!!!' 라고 느낄 것이다.
 
-[1.일반적인 Interface 사용 방법](#일반적인-interface-사용-방법)
+목차
+
+1. [일반적인 Interface 사용 방법](#일반적인-interface-사용-방법)
+
+1. [Interface를 Parameter로 전달해야 하는 경우](#interface를-parameter로-전달해야-하는-경우)
+
+1. [여러개의 Interface에 Struce를 전달하는 경우](#여러개의-interface에-struce를-전달하는-경우)
+
+1. [Interface의 Cascading...???](#interface의-cascading)
+
+1. [Interface에서 또 다른 Intercase로 Cascading하는 경우](#interface에서-또-다른-intercase로-cascading하는-경우)
+
+1. [Interface의 타입 구분](#interface의-타입-구분)
+
+1. [Interface내 Interface](#interface내-interface)
+
+1. [Interface에게 Method전달](#Interface에게-Method전달)
+
+1. [Multy Interface Parameter](#multy-interface-parameter)
 
 ### 일반적인 Interface 사용 방법
 ```go
 package main
 
 import (
-	"fmt"
+	"fmt"Interface를 Parameter로 전달해야 하는 경우
 	"math"
 )
 
@@ -498,7 +516,7 @@ type Material interface {
 
 이렇게 선언해준 것과 별 차이가 없다.
 
-### Interface에게서 Method전달
+### Interface에게 Method전달
 ```go
 package main
 
