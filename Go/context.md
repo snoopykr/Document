@@ -8,6 +8,12 @@ Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대�
 
 참고로 contest에는 위에 말한 Cancel, timeout, deadline외에 value를 처리하는 부분도 포함이 되어 있다.
 
+1. [Cancel 처리](#cancel-처리)
+
+1. [Timeout, Deadline 처리](#timeout-deadline-처리)
+
+1. [Value](#Value)
+
 ### Cancel 처리
 ```go
 package main
@@ -162,7 +168,7 @@ Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다..
 
 즉 Timeout은 after개념이고 Deadline은 when개념이다.
 
-### value
+### Value
 
 ```go
 package main

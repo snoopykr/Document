@@ -57,7 +57,7 @@ protobuf를 사용해서 go파일을 생성한다.
 
 `-I config config.proto` : proto파일이 위치한 디렉토리와 proto파일을 지정해 준다
 
-`--go_out=plugins=grpc:.` : Output위치 지정해 준다. (현재 디렉토리에 'option go_package = "config/proto";'의 영향으로 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
+`--go_out=plugins=grpc:.` : Output위치 지정해 준다. (Source에 `option go_package = "config/proto";`의 영향으로 현재 디렉토리에 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
 
 ### Server
 
@@ -86,8 +86,7 @@ func (s *server) SetConfigure(ctx context.Context, in *proto.ConfigRequest) (*pr
 	log.Printf("Received profile")
 
 	// 예외사항이 발생되지 않는 다면 SetConfigure()함수는 return &config.ConfigResponse{}, nil 이렇게 한줄로 마무리 된다.
-	// 하지만 중간에 발생될 예외 사항을 처리하기 context라는 것을 사용한다.
-	// context에 대해서는 앞으로 만들 context.md를 확인하기 바란다.
+	// 하지만 중간에 발생될 예외 사항을 처리하기 context를 사용한다.
 	canceled := make(chan string, 1)
 	go func() {
 		for {
