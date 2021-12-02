@@ -1,7 +1,5 @@
 # Interface
 
-### Interface 란...
-
 Go에서 Interface는 Method의 집합이다...!!!
 
 뭐 맞는 말이지만 틀린 말이기도 하다. Interface에는 Method만 들어가는 것이 아니라 Interface도 들어 갈수도 있다. 그리고 Method가 없는 빈 Interface도 존재한다.
@@ -27,8 +25,6 @@ Go에서는 OOPL처럼 Object라는 개념이 없는데 뭔 개소리(?)냐고 �
 1. [Interface에게 Method전달](#Interface에게-Method전달)
 
 1. [Multy Interface Parameter](#multy-interface-parameter)
-
----
 
 ### 일반적인 Interface 사용 방법
 ```go

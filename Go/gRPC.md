@@ -1,5 +1,4 @@
-gRPC 활용
------
+#gRPC
 
 내가 먼저 접한 것은 Go가 아닌 gRPC이다. 2002년도 리눅스코리아 소속 당시 XML-RPC기술을 사용해서 프로젝트를 진행하면서 RPC의 매력에 빠졌다고 보는 것이 맞을 것이다.
 
@@ -11,7 +10,13 @@ XML를 통해 멀리 떨어져 있는 컴퓨터의 Function을 마음대로 콜�
 
 구구절절한 gRPC 이론얘기는 인터넷을 검색하면 쉽게 확인할수 있으니 이곳에 기술하지는 않겠다.
 
-[ Proto ]
+1. [Proto](#Proto)
+
+1. [Server](#Server)
+
+1. [Client](#Client)
+
+###Proto
 
 ```proto
 syntax = "proto3";
@@ -54,7 +59,7 @@ protobuf를 사용해서 go파일을 생성한다.
 
 `--go_out=plugins=grpc:.` : Output위치 지정해 준다. (현재 디렉토리에 'option go_package = "config/proto";'의 영향으로 config/proto디렉토리가 생성되고 여기에 config.pb.go가 위치한다.)
 
-[ Server ]
+###Server
 
 ```go
 ppackage main
@@ -124,7 +129,7 @@ func main() {
 
 Sample내에 Comment처리를 했기 때문에 Sample를 파악하는 것은 어렵지 않을 것이다.
 
-[ Client ]
+###Client
 
 ```go
 package main

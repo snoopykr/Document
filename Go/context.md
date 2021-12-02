@@ -1,5 +1,4 @@
-context 학습
------
+#context
 
 context는 go에서 사용되는 패키지의 이름이다. context를 인터넷에서 찾아보면 우리나라말로 쓰여 있어도 뭔 말인지 도대체 이해가 가지 않는다. (본인의 국어 실력이 낮아서...)
 
@@ -9,7 +8,7 @@ Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대�
 
 참고로 contest에는 위에 말한 Cancel, timeout, deadline외에 value를 처리하는 부분도 포함이 되어 있다.
 
-[ Cancel 처리 ]
+###Cancel 처리
 ```go
 package main
 
@@ -88,7 +87,7 @@ func longFunc() string {
 
 이 Sample은 실무에서 쓰기보다는 이해를 돕기위해 준비한 Source이다. 단일 프로세스지만 예외사항을 체크하고 어떻게 처리가 되는지 확인하기에는 안성맞춤 Sample이다.
 
-[ Timeout, Deadline 처리 ]
+###Timeout, Deadline 처리
 
 ```go
 package main
@@ -163,7 +162,7 @@ Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다..
 
 즉 Timeout은 after개념이고 Deadline은 when개념이다.
 
-[ value ]
+###value
 
 ```go
 package main
