@@ -1,5 +1,6 @@
-# Interface 연구
+# Interface
 
+### Interface 란...
 
 Go에서 Interface는 Method의 집합이다...!!!
 
@@ -8,8 +9,6 @@ Go에서 Interface는 Method의 집합이다...!!!
 `Interface는 Object의 Method를 연결해주는 역활을 한다...!!!`
 
 Go에서는 OOPL처럼 Object라는 개념이 없는데 뭔 개소리(?)냐고 하는 분들이 있을수 있다. 이런 분들에게는 Struct를 Object처럼 봐 달라고 부탁하고 싶다. 실제로 Struct를 사용하다 보면 '어... 이거 Object와 똑같네...!!!' 라고 느낄 것이다.
-
-목차
 
 1. [일반적인 Interface 사용 방법](#일반적인-interface-사용-방법)
 
