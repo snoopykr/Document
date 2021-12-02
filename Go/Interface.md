@@ -1,5 +1,5 @@
-Interface 연구
------
+# Interface 연구
+
 
 Go에서 Interface는 Method의 집합이다...!!!
 
