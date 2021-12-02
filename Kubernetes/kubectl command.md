@@ -1,5 +1,4 @@
-kubectl 기본 명령
------
+# kubectl 기본 명령
 
 | 값 | 설명 |
 |---|:---:|
@@ -13,7 +12,7 @@ kubectl 기본 명령
 | `run` | kubectl run nginx-pod --image=nginx (apply...???) |
 | `create` | deployment를 추가해야 생성가능 apply...??? |
 
-wordpress-k8s.yml
+### wordpress-k8s.yml
 
 ```yaml
 apiVersion: apps/v1
@@ -103,12 +102,12 @@ spec:
     tier: frontend
 ```
 
-apply
+### apply
 ```bash
 $ kubectl apply -f wordpress-k8s.yml
 ```
 
-get
+### get
 ```bash
 $ kubectl get pod
 $ kubectl get pods            // 복수형
@@ -131,29 +130,29 @@ $ kubectl get pod --show-labels                       // Label 조회
 $ kubectl describe pod/wordpress-5f59577d4d-8t2dg     // 상세 정보 조회
 ```
 
-delete
+### delete
 ```bash
 $ kubectl delete pod/wordpress-5f59577d4d-8t2dg
 ```
 
-logs
+### logs
 ```bash
 $ kubectl logs wordpress-5f59577d4d-8t2dg
 $ kubectl logs -f wordpress-5f59577d4d-8t2dg          // 실시간 로그
 ```
 
-exec
+### exec
 ```bash
 $ kubectl exec -it wordpress-5f59577d4d-8t2dg -- bash     // bash 실행
 ```
 
-config
+### config
 ```bash
 $ kubectl config current-context          // 현재 컨텍스트 확인
 $ kubectl config use-context minikube     // 컨텍스트 설정
 ```
 
-기타
+### 기타
 ```bash
 $ kubectl api-resources       // 전체 오브젝트 확인
 $ kubectl explain pod         // 오브젝트 설명 보기
