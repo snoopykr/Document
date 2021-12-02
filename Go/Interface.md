@@ -29,6 +29,8 @@ Go에서는 OOPL처럼 Object라는 개념이 없는데 뭔 개소리(?)냐고 �
 
 1. [Multy Interface Parameter](#multy-interface-parameter)
 
+---
+
 ### 일반적인 Interface 사용 방법
 ```go
 package main
