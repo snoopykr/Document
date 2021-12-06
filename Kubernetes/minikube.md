@@ -1,5 +1,4 @@
 # minikube
------
 
 minikube는 로컬에서 kubernetes환경을 간단하게 구성할수 있기 때문에 많이 사용이 된다.
 
