@@ -4,7 +4,7 @@ minikube는 로컬에서 kubernetes환경을 간단하게 구성할수 있기 �
 
 사용법도 간단해서 kubenetes를 학습하기 위한 최적의 방법을 제공해 준다.
 
-[Windows 설치파일](https://github.com/kubernetes/minikube/releases/latest/download/minikube-installer.exe "minikube-installer.exe")
+[Minikube Download](https://minikube.sigs.k8s.io/docs/start/ "minikube installation")
 
 ### 버전확인
 ```bash
