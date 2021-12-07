@@ -795,7 +795,7 @@ $ docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
 $ docker run -d --name myd -v `pwd`/data:/pv my_daemon:0.3
 9ab72b5dc5f1433f39d654c0cc5af736c7c87ee0b14dd9ac6b9d5c04530ed614
 
-$  docker logs myd
+$ docker logs myd
 09:31:51 : 14 
 09:31:54 : 15 
 09:31:57 : 16 
