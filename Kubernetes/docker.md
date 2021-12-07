@@ -775,7 +775,7 @@ my_daemon                            0.1                                        
 my_daemon                            0.2                                                     c8143e9795e1   11 seconds ago   10MB
 my_daemon                            0.3                                                     03f7acaebf77   1 second ago     10MB
 
-$ docker run --name myd -v `pwd` /data:/pv my_daemon:0.3
+$ docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
 09:00:32 : 0
 09:00:35 : 1
 09:00:38 : 2 # <- docker stop myd
@@ -787,8 +787,24 @@ $ docker start -i myd
 
 $ docker rm myd
 
-$ docker run --name myd -v `pwd` /data:/pv my_daemon:0.3
+$ docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
 09:01:53 : 6
 09:01:56 : 7
 09:01:59 : 8 # <- docker stop myd
+
+$ docker run -d --name myd -v `pwd`/data:/pv my_daemon:0.3
+9ab72b5dc5f1433f39d654c0cc5af736c7c87ee0b14dd9ac6b9d5c04530ed614
+
+$  docker logs myd
+09:31:51 : 14 
+09:31:54 : 15 
+09:31:57 : 16 
+09:32:00 : 17 
+09:32:03 : 18
+
+$ docker attach --sig-proxy=false myd
+09:32:33 : 28 
+09:32:36 : 29 
+09:32:39 : 30 
+09:32:42 : 31 
 ```
