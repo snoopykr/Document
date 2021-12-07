@@ -177,3 +177,260 @@ REPOSITORY                           TAG                                        
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago      72.8MB
 ```
 이미지가 삭제되지 않은 이유는 리포지토리에서 참조되거나 의존적인 경우에는 삭제를 하지 못한다. 이 경우 `-f`를 사용해서 삭제가 가능하다.
+
+### docker inspect
+도커 Object의 로우레벨 정보를 확인한다.
+
+```bash
+// 1번 터미널
+$ docker run -it ubuntu bash
+root@2aea93886f2c:/# apt update
+// <생략>
+root@2aea93886f2c:/# apt install -y iputils-ping net-tools
+// <생략>
+root@2aea93886f2c:/# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.2  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:02  txqueuelen 0  (Ethernet)
+        RX packets 14319  bytes 21132406 (21.1 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 7699  bytes 422558 (422.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+// 2번 터미널
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
+2aea93886f2c   ubuntu    "bash"    4 minutes ago   Up 4 minutes                         optimistic_dubinsky
+
+$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" 2aea93886f2c
+172.17.0.2
+
+$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}" 2aea93886f2c
+02:42:ac:11:00:02
+
+$ docker inspect --format="{{.LogPath}}" 2aea93886f2c
+/var/lib/docker/containers/2aea93886f2ce1be0b4e3b46e7fd0fe6a160314161745b17af11ac72d53df271/2aea93886f2ce1be0b4e3b46e7fd0fe6a160314161745b17af11ac72d53df271-json.log
+
+$ docker inspect --format="{{.Config.Image}}" 2aea93886f2c
+ubuntu
+
+$ docker inspect --format="{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -> {{(index $conf 0).HostPort}} {{end}}" 2aea93886f2c
+
+$ docker inspect --format=`{{(index (index .NetworkSettings.Ports "8787/tcp") 0).HostPort}}` 2aea93886f2c
+
+$ docker inspect --format="{{json .Config}}" 2aea93886f2c
+{"Hostname":"2aea93886f2c","Domainname":"","User":"","AttachStdin":true,"AttachStdout":true,"AttachStderr":true,"Tty":true,"OpenStdin":true,"StdinOnce":true,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["bash"],"Image":"ubuntu","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}}
+```
+
+### docker exec
+실행 중인 컨테이너에 접속하기
+
+```bash
+// 1번 터미널
+$ docker run -it ubuntu bash
+root@2aea93886f2c:/#
+
+// 2번 터미널
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
+2aea93886f2c   ubuntu    "bash"    19 minutes ago   Up 19 minutes                         optimistic_dubinsky
+
+$ docker exec -it 2aea93886f2c bash
+root@2aea93886f2c:/# w
+ 01:12:33 up 33 min,  0 users,  load average: 0.00, 0.04, 0.07
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+root@2aea93886f2c:/# ps
+  PID TTY          TIME CMD
+  320 pts/1    00:00:00 bash
+  330 pts/1    00:00:00 ps
+root@2aea93886f2c:/# tty
+/dev/pts/1
+root@2aea93886f2c:/# ps aw
+  PID TTY      STAT   TIME COMMAND
+    1 pts/0    Ss+    0:00 bash
+  320 pts/1    Ss     0:00 bash
+  332 pts/1    R+     0:00 ps aw
+root@2aea93886f2c:/#
+
+// 1번 터미널
+root@2aea93886f2c:/# w
+ 01:12:36 up 33 min,  0 users,  load average: 0.00, 0.04, 0.06
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+root@2aea93886f2c:/# w
+ 01:13:40 up 34 min,  0 users,  load average: 0.00, 0.03, 0.06
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+root@2aea93886f2c:/# ps
+  PID TTY          TIME CMD
+    1 pts/0    00:00:00 bash
+  334 pts/0    00:00:00 ps
+root@2aea93886f2c:/# tty
+/dev/pts/0
+root@2aea93886f2c:/# ps aw
+  PID TTY      STAT   TIME COMMAND
+    1 pts/0    Ss     0:00 bash
+  320 pts/1    Ss+    0:00 bash
+  336 pts/0    R+     0:00 ps aw
+```
+
+### docker build
+컨테이너 개발
+
+```bash
+$ mkdir docker_build
+$ cd docker_build
+
+// Dockerfile
+$ cat Dockerfile
+FROM alpine:latest
+RUN apk update && apk add figlet
+ADD ./message /message
+CMD cat /message | figlet
+
+$ echo "Hello World" > message
+$ cat message
+Hello World
+
+$ docker build --tag hello:1.0 .
+// <생략>
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
+hello                                1.0                                                     0e664f242f0d   29 seconds ago   8.55MB
+
+$ docker run hello:1.0
+ _   _      _ _        __        __         _     _
+| | | | ___| | | ___   \ \      / /__  _ __| | __| |
+| |_| |/ _ \ | |/ _ \   \ \ /\ / / _ \| '__| |/ _` |
+|  _  |  __/ | | (_) |   \ V  V / (_) | |  | | (_| |
+|_| |_|\___|_|_|\___/     \_/\_/ \___/|_|  |_|\__,_|
+
+```
+
+Dockerfile
+| 커멘드 | 설명 |
+|---|:---:|
+| FROM <이미지>[:태그] | 컨테이너의 베이스 이미지를 지정 |
+| RUN <커맨드><br>RUN ["커맨드", "파라미터1", "파라미터2"] | FROM의 베이스 이미지에서 커맨드를 실행 |
+| ADD <소스><컨테이너 내부 경로><br>ADD ["소스", ... "<컨테이너 내부 경로>"] | 소스(파일, 디렉토리, tar 파일, URL)를 컨테이너 내부 경로에 복사 |
+| COPY <소스><컨테이너 내부 경로><br>COPY ["소스", ... "<컨테이너 내부 경로>"] | 소스(파일, 디렉토리)를 컨테이너 내부 경로에 복사 |
+| ENTRYPOINT ["실행가능한 것", "파라미터1", "파라미터2"]<br>ENTRYPOINT 커맨드 파라미터1 파라미터2(셀 형식) | 컨테이너가 실행하는 파일을 설정 |
+| CMD ["실행 바이너리", "파라미터1", "파라미터2"]<br>CMD <커맨드>(셀 형식)<br>CMD [파라미터1", "파라미터2"](ENTRYPOINT의 파라미터) | 컨테이너 기동 시 실행될 커맨드를 지정 |
+| ENV <키> <밸류><br>ENV <키>=<밸류> ... | 환경 변수 설정 |
+| EXPOSE <포트> [<포트>...] | 공개 포트 설정 |
+| USER <유저명> 또는 <유아이디> | RUN, CMD, ENTRYPOINT 실행 유저 지정 |
+| VOLUME ["/path"] | 공유 가능한 불륨을 마운트 |
+| WORKDIR /path | RUN, CMD, ENTRYPOINT, COPY, ADD의 작업 디렉토리 지정 |
+| ARG <이름>[=<디폴트 값>] | 빌드할 때 넘길 인자를 정의<br>--build-arg <변수명>=<값> |
+| LABEL <키>=<밸류> <키>=<밸류> | 이미지의 메타데이터에 라벨을 추가 |
+| MAINTAINER <이름>] | 이미지의 메타데이터에 저작권을 추가 |
+
+### docker network
+
+```bash
+// 1번 터미널
+$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+9a5ddadbec91   bridge    bridge    local
+6630cfb37ac9   host      host      local
+e0f78c2f1ab0   none      null      local
+
+$ docker network create my-network
+1b1266d16d16406596c44c6b4d3fe0fe347d7d6b7bfa5b032bf11c945a63291d
+
+$ docker network ls
+NETWORK ID     NAME         DRIVER    SCOPE
+9a5ddadbec91   bridge       bridge    local
+6630cfb37ac9   host         host      local
+1b1266d16d16   my-network   bridge    local
+e0f78c2f1ab0   none         null      local
+
+$ docker run -d --name webserver1 --network my-network nginx:latest
+7cdaee6a285a6a66e68f508d4d14e9e9fc342149a5c43b87b42c1cfdd4ab49e8
+
+$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS     NAMES
+7cdaee6a285a   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp    webserver1
+
+$ docker run -it --rm --name net-tool --network my-network ubuntu bash
+root@d86aac5008d6:/# apt-get update
+// <생략>
+root@d86aac5008d6:/# apt-get install dnsutils
+// <생략>
+root@d86aac5008d6:/# nslookup webserver1
+Server:         127.0.0.11
+Address:        127.0.0.11#53
+
+Non-authoritative answer:
+Name:   webserver1
+Address: 172.18.0.2
+
+root@d86aac5008d6:/# apt-get install -y curl
+// <생략>
+
+root@d86aac5008d6:/# curl http://webserver1
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+// 2번 터미널
+$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+d86aac5008d6   ubuntu         "bash"                   8 minutes ago    Up 8 minutes              net-tool
+7cdaee6a285a   nginx:latest   "/docker-entrypoint.…"   20 minutes ago   Up 20 minutes   80/tcp    webserver1
+
+$ docker commit d86aac5008d6 ubuntu:network
+sha256:0e9903d314af9165138ea4c8fb26264b3b97ee44827bc052083f7be59ec465c3
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED             SIZE
+ubuntu                               network                                                 0e9903d314af   7 seconds ago       164MB
+nginx                                latest                                                  f652ca386ed1   4 days ago          141MB
+ubuntu                               latest                                                  ba6acccedd29   7 weeks ago         72.8MB
+
+// 1번 터미널
+root@d86aac5008d6:/# exit
+exit
+
+$ docker run -it --rm --name net-tool --network bridge ubuntu:network bash
+root@9ba6033c78b8:/# nslookup webserver1
+;; connection timed out; no servers could be reached
+
+
+root@9ba6033c78b8:/# nslookup 172.18.0.2
+** server can't find 2.0.18.172.in-addr.arpa: NXDOMAIN
+
+root@9ba6033c78b8:/# curl http://172.18.0.2
+curl: (28) Failed to connect to 172.18.0.2 port 80: Connection timed out
+```
+
+
+
+
