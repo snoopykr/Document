@@ -1,6 +1,6 @@
 # docker
 
-### docker run
+## docker run
 | 값 | 설명 |
 |---|:---:|
 | `-i` | 키보드 입력을 컨테이너의 표준 입력에 연결하여 키보드 입력을 컨테이너의 셀 등에 보낸다. |
@@ -9,10 +9,10 @@
 | `--name` | 컨테이너에 이름을 설정한다. 시스템에서 유일한 이름이어야 하며, 옵션을 생략하면 자동으로 만들어진 이름이 부여된다. |
 | `--rm` | 컨테이너가 종료하면 종료 상태의 컨테이너를 자동으로 삭제한다. |
 
-### docker stop
+## docker stop
 정상적인 종료를 실행한다. 
 
-### docker kill
+## docker kill
 kill은 정상적인 종료가 원활하지 못한 경우 종료하기 위해 사용된다. (stop를 권장)
 
 1번 터미널
@@ -54,7 +54,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      
 ```
 STATUS 부분을 보면 Exited (137), Exited (0)로 정상 종료와 비정상 종료 상태가 다른 것을 확인할 수 있다.
 
-### docker start
+## docker start
 정지 상태인 컨테이너를 재기동 한다.
 
 ```bash
@@ -68,7 +68,7 @@ root@3e98a3014884:/# apt install git
 ```
 -i로 표준출력, 표준에러를 터메널에 표시하도록 한다.
 
-### docker commit
+## docker commit
 새로운 도커 이미지 생성한다.
 
 ```bash
@@ -93,7 +93,7 @@ ubuntu                               latest                                     
 ```
 diff를 사용해 변경된 내용을 확인할 수 있고, 이미지를 보면 사이즈가 변경된 것을 확인할 수 있다.
 
-### docker push
+## docker push
 이미지를 원격 리포지토리에 보관
 
 ```bash
@@ -122,7 +122,7 @@ welovefish는 github 계정이다. docker-desktop를 사용하면서 로그인�
 
 https://hub.docker.com/repositories 에서 보관된 도커 이미지를 확인할 수 있다.
 
-### docker rm
+## docker rm
 종료된 컨테이너 제거
 
 ```bash
@@ -139,7 +139,7 @@ $ docker rm 6d4fd22c3865
 ```
 종료가 되지 않은 컨테이너는 제거할 수 없다.
 
-### docker rmi
+## docker rmi
 이미지를 로컬 리포지터리에서 삭제
 
 ```bash
@@ -178,11 +178,12 @@ ubuntu                               latest                                     
 ```
 이미지가 삭제되지 않은 이유는 리포지토리에서 참조되거나 의존적인 경우에는 삭제를 하지 못한다. 이 경우 `-f`를 사용해서 삭제가 가능하다.
 
-### docker inspect
+## docker inspect
 도커 Object의 로우레벨 정보를 확인한다.
 
+1번 터미널
+
 ```bash
-// 1번 터미널
 $ docker run -it ubuntu bash
 root@2aea93886f2c:/# apt update
 // <생략>
@@ -204,8 +205,11 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 0  bytes 0 (0.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
 
-// 2번 터미널
+2번 터미널
+
+```bash
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
 2aea93886f2c   ubuntu    "bash"    4 minutes ago   Up 4 minutes                         optimistic_dubinsky
@@ -230,49 +234,25 @@ $ docker inspect --format="{{json .Config}}" 2aea93886f2c
 {"Hostname":"2aea93886f2c","Domainname":"","User":"","AttachStdin":true,"AttachStdout":true,"AttachStderr":true,"Tty":true,"OpenStdin":true,"StdinOnce":true,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["bash"],"Image":"ubuntu","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}}
 ```
 
-### docker exec
+## docker exec
 실행 중인 컨테이너에 접속하기
 
+1번 터미널
+
 ```bash
-// 1번 터미널
 $ docker run -it ubuntu bash
-root@2aea93886f2c:/#
 
-// 2번 터미널
-$ docker ps -a
-CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
-2aea93886f2c   ubuntu    "bash"    19 minutes ago   Up 19 minutes                         optimistic_dubinsky
-
-$ docker exec -it 2aea93886f2c bash
-root@2aea93886f2c:/# w
- 01:12:33 up 33 min,  0 users,  load average: 0.00, 0.04, 0.07
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-root@2aea93886f2c:/# ps
-  PID TTY          TIME CMD
-  320 pts/1    00:00:00 bash
-  330 pts/1    00:00:00 ps
-root@2aea93886f2c:/# tty
-/dev/pts/1
-root@2aea93886f2c:/# ps aw
-  PID TTY      STAT   TIME COMMAND
-    1 pts/0    Ss+    0:00 bash
-  320 pts/1    Ss     0:00 bash
-  332 pts/1    R+     0:00 ps aw
-root@2aea93886f2c:/#
-
-// 1번 터미널
-root@2aea93886f2c:/# w
- 01:12:36 up 33 min,  0 users,  load average: 0.00, 0.04, 0.06
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 root@2aea93886f2c:/# w
  01:13:40 up 34 min,  0 users,  load average: 0.00, 0.03, 0.06
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
 root@2aea93886f2c:/# ps
   PID TTY          TIME CMD
     1 pts/0    00:00:00 bash
   334 pts/0    00:00:00 ps
 root@2aea93886f2c:/# tty
 /dev/pts/0
+
 root@2aea93886f2c:/# ps aw
   PID TTY      STAT   TIME COMMAND
     1 pts/0    Ss     0:00 bash
@@ -280,21 +260,48 @@ root@2aea93886f2c:/# ps aw
   336 pts/0    R+     0:00 ps aw
 ```
 
-### docker build
-컨테이너 개발
+2번 터미널
 
 ```bash
-$ mkdir docker_build
-$ cd docker_build
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
+2aea93886f2c   ubuntu    "bash"    19 minutes ago   Up 19 minutes                         optimistic_dubinsky
 
-// Dockerfile
-$ cat Dockerfile
+$ docker exec -it 2aea93886f2c bash
+
+root@2aea93886f2c:/# w
+ 01:12:33 up 33 min,  0 users,  load average: 0.00, 0.04, 0.07
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+root@2aea93886f2c:/# ps
+  PID TTY          TIME CMD
+  320 pts/1    00:00:00 bash
+  330 pts/1    00:00:00 ps
+
+root@2aea93886f2c:/# tty
+/dev/pts/1
+
+root@2aea93886f2c:/# ps aw
+  PID TTY      STAT   TIME COMMAND
+    1 pts/0    Ss+    0:00 bash
+  320 pts/1    Ss     0:00 bash
+  332 pts/1    R+     0:00 ps aw
+```
+
+## docker build
+컨테이너 개발
+
+Dockerfile
+```dockerfile
 FROM alpine:latest
 RUN apk update && apk add figlet
 ADD ./message /message
 CMD cat /message | figlet
+```
 
+```bash
 $ echo "Hello World" > message
+
 $ cat message
 Hello World
 
@@ -314,7 +321,7 @@ $ docker run hello:1.0
 
 ```
 
-Dockerfile
+## Dockerfile
 | 커멘드 | 설명 |
 |---|:---:|
 | FROM <이미지>[:태그] | 컨테이너의 베이스 이미지를 지정 |
@@ -332,10 +339,12 @@ Dockerfile
 | LABEL <키>=<밸류> <키>=<밸류> | 이미지의 메타데이터에 라벨을 추가 |
 | MAINTAINER <이름>] | 이미지의 메타데이터에 저작권을 추가 |
 
-### docker network
+
+## docker 내부 네트워크
+
+1번 터미널
 
 ```bash
-// 1번 터미널
 $ docker network ls
 NETWORK ID     NAME      DRIVER    SCOPE
 9a5ddadbec91   bridge    bridge    local
@@ -399,8 +408,11 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+```
 
-// 2번 터미널
+2번 터미널
+
+```bash
 $ docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
 d86aac5008d6   ubuntu         "bash"                   8 minutes ago    Up 8 minutes              net-tool
@@ -414,8 +426,10 @@ REPOSITORY                           TAG                                        
 ubuntu                               network                                                 0e9903d314af   7 seconds ago       164MB
 nginx                                latest                                                  f652ca386ed1   4 days ago          141MB
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago         72.8MB
+```
 
-// 1번 터미널
+1번 터미널
+```bash
 root@d86aac5008d6:/# exit
 exit
 
@@ -430,6 +444,8 @@ root@9ba6033c78b8:/# nslookup 172.18.0.2
 root@9ba6033c78b8:/# curl http://172.18.0.2
 curl: (28) Failed to connect to 172.18.0.2 port 80: Connection timed out
 ```
+
+## docker 포트 외부 노출
 
 ```bash
 $ docker run -d --name webserver1 -p 8080:80 nginx:latest
@@ -486,4 +502,148 @@ Commercial support is available at
 </html>
 ```
 
+| 커멘드 | 설명 |
+|---|:---:|
+| docker network ls | 컨테이너 네트워크를 리스트로 표시 |
+| docker network inspect | 네트워크명을 지정해서 자세한 내용을 표시 |
+| docker network create | 컨테이너 네트워크를 생성 |
+| docker network rm | 컨테이너 네트워크를 삭제 |
+| docker network connect | 컨테이너를 컨테이너 네트워크에 접속 |
+| docker network disconnect | 컨테이너를 컨테이너 네트워크에서 분리 |
 
+
+## 컨테이너 네트워크를 연결 및 외부 포트 노출
+
+php/index.php
+
+```php
+<html>
+<head><title>PHP CONNECTION TEST</title></head>
+<body>
+
+<?php
+$servername = "mysql";
+$database = "mysql";
+
+$username = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+
+try {
+    $dsn = "mysql:host=$servername;dbname=$database";
+    $conn = new PDO($dsn, $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    print("<p>접속에 성공했습니다.</p>");
+} catch(PDOException $e) {
+    print("<p>접속에 실패했습니다.</p>");
+    echo $e->getMessage();
+}
+
+$conn = null; 
+print('<p>종료합니다.</p>');
+?>
+
+</body>
+</html>
+```
+
+Dockerfile
+
+```dockerfile
+FROM php:7.0-apache
+RUN apt-get update && apt-get install -y \
+    && apt-get install -y libmcrypt-dev mysql-client \
+    && apt-get install -y zip unzip git vim
+RUN docker-php-ext-install pdo_mysql session json mbstring
+COPY php/ /var/www/html/
+```
+
+```bash
+$ docker network create api-net
+11a23b84869a971a4a18ff95aa2327e1de5e889270effafda5850f075a8191f1
+
+$ docker run -d --name mysql --network api-net -e MYSQL_ROOT_PASSWORD=qwerty mysql:5.7
+08f26dc3354a4e4df6d5eded9d29f184ae9a1fb1c1b75a47ab436084ea97db85
+
+$ docker build -t php-api:0.1 .
+// <생략>
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
+php-api                              0.1                                                     9c06dcde6bcd   56 seconds ago   574MB
+mysql                                5.7                                                     738e7101490b   4 days ago       448MB
+
+$ docker run -d --name php --network api-net -p 8080:80 -e MYSQL_USER=root -e MYSQL_PASSWORD=qwerty php-api:0.1
+ee64e71baf41a3681b484c23bb457742e15202489e9e50466d7122f38bf227c3
+
+$ curl http://localhost:8080/
+<html>
+<head><title>PHP CONNECTION TEST</title></head>
+<body>
+
+<p>접속에 성공했습니다.</p><p>종료합니다.</p></body>
+</html>
+
+$ docker logs php
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
+[Tue Dec 07 08:02:46.091982 2021] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.0.33 configured -- resuming normal operations
+[Tue Dec 07 08:02:46.092035 2021] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+172.19.0.1 - - [07/Dec/2021:08:03:09 +0000] "GET / HTTP/1.1" 200 412 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+172.19.0.1 - - [07/Dec/2021:08:04:01 +0000] "-" 408 0 "-" "-"
+172.19.0.1 - - [07/Dec/2021:08:04:26 +0000] "-" 408 0 "-" "-"
+```
+
+## 환경 변수 API
+
+Dockerfile
+
+```dockerfile
+FROM alpine:latest
+RUN apk update && apk add bash
+ADD ./my_daemon /my_daemon
+CMD ["/bin/bash", "/my_daemon"]
+```
+
+my_daemon
+
+```bash
+# 카운터 초기화
+COUNT=0
+
+# 환경변수가 없으면 설정 
+if [ -z "$INTERVAL" ]; then
+    INTERVAL=3
+fi
+
+# 메인 루프
+while [ ture ];
+do
+    TM=`date|awk '{print $4}'`
+    printf "%s : %s \n" $TM $COUNT
+    let COUNT=COUNT+1
+    sleep $INTERVAL
+done
+```
+
+1번 터미널
+
+```bash
+$ docker build --tag my_daemon:0.1 .
+// <생략>
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
+my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
+
+$ docker run --name myd my_daemon:0.1
+
+$ docker start -i myd
+```
+
+2번 터미널
+
+```bash
+$ docker stop myd (run용)
+
+$ docker stop myd (start용)
+```
