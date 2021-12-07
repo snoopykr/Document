@@ -19,30 +19,25 @@ kill은 정상적인 종료가 원활하지 못한 경우 종료하기 위해 �
 ```bash
 // stop에서 사용 (6d4fd22c3865)
 $ docker run  -it ubuntu bash
-
-// kill에서 사용 (3e98a3014884)
-$ docker run  -it ubuntu bash
+root@6d4fd22c3865:/# exit
 ```
-1번 터미널에서 stop용 docker를 실행시키고 2번 터미널에서 stop후에 kill용 docker를 실행시킨다.
-
 
 2번 터미널
 ```bash
-$ docker ps -a
-CONTAINER ID   IMAGE     COMMAND   CREATED              STATUS              PORTS     NAMES
-6d4fd22c3865   ubuntu    "bash"    About a minute ago   Up About a minute             focused_bardeen
+// kill에서 사용 (3e98a3014884)
+$ docker run  -it ubuntu bash
+root@3e98a3014884:/#
+```
 
-$ docker stop 6d4fd22c3865
-6d4fd22c3865
-
-$ docker ps -a
-CONTAINER ID   IMAGE     COMMAND   CREATED              STATUS                      PORTS     NAMES
-6d4fd22c3865   ubuntu    "bash"    About a minute ago   Exited (0) 14 seconds ago             focused_bardeen
-
+3번 터미널
+```bash
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS                      PORTS     NAMES
 3e98a3014884   ubuntu    "bash"    9 seconds ago   Up 11 seconds                         priceless_dijkstra
-6d4fd22c3865   ubuntu    "bash"    2 minutes ago   Exited (0) 33 seconds ago             focused_bardeen
+6d4fd22c3865   ubuntu    "bash"    2 minutes ago   Up 7 seconds                          focused_bardeen
+
+$ docker stop 6d4fd22c3865
+6d4fd22c3865
 
 $ docker kill 3e98a3014884
 3e98a3014884
@@ -63,8 +58,9 @@ root@3e98a3014884:/#
 
 // 다음을 위한 준비
 root@3e98a3014884:/# apt update
-root@3e98a3014884:/# apt upgrade
+// <생략>
 root@3e98a3014884:/# apt install git
+// <생략>
 ```
 -i로 표준출력, 표준에러를 터메널에 표시하도록 한다.
 
@@ -228,7 +224,7 @@ ubuntu
 
 $ docker inspect --format="{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -> {{(index $conf 0).HostPort}} {{end}}" 2aea93886f2c
 
-$ docker inspect --format=`{{(index (index .NetworkSettings.Ports "8787/tcp") 0).HostPort}}` 2aea93886f2c
+$ docker inspect --format="{{(index (index .NetworkSettings.Ports '8787/tcp') 0).HostPort}}" 2aea93886f2c
 
 $ docker inspect --format="{{json .Config}}" 2aea93886f2c
 {"Hostname":"2aea93886f2c","Domainname":"","User":"","AttachStdin":true,"AttachStdout":true,"AttachStderr":true,"Tty":true,"OpenStdin":true,"StdinOnce":true,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["bash"],"Image":"ubuntu","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}}
@@ -593,7 +589,7 @@ AH00558: apache2: Could not reliably determine the server's fully qualified doma
 172.19.0.1 - - [07/Dec/2021:08:04:26 +0000] "-" 408 0 "-" "-"
 ```
 
-## 환경 변수 API
+## 환경 변수 API #1
 
 Dockerfile
 
@@ -651,7 +647,8 @@ $ docker start -i myd
 08:49:57 : 5
 08:50:00 : 6
 ```
----
+
+## 환경 변수 API #2
 
 my_daemon2 (개선 버전)
 
@@ -716,7 +713,8 @@ $ docker start -i myd
 09:01:14 : 4
 09:01:17 : 5 # <- docker stop myd
 ```
----
+
+## 환경 변수 API #3
 
 my_daemon3 (개선 버전)
 
