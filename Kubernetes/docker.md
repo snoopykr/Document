@@ -625,8 +625,6 @@ do
 done
 ```
 
-1번 터미널
-
 ```bash
 $ docker build --tag my_daemon:0.1 .
 // <생략>
@@ -636,14 +634,161 @@ REPOSITORY                           TAG                                        
 my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
 
 $ docker run --name myd my_daemon:0.1
+08:46:42 : 0
+08:46:45 : 1
+08:46:48 : 2
+08:46:51 : 3 # <- docker stop myd
+08:46:54 : 4
+08:46:57 : 5
+08:47:00 : 6
 
 $ docker start -i myd
+08:49:42 : 0
+08:49:45 : 1
+08:49:48 : 2
+08:49:51 : 3 # <- docker stop myd
+08:49:54 : 4
+08:49:57 : 5
+08:50:00 : 6
 ```
+---
 
-2번 터미널
+my_daemon2 (개선 버전)
 
 ```bash
-$ docker stop myd (run용)
+# 카운터 초기화
+COUNT=0
 
-$ docker stop myd (start용)
+# 환경변수가 없으면 설정 
+if [ -z "$INTERVAL" ]; then
+    INTERVAL=3
+fi
+
+# 기동시 상태 취득
+if [ -f save.dat ]; then
+   COUNT=`cat save.dat`
+   rm -f save.dat
+fi
+
+# SIGTERM 시그널 처리 
+save() {
+  echo $COUNT > save.dat
+  exit
+}
+trap save TERM
+
+
+# 메인 루프
+while [ ture ];
+do
+    TM=`date|awk '{print $4}'`
+    printf "%s : %s \n" $TM $COUNT
+    let COUNT=COUNT+1
+    sleep $INTERVAL
+done
+```
+
+Dockerfile2
+
+```dockerfile
+FROM alpine:latest
+RUN apk update && apk add bash
+ADD ./my_daemon2 /my_daemon
+CMD ["/bin/bash", "/my_daemon"]
+```
+
+```bash
+$ docker build --tag my_daemon:0.2 -f Dockerfile2 .
+// <생략>
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
+my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
+my_daemon                            0.2                                                     c8143e9795e1   11 seconds ago   10MB
+
+$ docker run --name myd my_daemon:0.2
+09:00:32 : 0
+09:00:35 : 1
+09:00:38 : 2 # <- docker stop myd
+
+$ docker start -i myd
+09:01:11 : 3
+09:01:14 : 4
+09:01:17 : 5 # <- docker stop myd
+```
+---
+
+my_daemon3 (개선 버전)
+
+```bash
+# 카운터 초기화
+COUNT=0
+
+# 퍼시스턴트 볼륨
+PV=/pv/save.dat
+
+# 환경변수가 없으면 설정
+if [ -z "$INTERVAL" ]; then
+    INTERVAL=3
+fi
+
+# 기동 시 상태 취득 
+if [ -f $PV ]; then
+   COUNT=`cat $PV`
+   rm -f $PV
+fi
+
+# SIGTERM 시그널 처리
+save() {
+  echo $COUNT > $PV
+  exit
+}
+trap save TERM
+
+
+# 메인 루프
+while [ ture ];
+do
+    TM=`date|awk '{print $4}'`
+    printf "%s : %s \n" $TM $COUNT
+    let COUNT=COUNT+1
+    sleep $INTERVAL
+done
+```
+
+Dockerfile3
+
+```dockerfile
+FROM alpine:latest
+RUN apk update && apk add bash
+ADD ./my_daemon3 /my_daemon
+CMD ["/bin/bash", "/my_daemon"]
+```
+
+```bash
+$ docker build --tag my_daemon:0.3 -f Dockerfile3 .
+// <생략>
+
+$ docker images
+REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
+my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
+my_daemon                            0.2                                                     c8143e9795e1   11 seconds ago   10MB
+my_daemon                            0.3                                                     03f7acaebf77   1 second ago     10MB
+
+$ docker run --name myd -v `pwd` /data:/pv my_daemon:0.3
+09:00:32 : 0
+09:00:35 : 1
+09:00:38 : 2 # <- docker stop myd
+
+$ docker start -i myd
+09:01:11 : 3
+09:01:14 : 4
+09:01:17 : 5 # <- docker stop myd
+
+$ docker rm myd
+
+$ docker run --name myd -v `pwd` /data:/pv my_daemon:0.3
+09:01:53 : 6
+09:01:56 : 7
+09:01:59 : 8 # <- docker stop myd
 ```
