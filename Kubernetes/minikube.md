@@ -100,11 +100,11 @@ $ minikube config view                    // 설정 보기
 설정 옵션
 | 값 | 설명 |
 |---|:---:|
-| `defaults` |    Lists all valid default values for PROPERTY_NAME |
-| `get` |         Gets the value of PROPERTY_NAME from the minikube config file |
-| `set` |        Sets an individual value in a minikube config file |
-| `unset` |      unsets an individual value in a minikube config file |
-| `view` |       Display values currently set in the minikube config file |
+| `defaults` | Lists all valid default values for PROPERTY_NAME |
+| `get` | Gets the value of PROPERTY_NAME from the minikube config file |
+| `set` | Sets an individual value in a minikube config file |
+| `unset` | unsets an individual value in a minikube config file |
+| `view` | Display values currently set in the minikube config file |
 
 설정 가능한 항목
  * driver
