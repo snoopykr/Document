@@ -131,7 +131,7 @@ job 생성 안됨
 수정...
 
 ```bash
-$ kubectl create job hello-world --image=hello-world
+$ kubectl create job hello-world --image=hello-world --restart=OnFailure
 job.batch/hello-world created
 
 $ kubectl get all
@@ -170,6 +170,6 @@ NAME             COMPLETIONS   DURATION   AGE
 job.batch/job1   1/1           4s         96s
 job.batch/job2   0/1           77s        77s
 ```
-파드의 실패(restartPolicy=Never), 컨테이너가 오류(restartPolicy=OnFailure)
+파드 실패(restartPolicy=Never), 컨테이너 오류(restartPolicy=OnFailure)
 
 job2의 경우 `exit 1`로 비정상 종료가 됨으로 인해 지속적인 pod를 생성하는 것을 확인할 수 있다.
