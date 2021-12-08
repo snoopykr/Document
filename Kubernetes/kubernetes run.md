@@ -3,7 +3,7 @@ kubenetes가 버전업하면서 run명령에도 변화가 생겼다.
 
 기존에는 pod를 생성하면서 deployment와 replicaset를 자동으로 생성해 주었는데 현재(v1.22)는 pod만 생성되고 있다. 
 
-그리고 run 명령 사용을 자제하는 듯하다...
+그리고 run명령어 사용을 자제하는 듯하다...
 
 ## kubectl run
 ```bash
