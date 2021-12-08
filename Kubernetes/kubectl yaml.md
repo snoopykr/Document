@@ -1,6 +1,5 @@
 # Kubernetes Manifest
 
-
 nginx-pod.yml
 
 ```yaml
