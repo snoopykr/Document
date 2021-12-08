@@ -150,3 +150,40 @@ spec:
       - name: nginx
         image: nginx:1.17   # 1.16 -> 1.17 변경
 ```
+
+```bash
+$ kubectl describe deployment web-deploy
+Name:                   web-deploy
+Namespace:              default
+CreationTimestamp:      Wed, 08 Dec 2021 18:11:35 +0900
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=web
+Replicas:               5 desired | 5 updated | 5 total | 5 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=web
+  Containers:
+   nginx:
+    Image:        nginx:1.16
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      True    MinimumReplicasAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   web-deploy-6bc4dfc596 (5/5 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  19m    deployment-controller  Scaled up replica set web-deploy-6bc4dfc596 to 3
+  Normal  ScalingReplicaSet  12m    deployment-controller  Scaled up replica set web-deploy-6bc4dfc596 to 10
+  Normal  ScalingReplicaSet  6m57s  deployment-controller  Scaled down replica set web-deploy-6bc4dfc596 to 5
+```
