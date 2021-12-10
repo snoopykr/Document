@@ -382,7 +382,7 @@ NAME          READY   STATUS    RESTARTS   AGE    IP           NODE       NOMINA
 webserver     2/2     Running   0          117s   172.17.0.4   minikube   <none>           <none>
 
 $ kubectl run busybox --image=busybox --restart=Never --rm -it sh
-/ # wget -q -0 - http://172.17.0.4
+/ # wget -q -O - http://172.17.0.4
 <!DOCTYPE html>
 <html>
 <head>
