@@ -6,8 +6,7 @@
 $ vagrant init
 ```
 
-Vagrantfile
-
+[ Vagrantfile ]
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -90,8 +89,7 @@ Command: ["startvm", "e2a9f053-1bfd-44e9-bdae-65e347421142", "--type", "headless
 Stderr: VBoxManage: error: The virtual machine 'Vagrant_default_1639445444446_76600' has terminated unexpectedly during startup with exit code 1 (0x1)
 VBoxManage: error: Details: code NS_ERROR_FAILURE (0x80004005), component MachineWrap, interface IMachine
 ```
-
-[macOS] 시스템 환경설정 - 보안 및 개인 정보 보호 : 권한 설정 필요
+macOS의 경우 `시스템 환경설정 - 보안 및 개인 정보 보호`에서 권한 설정 필요하다.
 
 ```
 Vagrant was unable to mount VirtualBox shared folders. This is usually
@@ -107,8 +105,7 @@ The error output from the command was:
 
 mount: unknown filesystem type 'vboxsf'
 ```
-
-무시...
+VirtualBox Guest Additions 설치를 하지 않아서 발생한다. 무시해도 무관하다.
 
 
 ```bash
@@ -143,11 +140,11 @@ $ vagrant destroy -f
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
 ```
+vagrant의 간단한 구동 및 제거 방법이다.
 
 ## 가상 머신 설정 구성
 
-Vagrantfile
-
+[ Vagrantfile ]
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -194,8 +191,7 @@ Connection to 127.0.0.1 closed.
 
 ## 가상 머신에 추가 패키지 설치
 
-Vagrantfile
-
+[ Vagrantfile ]
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -217,8 +213,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-install_pkg.sh
-
+[ install_pkg.sh ]
 ```bash
 #!/usr/bin/env bash
 # install packages 
@@ -265,8 +260,7 @@ Connection to 127.0.0.1 closed.
 
 ## 가상 머신 추가 구성
 
-Vagrantfile
-
+[ Vagrantfile ]
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -312,8 +306,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-install_pkg.sh
-
+[ install_pkg.sh ]
 ```bash
 #!/usr/bin/env bash
 # install packages 
@@ -321,8 +314,7 @@ yum install epel-release -y
 yum install vim-enhanced -y
 ```
 
-ping_2_nds.sh
-
+[ ping_2_nds.sh ]
 ```bash
 # ping 3 times per nodes
 ping 192.168.1.101 -c 3
@@ -330,8 +322,7 @@ ping 192.168.1.102 -c 3
 ping 192.168.1.103 -c 3
 ```
 
-config.sh
-
+[ config.sh ]
 ```bash
 #!/usr/bin/env bash
 # modify permission  
@@ -373,8 +364,7 @@ PING 192.168.1.103 (192.168.1.103) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.232/1.853/2.186/0.442 ms
 ```
 
-SecureCRT
-
+[ SecureCRT ]
 ```
 m-k8s  127.0.0.1 60010 root vagrant
 w1-k8s 127.0.0.1 60101 root vagrant
@@ -384,8 +374,7 @@ w3-k8s 127.0.0.1 60103 root vagrant
 
 ## Kubernetes 구성
 
-Vagrantfile
-
+[ Vagrantfile ]
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -440,8 +429,7 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-config.sh
-
+[ config.sh ]
 ```bash
 #!/usr/bin/env bash
 
@@ -487,8 +475,7 @@ nameserver 8.8.8.8 #Google DNS
 EOF
 ```
 
-install_pkg.sh
-
+[ install_pkg.sh ]
 ```bash
 #!/usr/bin/env bash
 
@@ -512,8 +499,7 @@ if [ $2 = 'Main' ]; then
 fi
 ```
 
-master_node.sh
-
+[ master_node.sh ]
 ```bash
 #!/usr/bin/env bash
 
@@ -531,8 +517,7 @@ kubectl apply -f \
 https://raw.githubusercontent.com/sysnet4admin/IaC/master/manifests/172.16_net_calico.yaml
 ```
 
-work_nodes.sh
-
+[ work_nodes.sh ]
 ```bash
 #!/usr/bin/env bash
 
@@ -570,3 +555,4 @@ kube-system   kube-proxy-mkjz4                          1/1     Running   0     
 kube-system   kube-proxy-wvcfg                          1/1     Running   0          9m5s
 kube-system   kube-scheduler-m-k8s                      1/1     Running   0          9m19s
 ```
+Kubernetes의 실습 환경이 버추얼 머신을 사용해서 구축이 되었다.
