@@ -14,7 +14,8 @@ Browser를 통해 Server를 호출 했는데 Server가 너무 바빠서 제대�
 
 1. [Value](#Value)
 
-### Cancel 처리
+## Cancel 처리
+
 ```go
 package main
 
@@ -90,10 +91,9 @@ func longFunc() string {
 	return "Success"
 }
 ```
-
 이 Sample은 실무에서 쓰기보다는 이해를 돕기위해 준비한 Source이다. 단일 프로세스지만 예외사항을 체크하고 어떻게 처리가 되는지 확인하기에는 안성맞춤 Sample이다.
 
-### Timeout, Deadline 처리
+## Timeout, Deadline 처리
 
 ```go
 package main
@@ -159,7 +159,6 @@ func longFunc() string {
 	return "Success"
 }
 ```
-
 이 Sample에서는 3초의 딜레이 동안 Timeout를 발생시켜 예외사항을 만드는 Source이다. 1초만에 Timeout이 걸리게 되어 모든 처리가 완료 되기 이전에 예외사항이 발생하는 것이다.
 
 Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다...
@@ -168,7 +167,7 @@ Deadline도 Timeout과 거의 동일하기 때문에 Sample은 생략하겠다..
 
 즉 Timeout은 after개념이고 Deadline은 when개념이다.
 
-### Value
+## Value
 
 ```go
 package main
@@ -222,7 +221,6 @@ func myFunc(ctx context.Context) error {
 	return nil
 }
 ```
-
 context에 값을 지정해서 전달하는 Sample이다. 다른 Source보다 복잡하지 않아서 쉽게 이해될 것이다.
 
 myFunc에서 Interface를 사용하고 Cascading해 주었는데... 관련 해서는 Interface를 참조하면 Source를 좀더 쉽게 이해할수 있을 것이다.

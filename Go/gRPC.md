@@ -18,6 +18,7 @@ XML를 통해 멀리 떨어져 있는 컴퓨터의 Function을 마음대로 콜�
 
 ### Proto
 
+[ config.proto ]
 ```proto
 syntax = "proto3";
 

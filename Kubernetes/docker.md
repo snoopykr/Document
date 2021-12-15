@@ -15,21 +15,21 @@
 ## docker kill
 kill은 정상적인 종료가 원활하지 못한 경우 종료하기 위해 사용된다. (stop를 권장)
 
-1번 터미널
+[ 1번 터미널 ]
 ```bash
 // stop에서 사용 (6d4fd22c3865)
 $ docker run  -it ubuntu bash
 root@6d4fd22c3865:/# exit
 ```
 
-2번 터미널
+[ 2번 터미널 ]
 ```bash
 // kill에서 사용 (3e98a3014884)
 $ docker run  -it ubuntu bash
 root@3e98a3014884:/#
 ```
 
-3번 터미널
+[ 3번 터미널 ]
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS                      PORTS     NAMES
@@ -177,8 +177,7 @@ ubuntu                               latest                                     
 ## docker inspect
 도커 Object의 로우레벨 정보를 확인한다.
 
-1번 터미널
-
+[ 1번 터미널 ]
 ```bash
 $ docker run -it ubuntu bash
 root@2aea93886f2c:/# apt update
@@ -203,8 +202,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-2번 터미널
-
+[ 2번 터미널 ]
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
@@ -233,8 +231,7 @@ $ docker inspect --format="{{json .Config}}" 2aea93886f2c
 ## docker exec
 실행 중인 컨테이너에 접속하기
 
-1번 터미널
-
+[ 1번 터미널 ]
 ```bash
 $ docker run -it ubuntu bash
 
@@ -256,8 +253,7 @@ root@2aea93886f2c:/# ps aw
   336 pts/0    R+     0:00 ps aw
 ```
 
-2번 터미널
-
+[ 2번 터미널 ]
 ```bash
 $ docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
@@ -314,7 +310,6 @@ $ docker run hello:1.0
 | |_| |/ _ \ | |/ _ \   \ \ /\ / / _ \| '__| |/ _` |
 |  _  |  __/ | | (_) |   \ V  V / (_) | |  | | (_| |
 |_| |_|\___|_|_|\___/     \_/\_/ \___/|_|  |_|\__,_|
-
 ```
 
 ## Dockerfile
@@ -338,8 +333,7 @@ $ docker run hello:1.0
 
 ## docker 내부 네트워크
 
-1번 터미널
-
+[ 1번 터미널 ]
 ```bash
 $ docker network ls
 NETWORK ID     NAME      DRIVER    SCOPE
@@ -406,8 +400,7 @@ Commercial support is available at
 </html>
 ```
 
-2번 터미널
-
+[ 2번 터미널 ]
 ```bash
 $ docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
@@ -424,7 +417,7 @@ nginx                                latest                                     
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago         72.8MB
 ```
 
-1번 터미널
+[ 1번 터미널 ]
 ```bash
 root@d86aac5008d6:/# exit
 exit
@@ -432,7 +425,6 @@ exit
 $ docker run -it --rm --name net-tool --network bridge ubuntu:network bash
 root@9ba6033c78b8:/# nslookup webserver1
 ;; connection timed out; no servers could be reached
-
 
 root@9ba6033c78b8:/# nslookup 172.18.0.2
 ** server can't find 2.0.18.172.in-addr.arpa: NXDOMAIN
@@ -510,8 +502,7 @@ Commercial support is available at
 
 ## 컨테이너 네트워크를 연결 및 외부 포트 노출
 
-php/index.php
-
+[ php/index.php ]
 ```php
 <html>
 <head><title>PHP CONNECTION TEST</title></head>
@@ -542,8 +533,7 @@ print('<p>종료합니다.</p>');
 </html>
 ```
 
-Dockerfile
-
+[ Dockerfile ]
 ```dockerfile
 FROM php:7.0-apache
 RUN apt-get update && apt-get install -y \
@@ -591,8 +581,7 @@ AH00558: apache2: Could not reliably determine the server's fully qualified doma
 
 ## 환경 변수 API #1
 
-Dockerfile
-
+[ Dockerfile ]
 ```dockerfile
 FROM alpine:latest
 RUN apk update && apk add bash
@@ -600,8 +589,7 @@ ADD ./my_daemon /my_daemon
 CMD ["/bin/bash", "/my_daemon"]
 ```
 
-my_daemon
-
+[ my_daemon ]
 ```bash
 # 카운터 초기화
 COUNT=0
@@ -650,8 +638,7 @@ $ docker start -i myd
 
 ## 환경 변수 API #2
 
-my_daemon2 (개선 버전)
-
+[ my_daemon2 ] 개선 버전
 ```bash
 # 카운터 초기화
 COUNT=0
@@ -685,8 +672,7 @@ do
 done
 ```
 
-Dockerfile2
-
+[ Dockerfile2 ]
 ```dockerfile
 FROM alpine:latest
 RUN apk update && apk add bash
@@ -716,8 +702,7 @@ $ docker start -i myd
 
 ## 환경 변수 API #3
 
-my_daemon3 (개선 버전)
-
+[ my_daemon3 ] 개선 버전
 ```bash
 # 카운터 초기화
 COUNT=0
@@ -754,8 +739,7 @@ do
 done
 ```
 
-Dockerfile3
-
+[ Dockerfile3 ]
 ```dockerfile
 FROM alpine:latest
 RUN apk update && apk add bash

@@ -8,7 +8,6 @@ master, node1, node2, node3을 구동시켜 준다.
 ## kubectl
 
 [ SecureCRT at node3 ]
-
 ```bash
 [root@w3-k8s ~]# kubectl get nodes
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
@@ -33,8 +32,7 @@ master가 아닌 node3에서 `kubectl get nodes`를 실행하면 원하는 결�
 
 ## kubelet
 
-nginx-pod.yaml
-
+[ nginx-pod.yaml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -47,7 +45,6 @@ spec:
 ```
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# kubectl create -f nginx-pod.yaml 
 pod/nginx-pod created
@@ -62,14 +59,12 @@ nginx-pod   1/1     Running   0          14s   172.16.132.4   w3-k8s   <none>   
 ```
 
 [ SecureCRT at node3 ]
-
 ```bash
 [root@w3-k8s ~]# systemctl stop kubelet                            
 ```
 pod가 실행되는 노드에서 kubelet 서비스를 죽인다.
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# kubectl get pod
 NAME        READY   STATUS    RESTARTS   AGE
@@ -86,14 +81,12 @@ nginx-pod   1/1     Terminating   0          3m13s
 node3의 kubelet이 죽어 있는 상태이므로 nginx-pod가 삭제가 되지 않고 시간만 경과 되고 STATUS는 `Terminating`으로 변경된다.
 
 [ SecureCRT at node3 ]
-
 ```bash
 [root@w3-k8s ~]# systemctl start kubelet                            
 ```
 kubelet을 정상 작동을 시키지만...
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# kubectl get pod
 No resources found in default namespace.
@@ -103,7 +96,6 @@ kubelet에 문제가 발생되어 제대로 작동이 되지 않는다.
 ## kube-proxy
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# kubectl create -f nginx-pod.yaml 
 pod/nginx-pod created
@@ -139,7 +131,6 @@ Commercial support is available at
 ```
 
 [ SecureCRT at node1 ]
-
 ```bash
 [root@w1-k8s ~]# modprobe -r br_netfilter
 
@@ -155,7 +146,6 @@ modprobe br_netfilter<br><br>
 br_netfilter 커널 모듈을 적재하고 iptables를 거쳐 통신하도록 설정되었다.
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# curl 172.16.221.129
 curl: (7) Failed connect to 172.16.221.129:80; Connection timed out
@@ -167,7 +157,6 @@ nginx-pod   1/1     Running   0          23m   172.16.221.129   w1-k8s   <none> 
 pod는 정상 작동하는 것처럼 보이지만 통신은 연결이 되지 않는 상태이다.
 
 [ SecureCRT at node1 ]
-
 ```bash
 [root@w1-k8s ~]# modprobe br_netfilter
 
@@ -176,7 +165,6 @@ pod는 정상 작동하는 것처럼 보이지만 통신은 연결이 되지 않
 br_netfilter 모듈을 적재하고 node1를 reboot한다.
 
 [ SecureCRT at master ]
-
 ```bash
 [root@m-k8s 3.1.6]# kubectl get pod -o wide
 NAME        READY   STATUS      RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES

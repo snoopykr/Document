@@ -26,7 +26,8 @@ Go에서는 OOPL처럼 Object라는 개념이 없는데 뭔 개소리(?)냐고 �
 
 1. [Multy Interface Parameter](#multy-interface-parameter)
 
-### 일반적인 Interface 사용 방법
+## 일반적인 Interface 사용 방법
+
 ```go
 package main
 
@@ -97,7 +98,6 @@ func main() {
 	// Perimeter of s is 62.83
 }
 ```
-
 Rect과 Circle를 OOPL의 Class로 인식해 주었으면 한다. 그리고 Class에서 사용할 Method를 정의하게 되는데 이 부분을 Go에서는 Receiver를 사용해서 누구의 Method인지 지정을 해준다.
 
 ```go
@@ -105,7 +105,6 @@ func (r Rect) Area() float64 {
 	// [...]
 }
 ```
-
 `(r Rect)`가 Receiver라고 불리는 부분이다.
 
 참고로 위 Sample이 Go의 일반적인 Sample인 것처럼 보이지만 보통 Receiver는 Point Receiver를 주로 사용한다.
@@ -115,7 +114,6 @@ func (r *Rect) Area() float64 {
 	// [...]
 }
 ```
-
 `(r *Rect)`처럼 `*`를 사용해서 Value Receiver가 아닌 Point Receiver라는 것을 지정해 준다.
 
 Sample에서는 Receiver가 변경될 일이 없기 때문에 Pointer를 사용하지 않았지만 OOPL의 Get, Set기능을 구현하고자 한다면 Pointer를 사용해야 되고 아래 Sample처럼 변경하면 된다.
@@ -191,7 +189,6 @@ func main() {
 	// Perimeter of s is 62.83
 }
 ```
-
 처음 Go를 접하는 분들에게는 어려울 수 있는 Sample이지만 최대한 OOPL적으로 생각하면 뭐 그리 어렵지 않은 Source가 될 것이다.
 
 `&Rect{10.0, 3.0}` 이 부분은 Instance생성이라 이해하면 된다. `&`는 Pointer Receiver를 사용하였기 때문에 Address를 전달해주기 위해 사용이 되었다.
@@ -200,7 +197,8 @@ func main() {
 
 닭이 울때는 '꼬끼오'라고 울고 오리가 울때는 '꽥꽥'하고 운다. 대상에 따라 우는 방법이 달라지지만 Interface를 사용하면 대상이 무엇이든 상관없이 운다는 Method만 집중하면 되는 것이다.
 
-### Interface를 Parameter로 전달해야 하는 경우
+## Interface를 Parameter로 전달해야 하는 경우
+
 ```go
 package main
 
@@ -238,14 +236,14 @@ func main() {
 	// type 'float64', value 24.75
 }
 ```
-
 빈 Interface를 활용하는 방식으로 Sample은 단순해도 활용도가 무척 높은 코드중 하나이다. 완전히 숙지학길 바란다.
 
 Interface를 따로 선언하지 않고 Parameter로 사용되었다. 위에서 Sample에서 전달했듯이 Interface를 사용하면 전달된 대상은 무시하고 Method에 집중을 할수 있다고 했다.
 
 마치 블랙홀처럼 Struct뿐만 아니라 Method도 바로 바로 전달해서 사용할수 있다는 점이 Interface의 매력인 것 같다.
 
-### 여러개의 Interface에 Struce를 전달하는 경우
+## 여러개의 Interface에 Struce를 전달하는 경우
+
 ```go
 package main
 
@@ -294,14 +292,14 @@ func main() {
 	// Struct Volume is 27
 }
 ```
-
 한개의 Struct를 여러개의 Interface에 전달하는 Sample로 중요하게 봐야 하는 부분은 Interface별로 각각 다른 한개의 Method만 정의 되었다는 것이다.
 
 Interface에 정의된 Method는 제대로 작동이 되지만 정의되어 있지 않은 Method는 호출이 불가능하다.
 
 Sample에서는 Interface를 사용하지 않고 Struct에서 바로 호출도 가능하지만 우리가 원한 Interface를 활용하기 위한 방법과는 거리가 있다.
 
-### Interface의 Cascading...???
+## Interface의 Cascading...???
+
 ```go
 package main
 
@@ -341,14 +339,14 @@ func main() {
 	// main.Cube
 }
 ```
-
 Sample에선 빈 Interface를 만들고 이곳에 'Cube' Struct를 활당했다. 그리고 Comment처럼 Interface에 정의되지 않은 Method를 호출하는 경우는 에러가 발생된다.
 
 하지만 Interface를 통해 Struct를 다시 전달 받아 사용이 가능하다. 
 
 실무에서 활용도가 높은 Sample이다. 꼭 숙지를 해주길 바란다.
 
-### Interface에서 또 다른 Intercase로 Cascading하는 경우 
+## Interface에서 또 다른 Intercase로 Cascading하는 경우 
+
 ```go
 package main
 
@@ -395,7 +393,6 @@ func main() {
 	// value <nil>, false
 }
 ```
-
 바로 전 Sample은 Interface => Struct로 Cascading되는 것이고 이번에는 Interface => Interface로 Cascading되는 Sample이다.
 
 혼돈이 생길지 모르겠지만 Interface에 전달된 Struct을 다른 Interface에 간접적으로 활당한다고 생각하면 그리 어렵지 않을 것이다.
@@ -404,7 +401,8 @@ func main() {
 
 참고로 Struct를 전달 받지 않기 때문에 *를 사용하지 않는다는 것과 Pointer형식으로 전달받게 된다는 것이다.
 
-### Interface의 타입 구분
+## Interface의 타입 구분
+
 ```go
 package main
 
@@ -501,7 +499,6 @@ func main() {
 	// type: main.Cude, value: {3} o.Volume: 27.00
 }
 ```
-
 Interface내에 Interface가 있다고 너무 고민하지 않아도 된다. 'Material'처럼 선언해도 결국은...
 
 ```go
@@ -551,10 +548,10 @@ func main() {
 	// Perimeter is 18
 }
 ```
-
 Sample 단순해서 설명할 내용이 없다. Interface를 통해 Method를 호출하듯이 Method를 변수로 전달 받아 사용할 수 있다는 것을 보여주는 Sample이다.
 
-### Multy Interface Parameter
+## Multy Interface Parameter
+
 ```go
 package main
 
@@ -630,7 +627,6 @@ func main() {
 	// 78.53981633974483
 }
 ```
-
 이 Sample의 핵심은 이 부분일 것이다.
 
 ```go
@@ -641,7 +637,6 @@ func showArea(geo ...geometry) {
 	}
 }
 ```
-
 여러개의 Struct를 Interface로 한번에 전달 받아 처리를 하는 방법으로 실무에서 많이 활용되는 방식이다.
 
 참고로 Go의 fmt.Println은 아래와 같이 선언되어 있다.
