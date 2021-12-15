@@ -13,7 +13,9 @@ minikube를 사용해서 Kubectl의 기본 명령어를 확인한다.
 | `run` | kubectl run nginx-pod --image=nginx (apply...???) |
 | `create` | deployment를 추가해야 생성가능 (apply...???) |
 
-## wordpress-docker.yml
+## wordpress docker
+
+[ wordpress-docker.yml ]
 ```yaml
 version: "3"
 
@@ -32,18 +34,19 @@ services:
       MYSQL_ROOT_PASSWORD: password
 ```
 
-docker-compose 실행 `(wordpress-docker.yml가 있는 디렉토리에서 실행)`
 ```bash
 $ docker-compose up
 ```
+docker-compose 실행 `(wordpress-docker.yml가 있는 디렉토리에서 실행)`
 
-Web browser
+[ Web browser ]
 ```url
 http://localhost:30000/
 ```
 
-## wordpress-k8s.yml
+## wordpress kubernetes
 
+[ wordpress-k8s.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -133,9 +136,6 @@ spec:
 ```
 
 ## apply
-```bash
-$ kubectl apply -f wordpress-k8s.yml
-```
 
 ```bash
 $ minikube start
@@ -201,12 +201,13 @@ deployment.apps "wordpress" deleted
 service "wordpress" deleted
 ```
 
-Web browser
+[ Web browser ]
 ```url
 http://127.0.0.1:62801/
 ```
 
 ## get
+
 ```bash
 $ kubectl get pod
 $ kubectl get pods            // 복수형
@@ -233,22 +234,26 @@ $ kubectl describe pod/wordpress-5f59577d4d-vkv7x     // 상세 정보 조회
 ```
 
 ## delete
+
 ```bash
 $ kubectl delete pod/wordpress-5f59577d4d-vkv7x
 ```
 
 ## logs
+
 ```bash
 $ kubectl logs wordpress-5f59577d4d-vkv7x
 $ kubectl logs -f wordpress-5f59577d4d-vkv7x          // 실시간 로그
 ```
 
 ## exec
+
 ```bash
 $ kubectl exec -it wordpress-5f59577d4d-vkv7x -- bash     // bash 실행
 ```
 
 ## config
+
 ```bash
 $ kubectl config view
 $ kubectl config current-context          // 현재 컨텍스트 확인
@@ -256,6 +261,7 @@ $ kubectl config use-context minikube     // 컨텍스트 설정
 ```
 
 ## cluster-info
+
 ```bash
 $ kubectl cluster-info
 Kubernetes control plane is running at https://127.0.0.1:56425
