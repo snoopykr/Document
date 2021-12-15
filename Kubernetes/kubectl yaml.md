@@ -1,7 +1,8 @@
 # Kubernetes Manifest
 
-nginx-pod.yml
+## nginx-pod
 
+[ nginx-pod.yml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -32,6 +33,7 @@ nginx   1/1     Running   0          2m13s   172.17.0.3   minikube   <none>     
 
 $ curl -m 3 http://172.17.0.3
 ```
+curl에서 사용한 `-m 3`은 -max-time으로 3초후 timeout를 의미한다.
 
 ## kubectl delete -f 
 
@@ -42,8 +44,7 @@ pod "nginx" deleted
 
 ## Health check
 
-webapl-pod.yml
-
+[ webapl-pod.yml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -52,23 +53,22 @@ metadata:
 spec:
   containers:
   - name: webapl
-    image: welovefish/webapl:0.1    # 핸드러를 구현한 애플리케이션 
-    livenessProbe:            # 애플리케이션이 살아있는지 확인
+    image: welovefish/webapl:0.1    # 핸들러를 구현한 애플리케이션 
+    livenessProbe:                  # 애플리케이션이 살아있는지 확인
       httpGet:
-        path: /healthz        # 확인 경로
+        path: /healthz              # 확인 경로
         port: 3000
-      initialDelaySeconds: 3  # 검사 개시 대기 시간
-      periodSeconds: 5        # 검사 간격
-    readinessProbe:           # 애플리케이션이 준비되었는지 확인
+      initialDelaySeconds: 3        # 검사 개시 대기 시간
+      periodSeconds: 5              # 검사 간격
+    readinessProbe:                 # 애플리케이션이 준비되었는지 확인
       httpGet:
-        path: /ready          # 확인 경로
+        path: /ready                # 확인 경로
         port: 3000
       initialDelaySeconds: 15
       periodSeconds: 6
 ```
 
-webapi/Dockerfile
-
+[ webapi/Dockerfile ]
 ```dockerfile
 ## Alpine Linux  https://hub.docker.com/_/alpine/
 FROM alpine:latest
@@ -86,8 +86,7 @@ ADD ./webapl.js /
 CMD node /webapl.js
 ```
 
-webapi/package.json
-
+[ webapi/package.json ]
 ```json
 {
   "name": "webapl",
@@ -105,8 +104,7 @@ webapi/package.json
 }
 ```
 
-webapi/webapl.js
-
+[ webapi/webapl.js ]
 ```js
 // 모의 애플리케이션
 //
@@ -245,6 +243,7 @@ Events:
 
 ## 초기화 전용 컨테이너
 
+[ init-sample.yml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -282,6 +281,7 @@ $ kubectl apply -f init-sample.yml
 
 $ kubectl exec -it init-sample -c main sh
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+
 #  ls -al /docs
 total 12
 drwxrwxrwx 3 root     root     4096 Dec  8 06:26 .
@@ -292,8 +292,7 @@ drwxr-xr-x 2 www-data www-data 4096 Dec  8 06:26 html
 
 ## 사이드카
 
-contents-cloner
-
+[ contents-cloner ]
 ```bash
 #!/bin/bash
 # 최신 Web 데이터를 GitHub로부터 취득 
@@ -322,8 +321,7 @@ do
 done
 ```
 
-Dockerfile
-
+[ Dockerfile ]
 ```dockerfile
 ## Contents Cloner Image
 FROM ubuntu:16.04
@@ -334,8 +332,7 @@ WORKDIR /
 CMD ["/contents-cloner"]
 ```
 
-webserver.yml
-
+[ webserver.yml ]
 ```yaml
 ## 사이드카 파드 예제
 #
