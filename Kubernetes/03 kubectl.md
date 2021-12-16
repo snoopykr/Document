@@ -1,9 +1,9 @@
 # Kubenetes Deployment
+Deployment - Replicaset - Pod
 
-## 디플로이먼트 생성
+## Deployment 생성
 
-deployment1.yml
-
+[ deployment1.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -50,10 +50,10 @@ web-deploy-6bc4dfc596-m8vqh   1/1     Running   0          2m52s   172.17.0.5   
 web-deploy-6bc4dfc596-n26qc   1/1     Running   0          2m52s   172.17.0.4   minikube   <none>           <none>
 ```
 
-## 스케일
+## Scale
+Replicaset를 조절하여 Pod의 실행 갯수를 조절한다.
 
-deployment2.yml
-
+[ deployment2.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -127,10 +127,10 @@ NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/web-deploy   5/5     5            5           12m
 ```
 
-## 롤아웃
+## Rollout
+Rollout은 새로운 버전으로 버전업할때 사용된다.
 
-deployment3.yml
-
+[ deployment3.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -250,7 +250,8 @@ Events:
   Normal  ScalingReplicaSet  4s    deployment-controller  Scaled up replica set web-deploy-5899d78c9 to 5
 ```
 
-## 롤백
+## Rollback
+Rollback은 새로운 버전을 다시 이전 버전으로 되돌리기 위해 사용된다.
 
 ```bash
 $ kubectl rollout  undo deployment web-deploy
@@ -315,7 +316,8 @@ web-deploy-6bc4dfc596-z87bk   1/1     Running   0          32s
 web-deploy-6bc4dfc596-zx98f   1/1     Running   0          30s
 ```
 
-## 파드 IP의 변경
+## Pod IP의 변경
+Pod의 IP가 변경되는 경우는 Rollout, Rollback, Scale에 위해 Pod가 종료되고 새롭게 만들어질 때 새로운 IP가 활당된다.
 
 ```bash
 $ kubectl get po -o wide
@@ -350,9 +352,9 @@ web-deploy-6bc4dfc596-zx98f   1/1     Running   0          5m58s   172.17.0.3   
 ```
 
 ## 자동복구
+Kubernetes는 Pod, Replicaset, Deployment등에 기술된 내용을 바탕으로 Pod가 비정상 종료를 하게 되면 Pod를 새로 생성하기도 하지만 하드웨어 즉 Node에 변화가 생겼을 때도 자동적으로 복구가 된다.
 
-pod.yml
-
+[ pod.yml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -366,8 +368,7 @@ spec:
   restartPolicy: Always
 ```  
 
-deployment4.yml
-
+[ deployment4.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -420,3 +421,4 @@ test2-5db466bbc6-hnh4n   1/1     Running   0          3m54s   10.244.1.3   minik
 test2-5db466bbc6-kkcvg   1/1     Running   0          23s     10.244.2.4   minikube-m03   <none>           <none>               # 4 -> 3 삭제후 재실행
 test2-5db466bbc6-x5tdb   1/1     Running   0          3m54s   10.244.2.3   minikube-m03   <none>           <none>
 ```
+Node(minikube-m04)를 Minikube에서 삭제하면 정상적으로 작동하는 Node(minikube-m02, minikube-m03)에 Pod를 재설치 한다.

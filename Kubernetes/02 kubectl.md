@@ -384,6 +384,7 @@ NAME          READY   STATUS    RESTARTS   AGE    IP           NODE       NOMINA
 webserver     2/2     Running   0          117s   172.17.0.4   minikube   <none>           <none>
 
 $ kubectl run busybox --image=busybox --restart=Never --rm -it sh
+
 / # wget -q -O - http://172.17.0.4
 <!DOCTYPE html>
 <html>
@@ -400,3 +401,4 @@ $ kubectl run busybox --image=busybox --restart=Never --rm -it sh
 </body>
 </html>
 ```
+pod내에 2개의 컨테이너(nginx, cloner)를 만들고 볼륨을 서로 공유한다. cloner는 git를 주기적으로 pull해서 볼륨에 저장하고 nginx는 요청이 있을때 볼륨에서 읽어서 요청사항을 처리한다.
