@@ -99,7 +99,7 @@ $ minikube config view                    // 설정 보기
 
 설정 옵션
 | 값 | 설명 |
-|---|:---:|
+|---|---|
 | `defaults` | Lists all valid default values for PROPERTY_NAME |
 | `get` | Gets the value of PROPERTY_NAME from the minikube config file |
 | `set` | Sets an individual value in a minikube config file |
@@ -173,7 +173,7 @@ minikube-m04    192.168.49.5
 node command
 
 | 값 | 설명 |
-|---|:---:|
+|---|---|
 | `add` | Adds a node to the given cluster config, and starts it |
 | `start` | Starts an existing stopped node in a cluster |
 | `stop` | Stops a node in a cluster |

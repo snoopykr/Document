@@ -1,4 +1,5 @@
 # Kubernetes Manifest
+Manifest는 kubernetes의 오브젝트를 생성하기 위해 메타 정보를 YAML, JSON으로 기술한 파일이다.
 
 ## nginx-pod
 
@@ -43,6 +44,8 @@ pod "nginx" deleted
 ```
 
 ## Health check
+Liveness Probe (활성) : 정상적으로 실행중인 것을 검사<br>
+Readiness Probe(준비) : 요청을 받을 준비가 되었는지를 검사
 
 [ webapl-pod.yml ]
 ```yaml
@@ -369,6 +372,8 @@ $ docker build --tag welovefish/c-cloner:0.1 .
 $ docker login
 
 $ docker push welovefish/c-cloner:0.1
+
+$ kubectl apply -f webserver.yml
 
 $ kubectl get po
 NAME          READY   STATUS    RESTARTS   AGE

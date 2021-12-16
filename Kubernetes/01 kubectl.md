@@ -35,7 +35,7 @@ For more examples and ideas, visit:
 단순하게 1개의 pod를 만드는 단순한 명령이다.
 
 | 옵션 | 설명 |
-|---|:---:|
+|---|---|
 | `kubectl`	| k8s 클러스터를 조작하기 위해 사용되는 커맨드 |
 | `run` | 컨테이너 실행을 명령하는 서브 커맨드 |
 | `hello-world` | 쿠버네티스 오브젝트의 이름(파드나 컨트롤러 등) |
@@ -159,8 +159,8 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   56m
 ```
 pod를 삭제해도 replicaset의 영향으로 새로 생성이 된다. pod를 완전히 제거하기 위해서는 deployment를 삭제해야 한다.
 
-## job
-버전차이로 인해 작동 방식이 다른데 이 부분은 좀 더 확인 해야겠다.
+## job 생성
+job controller는 pod가 비정상 종료하면 재시작하며 정상 종료할 때까지 지정한 횟수만큼 재실행한다.
 
 [ 에러 ]
 ```bash
@@ -247,6 +247,11 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   78m
 NAME             COMPLETIONS   DURATION   AGE
 job.batch/job1   1/1           4s         96s
 job.batch/job2   0/1           77s        77s
+
+$ kubectl get jobs
+NAME   COMPLETIONS   DURATION   AGE
+job1   1/1           10s        18h
+job2   0/1           18h        18h
 ```
 job1과 달리 job2의 경우 `exit 1`로 비정상 종료가 되기 때문에 지속해서 pod를 생성하지만 정상적인 종료가 되지 않는다.
 
