@@ -37,7 +37,7 @@ Selector:         controller-uid=32104740-2124-4545-84f4-12f267a2fea3
 Labels:           controller-uid=32104740-2124-4545-84f4-12f267a2fea3
                   job-name=normal-end
 Annotations:      <none>
-Parallelism:      1
+Parallelism:      2
 Completions:      6
 Completion Mode:  NonIndexed
 Start Time:       Fri, 10 Dec 2021 14:04:12 +0900
@@ -112,7 +112,7 @@ Events:
   Normal  Completed         109s   job-controller  Job completed
 ```
 
-## 비 정상종료 (One Container)
+## 비 정상종료 (Single Container)
 
 job-abnormal-end.yml
 
