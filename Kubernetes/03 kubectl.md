@@ -418,7 +418,7 @@ $ kubectl get pod -o wide
 NAME                     READY   STATUS    RESTARTS   AGE     IP           NODE           NOMINATED NODE   READINESS GATES
 test2-5db466bbc6-4h7bb   1/1     Running   0          3m54s   10.244.2.2   minikube-m03   <none>           <none>
 test2-5db466bbc6-hnh4n   1/1     Running   0          3m54s   10.244.1.3   minikube-m02   <none>           <none>
-test2-5db466bbc6-kkcvg   1/1     Running   0          23s     10.244.2.4   minikube-m03   <none>           <none>               # 4 -> 3 삭제후 재실행
+test2-5db466bbc6-kkcvg   1/1     Running   0          23s     10.244.2.4   minikube-m03   <none>           <none>               #  minikube-m04 -> minikube-m03 변경
 test2-5db466bbc6-x5tdb   1/1     Running   0          3m54s   10.244.2.3   minikube-m03   <none>           <none>
 ```
 Node(minikube-m04)를 Minikube에서 삭제하면 정상적으로 작동하는 Node(minikube-m02, minikube-m03)에 Pod를 재설치 한다.
