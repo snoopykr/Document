@@ -1,9 +1,9 @@
 # Kubernetes Job
+Job Controller는 Pod에 있는 모든 컨테이너가 정상적으로 종료할 때까지 재실행한다.
 
 ## 잡의 실행수
 
-job-normal-end.yml
-
+[ job-normal-end.yml ]
 ```yaml
 apiVersion: batch/v1
 kind: Job
@@ -29,7 +29,7 @@ $ kubectl get job
 NAME         COMPLETIONS   DURATION   AGE
 normal-end   0/6           7s         7s
 
-// # parallelism: 2 (동시 실행 X)
+// parallelism을 설정 안한 경우
 $ kubectl describe job normal-end
 Name:             normal-end
 Namespace:        default
@@ -37,7 +37,7 @@ Selector:         controller-uid=32104740-2124-4545-84f4-12f267a2fea3
 Labels:           controller-uid=32104740-2124-4545-84f4-12f267a2fea3
                   job-name=normal-end
 Annotations:      <none>
-Parallelism:      2
+Parallelism:      1
 Completions:      6
 Completion Mode:  NonIndexed
 Start Time:       Fri, 10 Dec 2021 14:04:12 +0900
@@ -70,7 +70,7 @@ Events:
   Normal  SuccessfulCreate  10s   job-controller  Created pod: normal-end--1-k8mjf
   Normal  Completed         1s    job-controller  Job completed
 
-// parallelism: 2  (동시 실행 2)
+// parallelism을 2로 설정한 경우
 $ kubectl describe job normal-end
 Name:             normal-end
 Namespace:        default
@@ -111,11 +111,11 @@ Events:
   Normal  SuccessfulCreate  118s   job-controller  Created pod: normal-end--1-vvrwm
   Normal  Completed         109s   job-controller  Job completed
 ```
+Age를 보면 Parallelism에 의해 잡이 어떻게 실행이 되는지를 확인 할수 있다.
 
-## 비 정상종료 (Single Container)
+## Single Container로 구성된 Pod가 이상 종료되는 경우
 
-job-abnormal-end.yml
-
+[ job-abnormal-end.yml ]
 ```yaml
 apiVersion: batch/v1
 kind: Job
@@ -188,10 +188,9 @@ Events:
   Warning  BackoffLimitExceeded  117s   job-controller  Job has reached the specified backoff limit
 ```
 
-## 비 정상종료 (Multi Container)
+## Multi Container중 일부가 이상 종료되는 경우
 
-job-container-failed.yml
-
+[ job-container-failed.yml ]
 ```yaml
 apiVersion: batch/v1
 kind: Job
