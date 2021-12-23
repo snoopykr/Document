@@ -46,7 +46,7 @@ $ systemctl list-unit-files | grep -i docker
 docker.service                         disabled        enabled      
 docker.socket                          disabled        enabled  
 ```
-Portainer를 구축하려면 Docker의 서비스 등록이 필요한다.
+Portainer를 구축하려면 Docker의 서비스 등록이 필요하다.
 
 ## Docker-compose
 설치할 버전체크 https://github.com/docker/compose/releases/
