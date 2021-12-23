@@ -13,6 +13,10 @@ $ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent soft
 // GPG Key 인증
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
+// 아키텍쳐 검사
+$ arch
+x86_64
+
 // docker repository 등록
 $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
@@ -26,6 +30,7 @@ $ sudo usermod -a -G docker $USER
 $ docker -v
 Docker version 20.10.12, build e91ed57
 ```
+서버의 아키텍쳐별로 설치해야 할 설치파일이 다르기 때문에 아키텍쳐 검사를 한후 `[arch=amd64]` 부분을 지정해야 한다.
 
 ## Docker 서비스 등록 (옵션)
 ```bash
@@ -41,6 +46,7 @@ $ systemctl list-unit-files | grep -i docker
 docker.service                         disabled        enabled      
 docker.socket                          disabled        enabled  
 ```
+Portainer를 구축하려면 Docker의 서비스 등록이 필요한다.
 
 ## Docker-compose
 설치할 버전체크 https://github.com/docker/compose/releases/
@@ -57,3 +63,4 @@ $ sudo chmod +x /usr/local/bin/docker-compose
 $ docker-compose -v
 Docker Compose version v2.2.2
 ```
+설치할 버전을 미리 체크해서 최신 버전을 설치하는 것이 좋다.
