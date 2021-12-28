@@ -1,7 +1,7 @@
 # Kubernetes StatefulSet
 
-mysql-sts.yml
 
+[ mysql-sts.yml ]
 ```yaml
 apiVersion: v1
 kind: Service

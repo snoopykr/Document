@@ -2,8 +2,7 @@
 
 ## 퍼시스턴트 볼륨
 
-pvc.yml
-
+[ pvc.yml ]
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -18,8 +17,7 @@ spec:
       storage: 2Gi
 ```
 
-pod.yml
-
+[ pod.yml ]
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -83,8 +81,7 @@ tmpfs            13G     0   13G   0% /sys/firmware
 
 ## NFS
 
-nfs-pv.yml
-
+[ nfs-pv.yml ]
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -102,8 +99,7 @@ spec:
     path: /export
 ```
 
-nfs-pvc.yml
-
+[ nfs-pvc.yml ]
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -121,8 +117,7 @@ spec:
       name: pv-nfs-1
 ```
 
-nfs-client.yml
-
+[ nfs-client.yml ]
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -189,3 +184,118 @@ nfs-client-7ff95d88b-79gg7   0/1     ContainerCreating   0          59s
 nfs-client-7ff95d88b-m4mrq   0/1     ContainerCreating   0          59s
 ```
 
+## GlusterFS
+
+[ gfs-sc.yml ]
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "gluster-heketi"
+provisioner: kubernetes.io/glusterfs
+parameters:
+  resturl: "http://172.20.1.20:8080"
+  restuser: "admin"
+  restuserkey: "admin"
+```
+
+[ gfs-pvc.yml ]
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: gvol-1
+spec:
+ storageClassName: gluster-heketi
+ accessModes:
+  - ReadWriteMany
+ resources:
+   requests:
+     storage: 10Gi
+```
+
+[ gfs-client.yml ]
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gfs-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu
+        volumeMounts:
+        - name: gfs
+          mountPath: /mnt
+        command: ["/usr/bin/tail","-f","/dev/null"]
+      volumes:
+      - name: gfs
+        persistentVolumeClaim:
+          claimName: gvol-1
+```
+
+```bash
+$ ping 172.20.1.20
+PING 172.20.1.20 (172.20.1.20) 56(84) bytes of data.
+64 bytes from 172.20.1.20: icmp_seq=1 ttl=63 time=0.983 ms
+64 bytes from 172.20.1.20: icmp_seq=2 ttl=63 time=0.927 ms
+64 bytes from 172.20.1.20: icmp_seq=3 ttl=63 time=0.942 ms
+64 bytes from 172.20.1.20: icmp_seq=4 ttl=63 time=1.37 ms
+^C
+--- 172.20.1.20 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3009ms
+rtt min/avg/max/mdev = 0.927/1.057/1.376/0.185 ms
+
+$ kubectl apply -f gfs-sc.yml
+storageclass.storage.k8s.io/gluster-heketi created
+
+$ kubectl get sc  
+NAME             PROVISIONER               RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+gluster-heketi   kubernetes.io/glusterfs   Delete          Immediate           false                  4m47s
+
+$ kubectl apply -f gfs-pvc.yml 
+persistentvolumeclaim/gvol-1 created
+
+$ kubectl get pvc
+NAME          STATUS    VOLUME       CAPACITY   ACCESS MODES   STORAGECLASS     AGE
+gvol-1        Pending                                          gluster-heketi   111s
+wildfly-pvc   Bound     wildfly-pv   10Ti       RWX                             6d2h
+
+$ kubectl get pv
+NAME         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                 STORAGECLASS   REASON   AGE
+wildfly-pv   10Ti       RWX            Retain           Bound    default/wildfly-pvc                           6d2h
+
+$ kubectl apply -f gfs-client.yml 
+deployment.apps/gfs-client created
+
+$ kubectl get po
+NAME                         READY   STATUS    RESTARTS   AGE
+gfs-client-ddfc99bb7-4hzf9   0/1     Pending   0          35s
+gfs-client-ddfc99bb7-vlc2x   0/1     Pending   0          35s
+
+
+$ kubectl get all
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/gfs-client-ddfc99bb7-4hzf9   0/1     Pending   0          116s
+pod/gfs-client-ddfc99bb7-vlc2x   0/1     Pending   0          116s
+
+NAME                                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/glusterfs-dynamic-54ead0b5-166f-4f9d-a444-5b0096e6eabe   ClusterIP   10.100.169.83   <none>        1/TCP     6m58s
+service/kubernetes                                               ClusterIP   10.96.0.1       <none>        443/TCP   6d3h
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/gfs-client   0/2     2            0           117s
+
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/gfs-client-ddfc99bb7   2         2         0       117s
+```
+문제가 있는지 Pod가 올라오지 않는다.
