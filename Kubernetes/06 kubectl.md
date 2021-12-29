@@ -258,44 +258,45 @@ rtt min/avg/max/mdev = 0.927/1.057/1.376/0.185 ms
 $ kubectl apply -f gfs-sc.yml
 storageclass.storage.k8s.io/gluster-heketi created
 
-$ kubectl get sc  
+$ kubectl get sc
 NAME             PROVISIONER               RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
-gluster-heketi   kubernetes.io/glusterfs   Delete          Immediate           false                  4m47s
+gluster-heketi   kubernetes.io/glusterfs   Delete          Immediate           false                  15s
 
 $ kubectl apply -f gfs-pvc.yml 
 persistentvolumeclaim/gvol-1 created
 
-$ kubectl get pvc
-NAME          STATUS    VOLUME       CAPACITY   ACCESS MODES   STORAGECLASS     AGE
-gvol-1        Pending                                          gluster-heketi   111s
-wildfly-pvc   Bound     wildfly-pv   10Ti       RWX                             6d2h
-
 $ kubectl get pv
-NAME         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                 STORAGECLASS   REASON   AGE
-wildfly-pv   10Ti       RWX            Retain           Bound    default/wildfly-pvc                           6d2h
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM            STORAGECLASS     REASON   AGE
+pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9   10Gi       RWX            Delete           Bound    default/gvol-1   gluster-heketi            5s
+
+$ kubectl get pvc
+NAME     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS     AGE
+gvol-1   Bound    pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9   10Gi       RWX            gluster-heketi   13s
 
 $ kubectl apply -f gfs-client.yml 
 deployment.apps/gfs-client created
 
 $ kubectl get po
-NAME                         READY   STATUS    RESTARTS   AGE
-gfs-client-ddfc99bb7-4hzf9   0/1     Pending   0          35s
-gfs-client-ddfc99bb7-vlc2x   0/1     Pending   0          35s
-
+NAME                         READY   STATUS              RESTARTS   AGE
+gfs-client-ddfc99bb7-gn4p5   0/1     ContainerCreating   0          2m17s
+gfs-client-ddfc99bb7-mzcd8   0/1     ContainerCreating   0          2m17s
 
 $ kubectl get all
-NAME                             READY   STATUS    RESTARTS   AGE
-pod/gfs-client-ddfc99bb7-4hzf9   0/1     Pending   0          116s
-pod/gfs-client-ddfc99bb7-vlc2x   0/1     Pending   0          116s
+NAME                             READY   STATUS              RESTARTS   AGE
+pod/gfs-client-ddfc99bb7-s2782   0/1     ContainerCreating   0          10m
+pod/gfs-client-ddfc99bb7-v2pw7   0/1     ContainerCreating   0          10m
 
 NAME                                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-service/glusterfs-dynamic-54ead0b5-166f-4f9d-a444-5b0096e6eabe   ClusterIP   10.100.169.83   <none>        1/TCP     6m58s
-service/kubernetes                                               ClusterIP   10.96.0.1       <none>        443/TCP   6d3h
+service/glusterfs-dynamic-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9   ClusterIP   10.96.127.111   <none>        1/TCP     12m
+service/kubernetes                                               ClusterIP   10.96.0.1       <none>        443/TCP   7d
 
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/gfs-client   0/2     2            0           117s
+deployment.apps/gfs-client   0/2     2            0           10m
 
 NAME                                   DESIRED   CURRENT   READY   AGE
-replicaset.apps/gfs-client-ddfc99bb7   2         2         0       117s
+replicaset.apps/gfs-client-ddfc99bb7   2         2         0       10m
+
+$ kubectl logs gfs-client-ddfc99bb7-mzcd8
+Error from server (BadRequest): container "ubuntu" in pod "gfs-client-ddfc99bb7-mzcd8" is waiting to start: ContainerCreating
 ```
 문제가 있는지 Pod가 올라오지 않는다.
