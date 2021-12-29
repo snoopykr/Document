@@ -544,7 +544,7 @@ root@gfs-client-ddfc99bb7-m79gd:/# exit
 ```
 Work Node에서 `sudo yum install -y glusterfs-fuse` 패키지를 설치해야 된다.
 
-~~~ `sudo yum install -y nfs-utils nfs-utils-lib`의 영향을 받는지는 모르겠다. ~~~
+~~`sudo yum install -y nfs-utils nfs-utils-lib`의 영향을 받는지는 모르겠다.~~
 
 2개의 Pod가 /mnt폴더를 공유하고 한쪽 Pod에서 파일을 생성해도 다른쪽 Pod도 동일한 파일에 접근이 가능하다. 즉 스토리지가 공유되고 있다.
 
