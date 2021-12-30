@@ -357,34 +357,6 @@ Events:
   Warning  FailedMount  8m24s (x22 over 5h32m)   kubelet, w3-k8s  Unable to attach or mount volumes: unmounted volumes=[gfs], unattached volumes=[default-token-9jvzm gfs]: timed out waiting for the condition
   Warning  FailedMount  3m53s (x199 over 5h37m)  kubelet, w3-k8s  (combined from similar events): Unable to attach or mount volumes: unmounted volumes=[gfs], unattached volumes=[default-token-9jvzm gfs]: timed out waiting for the condition
 
-$ kubectl describe pv pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
-Name:            pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
-Labels:          <none>
-Annotations:     Description: Gluster-Internal: Dynamically provisioned PV
-                 gluster.kubernetes.io/heketi-volume-id: 86c6c76cc5946a8ed404be5b492a5cd1
-                 gluster.org/type: file
-                 kubernetes.io/createdby: heketi-dynamic-provisioner
-                 pv.beta.kubernetes.io/gid: 2000
-                 pv.kubernetes.io/bound-by-controller: yes
-                 pv.kubernetes.io/provisioned-by: kubernetes.io/glusterfs
-Finalizers:      [kubernetes.io/pv-protection]
-StorageClass:    gluster-heketi
-Status:          Bound
-Claim:           default/gvol-1
-Reclaim Policy:  Delete
-Access Modes:    RWX
-VolumeMode:      Filesystem
-Capacity:        10Gi
-Node Affinity:   <none>
-Message:         
-Source:
-    Type:                Glusterfs (a Glusterfs mount on the host that shares a pod's lifetime)
-    EndpointsName:       glusterfs-dynamic-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
-    EndpointsNamespace:  default
-    Path:                vol_86c6c76cc5946a8ed404be5b492a5cd1
-    ReadOnly:            false
-Events:                  <none>  
-
 $ kubectl describe pvc gvol-1
 Name:          gvol-1
 Namespace:     default
@@ -414,6 +386,34 @@ MountOptions:          <none>
 ReclaimPolicy:         Delete
 VolumeBindingMode:     Immediate
 Events:                <none>
+
+$ kubectl describe pv pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
+Name:            pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
+Labels:          <none>
+Annotations:     Description: Gluster-Internal: Dynamically provisioned PV
+                 gluster.kubernetes.io/heketi-volume-id: 86c6c76cc5946a8ed404be5b492a5cd1
+                 gluster.org/type: file
+                 kubernetes.io/createdby: heketi-dynamic-provisioner
+                 pv.beta.kubernetes.io/gid: 2000
+                 pv.kubernetes.io/bound-by-controller: yes
+                 pv.kubernetes.io/provisioned-by: kubernetes.io/glusterfs
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    gluster-heketi
+Status:          Bound
+Claim:           default/gvol-1
+Reclaim Policy:  Delete
+Access Modes:    RWX
+VolumeMode:      Filesystem
+Capacity:        10Gi
+Node Affinity:   <none>
+Message:         
+Source:
+    Type:                Glusterfs (a Glusterfs mount on the host that shares a pod's lifetime)
+    EndpointsName:       glusterfs-dynamic-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
+    EndpointsNamespace:  default
+    Path:                vol_86c6c76cc5946a8ed404be5b492a5cd1
+    ReadOnly:            false
+Events:                  <none>  
 ```
 
 
