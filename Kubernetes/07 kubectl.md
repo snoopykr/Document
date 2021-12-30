@@ -198,7 +198,6 @@ mysql-0   0/1     ContainerCreating   0          8s    <none>   w1-k8s   <none> 
 
 `kubectl uncordon w3-k8s`를 사용해서 스케일을 정상화 할수 있다.
 
-
 ## Node Handling
 
 [ Master Node ]
@@ -267,8 +266,6 @@ TOKEN                     TTL         EXPIRES   USAGES                   DESCRIP
 $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
 e61f573ea07a788f681f69fb8b0a7e36695c202b5fd9ca12fa216794ace77ecd
 ```
-
-
 invalid하지 않는 토근이 없는 경우에는 `kubeadm token create(or generate)` 실행
 
 [ w1-k8s Node]
