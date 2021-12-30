@@ -217,8 +217,9 @@ mysql-0   1/1     Running   5          10m   172.16.103.135   w1-k8s   <none>   
 모든 상태 정상.
 
 [ Terminal ]
+```bash
 $ vagrant halt w1-k8s
-
+```
 w1-k8s Node를 정지시킴
 
 [ Master Node ]
