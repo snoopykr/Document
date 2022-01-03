@@ -606,9 +606,10 @@ Bye
 
 root@mysql-0:/# exit
 exit
+```
 
+```bash
 # while true; do date; kubectl get po -o wide; echo; sleep 15; done 
-
 // # vagrant halt w3-k8s 실행 후
 Mon Jan  3 14:03:26 KST 2022
 NAME      READY   STATUS    RESTARTS   AGE   IP             NODE     NOMINATED NODE   READINESS GATES
@@ -681,8 +682,4 @@ m-k8s                     running (virtualbox)
 w1-k8s                    running (virtualbox)
 w2-k8s                    running (virtualbox)
 w3-k8s                    poweroff (virtualbox)
-
-This environment represents multiple VMs. The VMs are all listed
-above with their current state. For more information about a specific
-VM, run `vagrant status NAME`.
 ```
