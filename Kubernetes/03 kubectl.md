@@ -25,25 +25,25 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f deployment1.yml
+# kubectl apply -f deployment1.yml
 deployment.apps/web-deploy created
 
-$ kubectl get deployment
+# kubectl get deployment
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE
 web-deploy   2/3     3            2           17s
 
-$ kubectl get replicaset
+# kubectl get replicaset
 NAME                    DESIRED   CURRENT   READY   AGE
 web-deploy-6bc4dfc596   3         3         3       27s
 
-$ kubectl get pod
+# kubectl get pod
 NAME                          READY   STATUS    RESTARTS   AGE
 web-deploy-6bc4dfc596-2gwt2   1/1     Running   0          36s
 web-deploy-6bc4dfc596-m8vqh   1/1     Running   0          36s
 web-deploy-6bc4dfc596-n26qc   1/1     Running   0          36s
 
 
-$ kubectl get pod -o wide
+# kubectl get pod -o wide
 NAME                          READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
 web-deploy-6bc4dfc596-2gwt2   1/1     Running   0          2m52s   172.17.0.3   minikube   <none>           <none>
 web-deploy-6bc4dfc596-m8vqh   1/1     Running   0          2m52s   172.17.0.5   minikube   <none>           <none>
@@ -75,10 +75,10 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f deployment2.yml
+# kubectl apply -f deployment2.yml
 deployment.apps/web-deploy configured
 
-$ kubectl get pod -A
+# kubectl get pod -A
 NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
 default       web-deploy-6bc4dfc596-2gwt2        1/1     Running   0               8m29s
 default       web-deploy-6bc4dfc596-56v8b        1/1     Running   0               2m1s
@@ -91,12 +91,12 @@ default       web-deploy-6bc4dfc596-fsc2h        1/1     Running   0            
 default       web-deploy-6bc4dfc596-m8vqh        1/1     Running   0               8m29s
 default       web-deploy-6bc4dfc596-n26qc        1/1     Running   0               8m29s
 
-$ kubectl get deployment
+# kubectl get deployment
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE
 web-deploy   10/10   10           10          10m
 
 
-$ kubectl get po,deploy
+# kubectl get po,deploy
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/web-deploy-6bc4dfc596-2gwt2   1/1     Running   0          11m
 pod/web-deploy-6bc4dfc596-56v8b   1/1     Running   0          5m8s
@@ -112,10 +112,10 @@ pod/web-deploy-6bc4dfc596-n26qc   1/1     Running   0          11m
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/web-deploy   10/10   10           10          11m
 
-$ kubectl scale --replicas=5 deployment.apps/web-deploy
+# kubectl scale --replicas=5 deployment.apps/web-deploy
 deployment.apps/web-deploy scaled
 
-$ kubectl get po,deploy
+# kubectl get po,deploy
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/web-deploy-6bc4dfc596-2gwt2   1/1     Running   0          12m
 pod/web-deploy-6bc4dfc596-cbtts   1/1     Running   0          5m44s
@@ -152,7 +152,7 @@ spec:
 ```
 
 ```bash
-$ kubectl describe deploy web-deploy
+# kubectl describe deploy web-deploy
 Name:                   web-deploy
 Namespace:              default
 CreationTimestamp:      Wed, 08 Dec 2021 18:11:35 +0900
@@ -189,10 +189,10 @@ Events:
   Normal  ScalingReplicaSet  84s   deployment-controller  Scaled down replica set web-deploy-6bc4dfc596 to 3
   Normal  ScalingReplicaSet  68s   deployment-controller  Scaled up replica set web-deploy-6bc4dfc596 to 10
 
-$ kubectl apply -f deployment3.yml
+# kubectl apply -f deployment3.yml
 deployment.apps/web-deploy configured
 
-$ kubectl get po
+# kubectl get po
 NAME                          READY   STATUS              RESTARTS       AGE
 web-deploy-5899d78c9-6mv85    1/1     Running             0              8s
 web-deploy-5899d78c9-847d8    1/1     Running             0              23s
@@ -209,7 +209,7 @@ web-deploy-6bc4dfc596-42qrw   1/1     Terminating         0              116s
 web-deploy-6bc4dfc596-7g6w6   1/1     Terminating         0              116s
 web-deploy-6bc4dfc596-m8vqh   1/1     Running             1 (3m6s ago)   15h
 
-$ kubectl describe deploy web-deploy
+# kubectl describe deploy web-deploy
 Name:                   web-deploy
 Namespace:              default
 CreationTimestamp:      Wed, 08 Dec 2021 18:11:35 +0900
@@ -254,10 +254,10 @@ Events:
 Rollback은 새로운 버전을 다시 이전 버전으로 되돌리기 위해 사용된다.
 
 ```bash
-$ kubectl rollout  undo deployment web-deploy
+# kubectl rollout  undo deployment web-deploy
 deployment.apps/web-deploy rolled back
 
-$ kubectl describe deploy web-deploy
+# kubectl describe deploy web-deploy
 Name:                   web-deploy
 Namespace:              default
 CreationTimestamp:      Wed, 08 Dec 2021 18:11:35 +0900
@@ -302,7 +302,7 @@ Events:
   Normal  ScalingReplicaSet  5m21s (x2 over 7m29s)  deployment-controller  Scaled down replica set web-deploy-6bc4dfc596 to 3
   Normal  ScalingReplicaSet  0s (x16 over 5m22s)    deployment-controller  (combined from similar events): Scaled down replica set web-deploy-5899d78c9 to 5
 
-$ kubectl get po
+# kubectl get po
 NAME                          READY   STATUS    RESTARTS   AGE
 web-deploy-6bc4dfc596-9v758   1/1     Running   0          31s
 web-deploy-6bc4dfc596-dc95w   1/1     Running   0          36s
@@ -320,7 +320,7 @@ web-deploy-6bc4dfc596-zx98f   1/1     Running   0          30s
 Pod의 IP가 변경되는 경우는 Rollout, Rollback, Scale에 위해 Pod가 종료되고 새롭게 만들어질 때 새로운 IP가 활당된다.
 
 ```bash
-$ kubectl get po -o wide
+# kubectl get po -o wide
 NAME                          READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
 web-deploy-6bc4dfc596-9v758   1/1     Running   0          4m19s   172.17.0.10   minikube   <none>           <none>
 web-deploy-6bc4dfc596-dc95w   1/1     Running   0          4m24s   172.17.0.12   minikube   <none>           <none>
@@ -334,10 +334,10 @@ web-deploy-6bc4dfc596-z87bk   1/1     Running   0          4m20s   172.17.0.15  
 web-deploy-6bc4dfc596-zx98f   1/1     Running   0          4m18s   172.17.0.3    minikube   <none>           <none>
 
 
-$ kubectl delete po web-deploy-6bc4dfc596-9v758
+# kubectl delete po web-deploy-6bc4dfc596-9v758
 pod "web-deploy-6bc4dfc596-9v758" deleted
 
-$ kubectl get po -o wide
+# kubectl get po -o wide
 NAME                          READY   STATUS    RESTARTS   AGE     IP            NODE       NOMINATED NODE   READINESS GATES
 web-deploy-6bc4dfc596-dc95w   1/1     Running   0          6m4s    172.17.0.12   minikube   <none>           <none>
 web-deploy-6bc4dfc596-hltp9   1/1     Running   0          6m1s    172.17.0.14   minikube   <none>           <none>
@@ -391,20 +391,20 @@ spec:
 ```
 
 ```bash
-$ kubectl get node
+# kubectl get node
 NAME           STATUS   ROLES                  AGE    VERSION
 minikube       Ready    control-plane,master   2m7s   v1.22.3
 minikube-m02   Ready    <none>                 92s    v1.22.3
 minikube-m03   Ready    <none>                 56s    v1.22.3
 minikube-m04   Ready    <none>                 22s    v1.22.3
 
-$ kubectl apply -f pod.yml
+# kubectl apply -f pod.yml
 pod/test1 created
 
-$ kubectl apply -f deployment4.yml
+# kubectl apply -f deployment4.yml
 deployment.apps/test2 created
 
-$ kubectl get pod -o wide
+# kubectl get pod -o wide
 NAME                     READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
 test1                    1/1     Running   0          77s   10.244.3.2   minikube-m04   <none>           <none>
 test2-5db466bbc6-4h7bb   1/1     Running   0          64s   10.244.2.2   minikube-m03   <none>           <none>
@@ -412,9 +412,9 @@ test2-5db466bbc6-hnh4n   1/1     Running   0          64s   10.244.1.3   minikub
 test2-5db466bbc6-pd68b   1/1     Running   0          64s   10.244.3.3   minikube-m04   <none>           <none>
 test2-5db466bbc6-x5tdb   1/1     Running   0          64s   10.244.2.3   minikube-m03   <none>           <none>
 
-$ minikube node delete minikube-m04
+# minikube node delete minikube-m04
 
-$ kubectl get pod -o wide
+# kubectl get pod -o wide
 NAME                     READY   STATUS    RESTARTS   AGE     IP           NODE           NOMINATED NODE   READINESS GATES
 test2-5db466bbc6-4h7bb   1/1     Running   0          3m54s   10.244.2.2   minikube-m03   <none>           <none>
 test2-5db466bbc6-hnh4n   1/1     Running   0          3m54s   10.244.1.3   minikube-m02   <none>           <none>

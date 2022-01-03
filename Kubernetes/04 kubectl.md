@@ -51,13 +51,13 @@ spec:                 # type을 생략하여 ClusterIP가 적용된다.
 ```
 
 ```bash
-$ kubectl apply -f svc.yml
+# kubectl apply -f svc.yml
 service/web-service created
 
-$ kubectl apply -f deploy.yml
+# kubectl apply -f deploy.yml
 deployment.apps/web-deploy created
 
-$ kubectl get all
+# kubectl get all
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/web-deploy-86cd4d65b9-65dqb   1/1     Running   0          72s
 pod/web-deploy-86cd4d65b9-j82db   1/1     Running   0          72s
@@ -73,7 +73,7 @@ deployment.apps/web-deploy   3/3     3            3           72s
 NAME                                    DESIRED   CURRENT   READY   AGE
 replicaset.apps/web-deploy-86cd4d65b9   3         3         3       72s
 
-$ kubectl run -it bustbox --restart=Never --rm --image=busybox sh
+# kubectl run -it bustbox --restart=Never --rm --image=busybox sh
 
 / # wget -q -O - http://web-service
 <!DOCTYPE html>
@@ -110,9 +110,9 @@ WEB_SERVICE_PORT_80_TCP=tcp://10.111.231.63:80
 WEB_SERVICE_SERVICE_HOST=10.111.231.63
 / # exit
 
-$ for pod in $(kubectl get pods | awk 'NR>1 {print $1}' | grep web-deploy); do kubectl exec $pod -- /bin/sh -c "hostname>/usr/share/nginx/html/index.html"; done
+# for pod in $(kubectl get pods | awk 'NR>1 {print $1}' | grep web-deploy); do kubectl exec $pod -- /bin/sh -c "hostname>/usr/share/nginx/html/index.html"; done
 
-$ kubectl run -it bustbox --restart=Never --rm --image=busybox sh
+# kubectl run -it bustbox --restart=Never --rm --image=busybox sh
 
 / # while true; do wget -q -O - http://web-service; sleep 1; done
 web-deploy-86cd4d65b9-65dqb
@@ -142,10 +142,10 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f svc-sa.yml
+# kubectl apply -f svc-sa.yml
 service/web-service configured
 
-$ kubectl get all
+# kubectl get all
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/web-deploy-86cd4d65b9-65dqb   1/1     Running   0          17m
 pod/web-deploy-86cd4d65b9-j82db   1/1     Running   0          17m
@@ -161,7 +161,7 @@ deployment.apps/web-deploy   3/3     3            3           17m
 NAME                                    DESIRED   CURRENT   READY   AGE
 replicaset.apps/web-deploy-86cd4d65b9   3         3         3       17m
 
-$ kubectl run -it bustbox --restart=Never --rm --image=busybox sh
+# kubectl run -it bustbox --restart=Never --rm --image=busybox sh
 
 / # while true; do wget -q -O - http://web-service; sleep 1; done
 web-deploy-86cd4d65b9-65dqb
@@ -191,21 +191,21 @@ spec:
 
 [ minikube ]
 ```bash
-$ kubectl apply -f deploy.yml
+# kubectl apply -f deploy.yml
 deployment.apps/web-deploy created
 
-$ kubectl apply -f svc-np.yml
+# kubectl apply -f svc-np.yml
 service/web-service-np created
 
-$ kubectl get svc
+# kubectl get svc
 NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP        25h
 web-service-np   NodePort    10.108.182.122   <none>        80:31115/TCP   46s
 
-$ curl http://192.168.49.2:31115
+# curl http://192.168.49.2:31115
 curl: (7) Failed to connect to 192.168.49.2 port 31115: Timed out
 
-$ minikube service web-service-np
+# minikube service web-service-np
 |-----------|----------------|-------------|---------------------------|
 | NAMESPACE |      NAME      | TARGET PORT |            URL            |
 |-----------|----------------|-------------|---------------------------|
@@ -220,7 +220,7 @@ $ minikube service web-service-np
 * Opening service default/web-service-np in default browser...
 ! Because you are using a Docker driver on windows, the terminal needs to be open to run it.
 
-$ curl http://127.0.0.1:53371
+# curl http://127.0.0.1:53371
 <!DOCTYPE html>
 <html>
 <head>
@@ -413,15 +413,15 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f svc-ext.yml
+# kubectl apply -f svc-ext.yml
 service/apl-on-baremetal created
 
-$ kubectl get svc
+# kubectl get svc
 NAME               TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)   AGE
 apl-on-baremetal   ExternalName   <none>       10.132.253.7   <none>    8s
 kubernetes         ClusterIP      10.96.0.1    <none>         443/TCP   25h
 
-$ kubectl run -it bustbox --restart=Never --rm --image=busybox sh
+# kubectl run -it bustbox --restart=Never --rm --image=busybox sh
 
 / # ping apl-on-baremetal
 ping: bad address 'apl-on-baremetal'

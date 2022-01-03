@@ -38,24 +38,24 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f pvc.yml
+# kubectl apply -f pvc.yml
 persistentvolumeclaim/data1 created
 
-$ kubectl get pvc,pv
+# kubectl get pvc,pv
 NAME                          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistentvolumeclaim/data1   Bound    pvc-30712e65-159f-4dc2-ac1e-ff7104b44861   2Gi        RWO            standard       31s
 
 NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM           STORAGECLASS   REASON   AGE
 persistentvolume/pvc-30712e65-159f-4dc2-ac1e-ff7104b44861   2Gi        RWO            Delete           Bound    default/data1   standard                31s
 
-$ kubectl get storageclass
+# kubectl get storageclass
 NAME                 PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
 standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  3d23h
 
-$ kubectl apply -f pod.yml
+# kubectl apply -f pod.yml
 pod/pod1 created
 
-$ kubectl get pvc,pv,po
+# kubectl get pvc,pv,po
 NAME                          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistentvolumeclaim/data1   Bound    pvc-30712e65-159f-4dc2-ac1e-ff7104b44861   2Gi        RWO            standard       5m38s
 
@@ -65,7 +65,7 @@ persistentvolume/pvc-30712e65-159f-4dc2-ac1e-ff7104b44861   2Gi        RWO      
 NAME       READY   STATUS    RESTARTS   AGE
 pod/pod1   1/1     Running   0          15s
 
-$ kubectl exec -it pod1 -- sh
+# kubectl exec -it pod1 -- sh
 
 # df -h
 Filesystem      Size  Used Avail Use% Mounted on
@@ -147,10 +147,10 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f nfs-pv.yml
+# kubectl apply -f nfs-pv.yml
 persistentvolume/nfs-1 created
 
-$ kubectl run -it bb --image=busybox sh
+# kubectl run -it bb --image=busybox sh
 
 / # ping 172.16.20.10
 PING 172.16.20.10 (172.16.20.10): 56 data bytes
@@ -164,20 +164,20 @@ PING 172.16.20.10 (172.16.20.10): 56 data bytes
 round-trip min/avg/max = 6.787/7.434/8.702 ms
 / #
 
-$ kubectl apply -f nfs-pvc.yml
+# kubectl apply -f nfs-pvc.yml
 persistentvolumeclaim/nfs-1 created
 
-$ kubectl get pv,pvc
+# kubectl get pv,pvc
 NAME                     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM           STORAGECLASS   REASON   AGE
 persistentvolume/nfs-1   100Mi      RWX            Retain           Bound    default/nfs-1                           6m35s
 
 NAME                          STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistentvolumeclaim/nfs-1   Bound    nfs-1    100Mi      RWX                           22s
 
-$ kubectl apply -f nfs-client.yml
+# kubectl apply -f nfs-client.yml
 deployment.apps/nfs-client created
 
-$ kubectl get po
+# kubectl get po
 NAME                         READY   STATUS              RESTARTS   AGE
 bb                           1/1     Running             0          7m46s
 nfs-client-7ff95d88b-79gg7   0/1     ContainerCreating   0          59s
@@ -244,7 +244,7 @@ spec:
 ```
 
 ```bash
-$ ping 172.20.1.20
+# ping 172.20.1.20
 PING 172.20.1.20 (172.20.1.20) 56(84) bytes of data.
 64 bytes from 172.20.1.20: icmp_seq=1 ttl=63 time=0.983 ms
 64 bytes from 172.20.1.20: icmp_seq=2 ttl=63 time=0.927 ms
@@ -255,33 +255,33 @@ PING 172.20.1.20 (172.20.1.20) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3009ms
 rtt min/avg/max/mdev = 0.927/1.057/1.376/0.185 ms
 
-$ kubectl apply -f gfs-sc.yml
+# kubectl apply -f gfs-sc.yml
 storageclass.storage.k8s.io/gluster-heketi created
 
-$ kubectl get sc
+# kubectl get sc
 NAME             PROVISIONER               RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
 gluster-heketi   kubernetes.io/glusterfs   Delete          Immediate           false                  15s
 
-$ kubectl apply -f gfs-pvc.yml 
+# kubectl apply -f gfs-pvc.yml 
 persistentvolumeclaim/gvol-1 created
 
-$ kubectl get pv
+# kubectl get pv
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM            STORAGECLASS     REASON   AGE
 pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9   10Gi       RWX            Delete           Bound    default/gvol-1   gluster-heketi            5s
 
-$ kubectl get pvc
+# kubectl get pvc
 NAME     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS     AGE
 gvol-1   Bound    pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9   10Gi       RWX            gluster-heketi   13s
 
-$ kubectl apply -f gfs-client.yml 
+# kubectl apply -f gfs-client.yml 
 deployment.apps/gfs-client created
 
-$ kubectl get po
+# kubectl get po
 NAME                         READY   STATUS              RESTARTS   AGE
 gfs-client-ddfc99bb7-gn4p5   0/1     ContainerCreating   0          2m17s
 gfs-client-ddfc99bb7-mzcd8   0/1     ContainerCreating   0          2m17s
 
-$ kubectl get all
+# kubectl get all
 NAME                             READY   STATUS              RESTARTS   AGE
 pod/gfs-client-ddfc99bb7-s2782   0/1     ContainerCreating   0          10m
 pod/gfs-client-ddfc99bb7-v2pw7   0/1     ContainerCreating   0          10m
@@ -296,10 +296,10 @@ deployment.apps/gfs-client   0/2     2            0           10m
 NAME                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/gfs-client-ddfc99bb7   2         2         0       10m
 
-$ kubectl logs gfs-client-ddfc99bb7-mzcd8
+# kubectl logs gfs-client-ddfc99bb7-mzcd8
 Error from server (BadRequest): container "ubuntu" in pod "gfs-client-ddfc99bb7-mzcd8" is waiting to start: ContainerCreating
 
-$ kubectl describe pod/gfs-client-ddfc99bb7-s2782
+# kubectl describe pod/gfs-client-ddfc99bb7-s2782
 Name:           gfs-client-ddfc99bb7-s2782
 Namespace:      default
 Priority:       0
@@ -357,7 +357,7 @@ Events:
   Warning  FailedMount  8m24s (x22 over 5h32m)   kubelet, w3-k8s  Unable to attach or mount volumes: unmounted volumes=[gfs], unattached volumes=[default-token-9jvzm gfs]: timed out waiting for the condition
   Warning  FailedMount  3m53s (x199 over 5h37m)  kubelet, w3-k8s  (combined from similar events): Unable to attach or mount volumes: unmounted volumes=[gfs], unattached volumes=[default-token-9jvzm gfs]: timed out waiting for the condition
 
-$ kubectl describe pvc gvol-1
+# kubectl describe pvc gvol-1
 Name:          gvol-1
 Namespace:     default
 StorageClass:  gluster-heketi
@@ -374,7 +374,7 @@ VolumeMode:    Filesystem
 Mounted By:    gfs-client-ddfc99bb7-s2782
                gfs-client-ddfc99bb7-v2pw7
 
-$ kubectl describe sc gluster-heketi
+# kubectl describe sc gluster-heketi
 Name:            gluster-heketi
 IsDefaultClass:  No
 Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"gluster-heketi"},"parameters":{"resturl":"http://172.20.1.20:8080","restuser":"admin","restuserkey":"admin"},"provisioner":"kubernetes.io/glusterfs"}
@@ -387,7 +387,7 @@ ReclaimPolicy:         Delete
 VolumeBindingMode:     Immediate
 Events:                <none>
 
-$ kubectl describe pv pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
+# kubectl describe pv pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
 Name:            pvc-bf9a73cb-b4b0-4fdb-9eff-054f1ca477d9
 Labels:          <none>
 Annotations:     Description: Gluster-Internal: Dynamically provisioned PV
@@ -419,7 +419,7 @@ Events:                  <none>
 
 [ sudo yum install -y glusterfs-fuse 이후 ]
 ```bash
-$ kubectl get all
+# kubectl get all
 NAME                             READY   STATUS    RESTARTS   AGE
 pod/gfs-client-ddfc99bb7-gt857   1/1     Running   0          14s
 pod/gfs-client-ddfc99bb7-m79gd   1/1     Running   0          14s
@@ -434,7 +434,7 @@ deployment.apps/gfs-client   2/2     2            2           14s
 NAME                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/gfs-client-ddfc99bb7   2         2         2       14s
 
-$ kubectl describe pod/gfs-client-ddfc99bb7-gt857 
+# kubectl describe pod/gfs-client-ddfc99bb7-gt857 
 Name:         gfs-client-ddfc99bb7-gt857
 Namespace:    default
 Priority:     0
@@ -495,7 +495,7 @@ Events:
   Normal  Created    4m    kubelet, w2-k8s    Created container ubuntu
   Normal  Started    4m    kubelet, w2-k8s    Started container ubuntu
 
-$ kubectl exec -it gfs-client-ddfc99bb7-gt857 sh 
+# kubectl exec -it gfs-client-ddfc99bb7-gt857 sh 
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl kubectl exec [POD] -- [COMMAND] instead.
 
 # df -h
@@ -521,11 +521,11 @@ db145e5c18a161fb1e076e4db6421747  /mnt/test.data
 
 # exit
 
-$ kubectl exec -it gfs-client-ddfc99bb7-m79gd bash
+# kubectl exec -it gfs-client-ddfc99bb7-m79gd bash
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl kubectl exec [POD] -- [COMMAND] instead.
 groups: cannot find name for group ID 2000
 
-$ df -h
+# df -h
 Filesystem                                        Size  Used Avail Use% Mounted on
 overlay                                            37G  2.7G   35G   8% /
 tmpfs                                             1.3G     0  1.3G   0% /dev

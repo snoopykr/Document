@@ -18,31 +18,31 @@ kill은 정상적인 종료가 원활하지 못한 경우 종료하기 위해 �
 [ 1번 터미널 ]
 ```bash
 // stop에서 사용 (6d4fd22c3865)
-$ docker run -it ubuntu bash
+# docker run -it ubuntu bash
 root@6d4fd22c3865:/# exit
 ```
 
 [ 2번 터미널 ]
 ```bash
 // kill에서 사용 (3e98a3014884)
-$ docker run  -it ubuntu bash
+# docker run  -it ubuntu bash
 root@3e98a3014884:/#
 ```
 
 [ 3번 터미널 ]
 ```bash
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS                      PORTS     NAMES
 3e98a3014884   ubuntu    "bash"    9 seconds ago   Up 11 seconds                         priceless_dijkstra
 6d4fd22c3865   ubuntu    "bash"    2 minutes ago   Up 7 seconds                          focused_bardeen
 
-$ docker stop 6d4fd22c3865
+# docker stop 6d4fd22c3865
 6d4fd22c3865
 
-$ docker kill 3e98a3014884
+# docker kill 3e98a3014884
 3e98a3014884
 
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                       PORTS     NAMES
 3e98a3014884   ubuntu    "bash"    24 seconds ago   Exited (137) 3 seconds ago             priceless_dijkstra
 6d4fd22c3865   ubuntu    "bash"    2 minutes ago    Exited (0) 49 seconds ago              focused_bardeen
@@ -53,7 +53,7 @@ STATUS 부분을 보면 Exited (137), Exited (0)로 정상 종료와 비정상 �
 정지 상태인 컨테이너를 재기동 한다.
 
 ```bash
-$ docker start -i 3e98a3014884
+# docker start -i 3e98a3014884
 root@3e98a3014884:/#
 
 // 다음을 위한 준비
@@ -68,7 +68,7 @@ root@3e98a3014884:/# apt install git
 새로운 도커 이미지 생성한다.
 
 ```bash
-$ docker diff 3e98a3014884
+# docker diff 3e98a3014884
 // 중간 생략...
 C /var/cache
 C /var/cache/debconf
@@ -79,10 +79,10 @@ A /var/cache/debconf/templates.dat-old
 C /var/cache/ldconfig
 C /var/cache/ldconfig/aux-cache
 
-$ docker commit 3e98a3014884 ubuntu:git
+# docker commit 3e98a3014884 ubuntu:git
 sha256:99edbc97d61da96ec2c6c4a5d30fe5dac0450eacabad0b6e8c33b27a3023d74d
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 ubuntu                               git                                                     99edbc97d61d   29 seconds ago   207MB
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago      72.8MB
@@ -93,22 +93,22 @@ diff를 사용해 변경된 내용을 확인할 수 있고, 이미지를 보면 
 이미지를 원격 리포지토리에 보관
 
 ```bash
-$ docker login
+# docker login
 Authenticating with existing credentials...
 Login Succeeded
 
 Logging in with your password grants your terminal complete access to your account.
 For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
 
-$ docker tag ubuntu:git welovefish/ubuntu:git
+# docker tag ubuntu:git welovefish/ubuntu:git
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED         SIZE
 ubuntu                               git                                                     99edbc97d61d   6 minutes ago   207MB
 welovefish/ubuntu                    git                                                     99edbc97d61d   6 minutes ago   207MB
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago     72.8MB
 
-$ docker push welovefish/ubuntu:git
+# docker push welovefish/ubuntu:git
 The push refers to repository [docker.io/welovefish/ubuntu]
 1b4231260725: Pushed
 9f54eef41275: Mounted from library/ubuntu
@@ -122,15 +122,15 @@ https://hub.docker.com/repositories 에서 보관된 도커 이미지를 확인�
 종료된 컨테이너 제거
 
 ```bash
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
 3e98a3014884   ubuntu    "bash"    40 minutes ago   Up 24 minutes                         priceless_dijkstra
 6d4fd22c3865   ubuntu    "bash"    42 minutes ago   Exited (0) 40 minutes ago             focused_bardeen
 
-$ docker rm 3e98a3014884
+# docker rm 3e98a3014884
 Error response from daemon: You cannot remove a running container 3e98a3014884c84509444285cf6791b907f75c771c35eb3d403850b57c805167. Stop the container before attempting removal or force remove
 
-$ docker rm 6d4fd22c3865
+# docker rm 6d4fd22c3865
 6d4fd22c3865
 ```
 종료가 되지 않은 컨테이너는 제거할 수 없다.
@@ -139,36 +139,36 @@ $ docker rm 6d4fd22c3865
 이미지를 로컬 리포지터리에서 삭제
 
 ```bash
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 ubuntu                               git                                                     99edbc97d61d   21 minutes ago   207MB
 welovefish/ubuntu                    git                                                     99edbc97d61d   21 minutes ago   207MB
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago      72.8MB
 
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                          PORTS     NAMES
 3e98a3014884   ubuntu    "bash"    49 minutes ago   Exited (0) About a minute ago             priceless_dijkstra
 
-$ docker rm 3e98a3014884
+# docker rm 3e98a3014884
 3e98a3014884
 
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
-$ docker rmi 99edbc97d61d
+# docker rmi 99edbc97d61d
 Error response from daemon: conflict: unable to delete 99edbc97d61d (must be forced) - image is referenced in multiple repositories
 
-$ docker rmi ba6acccedd29
+# docker rmi ba6acccedd29
 Error response from daemon: conflict: unable to delete ba6acccedd29 (cannot be forced) - image has dependent child images
 
-$ docker rmi -f 99edbc97d61d
+# docker rmi -f 99edbc97d61d
 Untagged: ubuntu:git
 Untagged: welovefish/ubuntu:git
 Untagged: welovefish/ubuntu@sha256:4c66d644effa1531f17dd0d5eb17d9f39306655fdc4f78c99fcf7100142de9c5
 Deleted: sha256:99edbc97d61da96ec2c6c4a5d30fe5dac0450eacabad0b6e8c33b27a3023d74d
 Deleted: sha256:723e2fb2728119f027b9386c4e4c506e35d28ae73487e24580032b8b8c4ec4cc
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 ubuntu                               latest                                                  ba6acccedd29   7 weeks ago      72.8MB
 ```
@@ -179,7 +179,7 @@ ubuntu                               latest                                     
 
 [ 1번 터미널 ]
 ```bash
-$ docker run -it ubuntu bash
+# docker run -it ubuntu bash
 root@2aea93886f2c:/# apt update
 // <생략>
 root@2aea93886f2c:/# apt install -y iputils-ping net-tools
@@ -204,27 +204,27 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 
 [ 2번 터미널 ]
 ```bash
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
 2aea93886f2c   ubuntu    "bash"    4 minutes ago   Up 4 minutes                         optimistic_dubinsky
 
-$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" 2aea93886f2c
+# docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" 2aea93886f2c
 172.17.0.2
 
-$ docker inspect --format="{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}" 2aea93886f2c
+# docker inspect --format="{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}" 2aea93886f2c
 02:42:ac:11:00:02
 
-$ docker inspect --format="{{.LogPath}}" 2aea93886f2c
+# docker inspect --format="{{.LogPath}}" 2aea93886f2c
 /var/lib/docker/containers/2aea93886f2ce1be0b4e3b46e7fd0fe6a160314161745b17af11ac72d53df271/2aea93886f2ce1be0b4e3b46e7fd0fe6a160314161745b17af11ac72d53df271-json.log
 
-$ docker inspect --format="{{.Config.Image}}" 2aea93886f2c
+# docker inspect --format="{{.Config.Image}}" 2aea93886f2c
 ubuntu
 
-$ docker inspect --format="{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -> {{(index $conf 0).HostPort}} {{end}}" 2aea93886f2c
+# docker inspect --format="{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -> {{(index $conf 0).HostPort}} {{end}}" 2aea93886f2c
 
-$ docker inspect --format="{{(index (index .NetworkSettings.Ports '8787/tcp') 0).HostPort}}" 2aea93886f2c
+# docker inspect --format="{{(index (index .NetworkSettings.Ports '8787/tcp') 0).HostPort}}" 2aea93886f2c
 
-$ docker inspect --format="{{json .Config}}" 2aea93886f2c
+# docker inspect --format="{{json .Config}}" 2aea93886f2c
 {"Hostname":"2aea93886f2c","Domainname":"","User":"","AttachStdin":true,"AttachStdout":true,"AttachStderr":true,"Tty":true,"OpenStdin":true,"StdinOnce":true,"Env":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"Cmd":["bash"],"Image":"ubuntu","Volumes":null,"WorkingDir":"","Entrypoint":null,"OnBuild":null,"Labels":{}}
 ```
 
@@ -233,7 +233,7 @@ $ docker inspect --format="{{json .Config}}" 2aea93886f2c
 
 [ 1번 터미널 ]
 ```bash
-$ docker run -it ubuntu bash
+# docker run -it ubuntu bash
 
 root@2aea93886f2c:/# w
  01:13:40 up 34 min,  0 users,  load average: 0.00, 0.03, 0.06
@@ -255,11 +255,11 @@ root@2aea93886f2c:/# ps aw
 
 [ 2번 터미널 ]
 ```bash
-$ docker ps -a
+# docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS                      PORTS     NAMES
 2aea93886f2c   ubuntu    "bash"    19 minutes ago   Up 19 minutes                         optimistic_dubinsky
 
-$ docker exec -it 2aea93886f2c bash
+# docker exec -it 2aea93886f2c bash
 
 root@2aea93886f2c:/# w
  01:12:33 up 33 min,  0 users,  load average: 0.00, 0.04, 0.07
@@ -292,19 +292,19 @@ CMD cat /message | figlet
 ```
 
 ```bash
-$ echo "Hello World" > message
+# echo "Hello World" > message
 
-$ cat message
+# cat message
 Hello World
 
-$ docker build --tag hello:1.0 .
+# docker build --tag hello:1.0 .
 // <생략>
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 hello                                1.0                                                     0e664f242f0d   29 seconds ago   8.55MB
 
-$ docker run hello:1.0
+# docker run hello:1.0
  _   _      _ _        __        __         _     _
 | | | | ___| | | ___   \ \      / /__  _ __| | __| |
 | |_| |/ _ \ | |/ _ \   \ \ /\ / / _ \| '__| |/ _` |
@@ -335,30 +335,30 @@ $ docker run hello:1.0
 
 [ 1번 터미널 ]
 ```bash
-$ docker network ls
+# docker network ls
 NETWORK ID     NAME      DRIVER    SCOPE
 9a5ddadbec91   bridge    bridge    local
 6630cfb37ac9   host      host      local
 e0f78c2f1ab0   none      null      local
 
-$ docker network create my-network
+# docker network create my-network
 1b1266d16d16406596c44c6b4d3fe0fe347d7d6b7bfa5b032bf11c945a63291d
 
-$ docker network ls
+# docker network ls
 NETWORK ID     NAME         DRIVER    SCOPE
 9a5ddadbec91   bridge       bridge    local
 6630cfb37ac9   host         host      local
 1b1266d16d16   my-network   bridge    local
 e0f78c2f1ab0   none         null      local
 
-$ docker run -d --name webserver1 --network my-network nginx:latest
+# docker run -d --name webserver1 --network my-network nginx:latest
 7cdaee6a285a6a66e68f508d4d14e9e9fc342149a5c43b87b42c1cfdd4ab49e8
 
-$ docker ps
+# docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS     NAMES
 7cdaee6a285a   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp    webserver1
 
-$ docker run -it --rm --name net-tool --network my-network ubuntu bash
+# docker run -it --rm --name net-tool --network my-network ubuntu bash
 root@d86aac5008d6:/# apt-get update
 // <생략>
 root@d86aac5008d6:/# apt-get install dnsutils
@@ -402,15 +402,15 @@ Commercial support is available at
 
 [ 2번 터미널 ]
 ```bash
-$ docker ps
+# docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
 d86aac5008d6   ubuntu         "bash"                   8 minutes ago    Up 8 minutes              net-tool
 7cdaee6a285a   nginx:latest   "/docker-entrypoint.…"   20 minutes ago   Up 20 minutes   80/tcp    webserver1
 
-$ docker commit d86aac5008d6 ubuntu:network
+# docker commit d86aac5008d6 ubuntu:network
 sha256:0e9903d314af9165138ea4c8fb26264b3b97ee44827bc052083f7be59ec465c3
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED             SIZE
 ubuntu                               network                                                 0e9903d314af   7 seconds ago       164MB
 nginx                                latest                                                  f652ca386ed1   4 days ago          141MB
@@ -422,7 +422,7 @@ ubuntu                               latest                                     
 root@d86aac5008d6:/# exit
 exit
 
-$ docker run -it --rm --name net-tool --network bridge ubuntu:network bash
+# docker run -it --rm --name net-tool --network bridge ubuntu:network bash
 root@9ba6033c78b8:/# nslookup webserver1
 ;; connection timed out; no servers could be reached
 
@@ -436,10 +436,10 @@ curl: (28) Failed to connect to 172.18.0.2 port 80: Connection timed out
 ## docker 포트 외부 노출
 
 ```bash
-$ docker run -d --name webserver1 -p 8080:80 nginx:latest
+# docker run -d --name webserver1 -p 8080:80 nginx:latest
 9fe2c3187e932c1de08dfc2a31c553f846b52c110bfc1c1372a98d7b9e09ce09
 
-$ curl http://localhost:8080
+# curl http://localhost:8080
 <!DOCTYPE html>
 <html>
 <head>
@@ -464,7 +464,7 @@ Commercial support is available at
 </body>
 </html>
 
-$ curl http://192.168.60.18:8080
+# curl http://192.168.60.18:8080
 <!DOCTYPE html>
 <html>
 <head>
@@ -544,24 +544,24 @@ COPY php/ /var/www/html/
 ```
 
 ```bash
-$ docker network create api-net
+# docker network create api-net
 11a23b84869a971a4a18ff95aa2327e1de5e889270effafda5850f075a8191f1
 
-$ docker run -d --name mysql --network api-net -e MYSQL_ROOT_PASSWORD=qwerty mysql:5.7
+# docker run -d --name mysql --network api-net -e MYSQL_ROOT_PASSWORD=qwerty mysql:5.7
 08f26dc3354a4e4df6d5eded9d29f184ae9a1fb1c1b75a47ab436084ea97db85
 
-$ docker build -t php-api:0.1 .
+# docker build -t php-api:0.1 .
 // <생략>
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 php-api                              0.1                                                     9c06dcde6bcd   56 seconds ago   574MB
 mysql                                5.7                                                     738e7101490b   4 days ago       448MB
 
-$ docker run -d --name php --network api-net -p 8080:80 -e MYSQL_USER=root -e MYSQL_PASSWORD=qwerty php-api:0.1
+# docker run -d --name php --network api-net -p 8080:80 -e MYSQL_USER=root -e MYSQL_PASSWORD=qwerty php-api:0.1
 ee64e71baf41a3681b484c23bb457742e15202489e9e50466d7122f38bf227c3
 
-$ curl http://localhost:8080/
+# curl http://localhost:8080/
 <html>
 <head><title>PHP CONNECTION TEST</title></head>
 <body>
@@ -569,7 +569,7 @@ $ curl http://localhost:8080/
 <p>접속에 성공했습니다.</p><p>종료합니다.</p></body>
 </html>
 
-$ docker logs php
+# docker logs php
 AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
 AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.19.0.3. Set the 'ServerName' directive globally to suppress this message
 [Tue Dec 07 08:02:46.091982 2021] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.0.33 configured -- resuming normal operations
@@ -610,14 +610,14 @@ done
 ```
 
 ```bash
-$ docker build --tag my_daemon:0.1 .
+# docker build --tag my_daemon:0.1 .
 // <생략>
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
 
-$ docker run --name myd my_daemon:0.1
+# docker run --name myd my_daemon:0.1
 08:46:42 : 0
 08:46:45 : 1
 08:46:48 : 2
@@ -626,7 +626,7 @@ $ docker run --name myd my_daemon:0.1
 08:46:57 : 5
 08:47:00 : 6
 
-$ docker start -i myd
+# docker start -i myd
 08:49:42 : 0
 08:49:45 : 1
 08:49:48 : 2
@@ -681,20 +681,20 @@ CMD ["/bin/bash", "/my_daemon"]
 ```
 
 ```bash
-$ docker build --tag my_daemon:0.2 -f Dockerfile2 .
+# docker build --tag my_daemon:0.2 -f Dockerfile2 .
 // <생략>
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
 my_daemon                            0.2                                                     c8143e9795e1   11 seconds ago   10MB
 
-$ docker run --name myd my_daemon:0.2
+# docker run --name myd my_daemon:0.2
 09:00:32 : 0
 09:00:35 : 1
 09:00:38 : 2 # <- docker stop myd
 
-$ docker start -i myd
+# docker start -i myd
 09:01:11 : 3
 09:01:14 : 4
 09:01:17 : 5 # <- docker stop myd
@@ -748,43 +748,43 @@ CMD ["/bin/bash", "/my_daemon"]
 ```
 
 ```bash
-$ docker build --tag my_daemon:0.3 -f Dockerfile3 .
+# docker build --tag my_daemon:0.3 -f Dockerfile3 .
 // <생략>
 
-$ docker images
+# docker images
 REPOSITORY                           TAG                                                     IMAGE ID       CREATED          SIZE
 my_daemon                            0.1                                                     70291626f678   20 seconds ago   10MB
 my_daemon                            0.2                                                     c8143e9795e1   11 seconds ago   10MB
 my_daemon                            0.3                                                     03f7acaebf77   1 second ago     10MB
 
-$ docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
+# docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
 09:00:32 : 0
 09:00:35 : 1
 09:00:38 : 2 # <- docker stop myd
 
-$ docker start -i myd
+# docker start -i myd
 09:01:11 : 3
 09:01:14 : 4
 09:01:17 : 5 # <- docker stop myd
 
-$ docker rm myd
+# docker rm myd
 
-$ docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
+# docker run --name myd -v `pwd`/data:/pv my_daemon:0.3
 09:01:53 : 6
 09:01:56 : 7
 09:01:59 : 8 # <- docker stop myd
 
-$ docker run -d --name myd -v `pwd`/data:/pv my_daemon:0.3
+# docker run -d --name myd -v `pwd`/data:/pv my_daemon:0.3
 9ab72b5dc5f1433f39d654c0cc5af736c7c87ee0b14dd9ac6b9d5c04530ed614
 
-$ docker logs myd
+# docker logs myd
 09:31:51 : 14 
 09:31:54 : 15 
 09:31:57 : 16 
 09:32:00 : 17 
 09:32:03 : 18
 
-$ docker attach --sig-proxy=false myd
+# docker attach --sig-proxy=false myd
 09:32:33 : 28 
 09:32:36 : 29 
 09:32:39 : 30 

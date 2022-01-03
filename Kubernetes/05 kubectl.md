@@ -22,15 +22,15 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f job-normal-end.yml
+# kubectl apply -f job-normal-end.yml
 job.batch/normal-end created
 
-$ kubectl get job
+# kubectl get job
 NAME         COMPLETIONS   DURATION   AGE
 normal-end   0/6           7s         7s
 
 // parallelism을 설정 안한 경우
-$ kubectl describe job normal-end
+# kubectl describe job normal-end
 Name:             normal-end
 Namespace:        default
 Selector:         controller-uid=32104740-2124-4545-84f4-12f267a2fea3
@@ -71,7 +71,7 @@ Events:
   Normal  Completed         1s    job-controller  Job completed
 
 // parallelism을 2로 설정한 경우
-$ kubectl describe job normal-end
+# kubectl describe job normal-end
 Name:             normal-end
 Namespace:        default
 Selector:         controller-uid=fa334e73-2d17-4b10-b158-b4f2d561790c
@@ -133,14 +133,14 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f job-abnormal-end.yml
+# kubectl apply -f job-abnormal-end.yml
 job.batch/abnormal-end created
 
-$ kubectl get jobs
+# kubectl get jobs
 NAME           COMPLETIONS   DURATION   AGE
 abnormal-end   0/1           3m42s      3m42s
 
-$ kubectl get all
+# kubectl get all
 NAME                     READY   STATUS   RESTARTS   AGE
 pod/abnormal-end-2cbl8   0/1     Error    0          3m18s
 pod/abnormal-end-qjsqv   0/1     Error    0          3m48s
@@ -152,7 +152,7 @@ service/kubernetes         ClusterIP      10.96.0.1    <none>           443/TCP 
 NAME                     COMPLETIONS   DURATION   AGE
 job.batch/abnormal-end   0/1           3m58s      3m58s
 
-$ kubectl describe job abnormal-end
+# kubectl describe job abnormal-end
 Name:           abnormal-end
 Namespace:      default
 Selector:       controller-uid=7f865d95-5168-46c8-9f28-bfd4c150cb0c
@@ -210,16 +210,16 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f job-container-failed.yml
+# kubectl apply -f job-container-failed.yml
 job.batch/two-containers created
 
-$ kubectl get jobs
+# kubectl get jobs
 NAME             COMPLETIONS   DURATION   AGE
 two-containers   0/1           4m45s      4m45s
 
 job.batch/two-containers   0/1           82s        82s
 
-$ kubectl get all
+# kubectl get all
 NAME                       READY   STATUS      RESTARTS   AGE
 pod/two-containers-4nfw6   0/2     Completed   0          4m24s
 pod/two-containers-b5hsh   0/2     Completed   0          3m50s
@@ -231,11 +231,11 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   6d20h
 NAME                       COMPLETIONS   DURATION   AGE
 job.batch/two-containers   0/1           4m24s      4m24s
 
-$ kubectl describe jobs two-containers
+# kubectl describe jobs two-containers
 NAME             COMPLETIONS   DURATION   AGE
 two-containers   0/1           4m45s      4m45s
 
-$ kubectl describe jobs two-containers
+# kubectl describe jobs two-containers
 Name:           two-containers
 Namespace:      default
 Selector:       controller-uid=db5d4553-c19d-4fb0-b77b-e0c16fd64220
@@ -353,25 +353,25 @@ spec:
 ```
 
 ```bash
-$ docker build -t pn_generator .
+# docker build -t pn_generator .
 
-$ docker login
+# docker login
 
-$ docker tag pn_generator:latest welovefish/pn_generator:0.1
+# docker tag pn_generator:latest welovefish/pn_generator:0.1
 
-$ docker push welovefish/pn_generator:0.1
+# docker push welovefish/pn_generator:0.1
 
-$ kubectl apply -f pn_job.yml 
+# kubectl apply -f pn_job.yml 
 
-$ kubectl get job
+# kubectl get job
 NAME           COMPLETIONS   DURATION   AGE
 prime-number   1/1           84s        2m35s
 
-$ kubectl get pod
+# kubectl get pod
 NAME                 READY   STATUS      RESTARTS   AGE
 prime-number-wmm2q   0/1     Completed   0          2m38s
 
-$ kubectl logs prime-number-wmm2q
+# kubectl logs prime-number-wmm2q
 [    2     3     5     7    11    13    17    19    23    29    31    37
 // 중간 생략
  99707 99709 99713 99719 99721 99733 99761 99767 99787 99793 99809 99817
@@ -564,17 +564,17 @@ if __name__ == '__main__':
 ```
 
 ```bash
-$ docker build --tag pn_generator:0.2 .
+# docker build --tag pn_generator:0.2 .
 
-$ docker tag pn_generator:0.2 welovefish/pn_generator:0.2
+# docker tag pn_generator:0.2 welovefish/pn_generator:0.2
 
-$ docker push welovefish/pn_generator:0.2
+# docker push welovefish/pn_generator:0.2
 
-$ kubectl apply -f taskQueue-deploy.yml 
+# kubectl apply -f taskQueue-deploy.yml 
 deployment.apps/taskqueue created
 service/taskqueue created
 
-$ kubectl get all -o wide
+# kubectl get all -o wide
 NAME                             READY   STATUS    RESTARTS   AGE   IP              NODE     NOMINATED NODE   READINESS GATES
 pod/taskqueue-5f6557cd4f-mv67s   1/1     Running   0          13m   172.16.132.25   w3-k8s   <none>           <none>
 
@@ -588,7 +588,7 @@ deployment.apps/taskqueue   1/1     1            1           13m   rabbitmq     
 NAME                                   DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES     SELECTOR
 replicaset.apps/taskqueue-5f6557cd4f   1         1         1       13m   rabbitmq     rabbitmq   app=taskQueue,pod-template-hash=5f6557cd4f
 
-$ kubectl get node -o wide
+# kubectl get node -o wide
 NAME     STATUS   ROLES    AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION                CONTAINER-RUNTIME
 m-k8s    Ready    master   6d22h   v1.18.4   192.168.1.10    <none>        CentOS Linux 7 (Core)   3.10.0-1127.19.1.el7.x86_64   docker://1.13.1
 w1-k8s   Ready    <none>   6d22h   v1.18.4   192.168.1.101   <none>        CentOS Linux 7 (Core)   3.10.0-1127.19.1.el7.x86_64   docker://1.13.1
@@ -597,9 +597,9 @@ w3-k8s   Ready    <none>   6d22h   v1.18.4   192.168.1.103   <none>        CentO
 
 // job-initiator.py의 qmgr_host='192.168.1.103' 부분을 상황에 맞게 변경해 준다. (w3-k8s의 IP를 지정)
 
-$ docker build --tag job-init:0.1 .
+# docker build --tag job-init:0.1 .
 
-$ docker run -it --rm --name kube -v `pwd`/py:/py -v ~/.kube:/root/.kube -v ~/.minikube:/root/.minikube job-init:0.1 bash 
+# docker run -it --rm --name kube -v `pwd`/py:/py -v ~/.kube:/root/.kube -v ~/.minikube:/root/.minikube job-init:0.1 bash 
 
 root@b5198581f38a:/# kubectl get node
 NAME     STATUS   ROLES    AGE     VERSION
@@ -610,7 +610,7 @@ w3-k8s   Ready    <none>   6d22h   v1.18.4
 
 root@b5198581f38a:/# exit
 
-$ kubectl get job,pod 
+# kubectl get job,pod 
 NAME              COMPLETIONS   DURATION   AGE
 job.batch/pngen   4/4           59s        9m41s
 
@@ -621,7 +621,7 @@ pod/pngen-t858n                  0/1     Completed   0          8m45s
 pod/pngen-wzdw8                  0/1     Completed   0          9m41s
 pod/taskqueue-5f6557cd4f-mv67s   1/1     Running     0          36m
 
-$ kubectl logs pod/pngen-8s5fw 
+# kubectl logs pod/pngen-8s5fw 
 ['3001', ' 4000']
 [3001 3011 3019 3023 3037 3041 3049 3061 3067 3079 3083 3089 3109 3119
  3121 3137 3163 3167 3169 3181 3187 3191 3203 3209 3217 3221 3229 3251
@@ -658,7 +658,7 @@ $ kubectl logs pod/pngen-8s5fw
  6829 6833 6841 6857 6863 6869 6871 6883 6899 6907 6911 6917 6947 6949
  6959 6961 6967 6971 6977 6983 6991 6997]
 
-$ kubectl logs pod/pngen-d69h8 
+# kubectl logs pod/pngen-d69h8 
 ['1', ' 1000']
 [  1   2   3   5   7  11  13  17  19  23  29  31  37  41  43  47  53  59
   61  67  71  73  79  83  89  97 101 103 107 109 113 127 131 137 139 149
@@ -671,7 +671,7 @@ $ kubectl logs pod/pngen-d69h8
  827 829 839 853 857 859 863 877 881 883 887 907 911 919 929 937 941 947
  953 967 971 977 983 991 997]
 
-$ kubectl delete job pngen
+# kubectl delete job pngen
 job.batch "pngen" deleted
 ```
 사용하는 파일도 많고 내용도 좀 복잡하다. 먼저 메세지큐를 이해하고 접근하는 것이 좀 더 수월하지 않을까 싶다.
@@ -700,19 +700,19 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f cron-job.yml
+# kubectl apply -f cron-job.yml
 cronjob.batch/hello created
 
 
-$ kubectl get cronjob
+# kubectl get cronjob
 NAME    SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
 hello   */1 * * * *   False     0        <none>          20s
 
-$ kubectl get cronjob
+# kubectl get cronjob
 NAME    SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE
 hello   */1 * * * *   False     0        37s             3m7s
 
-$ kubectl get jobs
+# kubectl get jobs
 NAME             COMPLETIONS   DURATION   AGE
 hello-27318590   1/1           3s         2m48s
 hello-27318591   1/1           4s         108s

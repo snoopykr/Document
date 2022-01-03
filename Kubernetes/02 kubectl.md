@@ -18,28 +18,28 @@ spec:
 ## kubectl apply -f
 
 ```bash
-$ kubectl apply -f nginx-pod.yml
+# kubectl apply -f nginx-pod.yml
 pod/nginx created
 
 
-$ kubectl get pods
+# kubectl get pods
 NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          22s
 
 
 
-$ kubectl get po nginx -o wide
+# kubectl get po nginx -o wide
 NAME    READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
 nginx   1/1     Running   0          2m13s   172.17.0.3   minikube   <none>           <none>
 
-$ curl -m 3 http://172.17.0.3
+# curl -m 3 http://172.17.0.3
 ```
 curl에서 사용한 `-m 3`은 -max-time으로 3초후 timeout를 의미한다.
 
 ## kubectl delete -f 
 
 ```bash
-$ kubectl delete -f nginx-pod.yml
+# kubectl delete -f nginx-pod.yml
 pod "nginx" deleted
 ```
 
@@ -157,30 +157,30 @@ app.listen(3000);
 ```
 
 ```bash
-$ docker build --tag welovefish/webapi:0.1 .
+# docker build --tag welovefish/webapi:0.1 .
 
-$ docker login
+# docker login
 
-$ docker push welovefish/webapi:0.1
+# docker push welovefish/webapi:0.1
 
-$ kubectl apply -f webapl-pod.yml
+# kubectl apply -f webapl-pod.yml
 
-$ kubectl get pod
+# kubectl get pod
 NAME     READY   STATUS              RESTARTS   AGE
 webapl   0/1     ContainerCreating   0          12s
 
-$ kubectl get pod
+# kubectl get pod
 NAME     READY   STATUS    RESTARTS   AGE
 webapl   0/1     Running   0          26s
 
-$ kubectl logs pod/webapl
+# kubectl logs pod/webapl
 GET /healthz 200
 GET /healthz 200
 GET /healthz 200
 GET /ready 500
 GET /healthz 200
 
-$ kubectl describe pod webapl
+# kubectl describe pod webapl
 Name:         webapl
 Namespace:    default
 Priority:     0
@@ -280,9 +280,9 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f init-sample.yml
+# kubectl apply -f init-sample.yml
 
-$ kubectl exec -it init-sample -c main sh
+# kubectl exec -it init-sample -c main sh
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
 
 #  ls -al /docs
@@ -367,23 +367,23 @@ spec:
 ```
 
 ```bash
-$ docker build --tag welovefish/c-cloner:0.1 .
+# docker build --tag welovefish/c-cloner:0.1 .
 
-$ docker login
+# docker login
 
-$ docker push welovefish/c-cloner:0.1
+# docker push welovefish/c-cloner:0.1
 
-$ kubectl apply -f webserver.yml
+# kubectl apply -f webserver.yml
 
-$ kubectl get po
+# kubectl get po
 NAME          READY   STATUS    RESTARTS   AGE
 webserver     2/2     Running   0          58s
 
-$ kubectl get po -o wide
+# kubectl get po -o wide
 NAME          READY   STATUS    RESTARTS   AGE    IP           NODE       NOMINATED NODE   READINESS GATES
 webserver     2/2     Running   0          117s   172.17.0.4   minikube   <none>           <none>
 
-$ kubectl run busybox --image=busybox --restart=Never --rm -it sh
+# kubectl run busybox --image=busybox --restart=Never --rm -it sh
 
 / # wget -q -O - http://172.17.0.4
 <!DOCTYPE html>

@@ -9,7 +9,7 @@ kubenetes가 버전업하면서 run명령에도 변화가 생겼다.
 ## kubectl run
 
 ```bash
-$ kubectl run hello-world --image=hello-world -it --restart=Never --rm
+# kubectl run hello-world --image=hello-world -it --restart=Never --rm
 
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
@@ -24,7 +24,7 @@ To generate this message, Docker took the following steps:
     to your terminal.
 
 To try something more ambitious, you can run an Ubuntu container with:
- $ docker run -it ubuntu bash
+ # docker run -it ubuntu bash
 
 Share images, automate workflows, and more with a free Docker ID:
  https://hub.docker.com/
@@ -92,13 +92,13 @@ deployment-replicaset-pod 순으로 이름이 만들어 진다. `dpy-nginx-c8d77
 
 [ 에러 ]
 ```bash
-$ kubectl run hello-world --image=hello-world
+# kubectl run hello-world --image=hello-world
 pod/hello-world created
 ```
 deployment, replicaset이 생성되어야 하는데 버전업되면서 pod만 생성...
 
 ```bash
-$ kubectl run webserver --image=nginx --replicas=5
+# kubectl run webserver --image=nginx --replicas=5
 Error: unknown flag: --replicas
 See 'kubectl run --help' for usage.
 ```
@@ -106,13 +106,13 @@ replicaset도 바로 적용이 되지 않는다.
 
 [ 수정 ]
 ```bash
-$ kubectl create deployment --image=nginx webserver
+# kubectl create deployment --image=nginx webserver
 deployment.apps/webserver created
 
-$ kubectl scale --replicas=5 deployment/webserver
+# kubectl scale --replicas=5 deployment/webserver
 deployment.apps/webserver scaled
 
-$ kubectl get all
+# kubectl get all
 NAME                             READY   STATUS    RESTARTS   AGE
 pod/webserver-559b886555-5hdkv   1/1     Running   0          3m57s
 pod/webserver-559b886555-6952d   1/1     Running   0          3m57s
@@ -129,11 +129,11 @@ deployment.apps/webserver   5/5     5            5           4m35s
 NAME                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/webserver-559b886555   5         5         5       4m35s
 
-$ kubectl delete po webserver-559b886555-5hdkv webserver-559b886555-6952d
+# kubectl delete po webserver-559b886555-5hdkv webserver-559b886555-6952d
 pod "webserver-559b886555-5hdkv" deleted
 pod "webserver-559b886555-6952d" deleted
 
-$ kubectl get all
+# kubectl get all
 NAME                             READY   STATUS              RESTARTS   AGE
 pod/webserver-559b886555-7d6r4   0/1     ContainerCreating   0          5s
 pod/webserver-559b886555-8vg4t   1/1     Running             0          5m23s
@@ -150,10 +150,10 @@ deployment.apps/webserver   3/5     5            3           6m1s
 NAME                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/webserver-559b886555   5         5         3       6m1s
 
-$ kubectl delete deployment webserver
+# kubectl delete deployment webserver
 deployment.apps "webserver" deleted
 
-$ kubectl get all
+# kubectl get all
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   56m
 ```
@@ -164,27 +164,27 @@ job controller는 pod가 비정상 종료하면 재시작하며 정상 종료할
 
 [ 에러 ]
 ```bash
-$ kubectl run hello-world --image=hello-world --restart=OnFailure
+# kubectl run hello-world --image=hello-world --restart=OnFailure
 pod/hello-world created
 
-$ kubectl get all
+# kubectl get all
 NAME              READY   STATUS      RESTARTS   AGE
 pod/hello-world   0/1     Completed   0          100s
 
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   23h
 
-$ kubectl delete pod/hello-world
+# kubectl delete pod/hello-world
 pod "hello-world" deleted
 ```
 run 명령만으로는 job 생성 안된다.
 
 [ 수정 ]
 ```bash
-$ kubectl create job hello-world --image=hello-world --restart=OnFailure
+# kubectl create job hello-world --image=hello-world --restart=OnFailure
 job.batch/hello-world created
 
-$ kubectl get all
+# kubectl get all
 NAME                       READY   STATUS              RESTARTS   AGE
 pod/hello-world--1-l4t5s   0/1     ContainerCreating   0          2s
 
@@ -226,13 +226,13 @@ job은 만들었지만 pod가 원활하게 생성되지 않는 것을 알수 있
 ## job의 기능
 
 ```bash
-$ kubectl create job job1 --image=ubuntu -- /bin/bash -c "exit 0" --restart=OnFailure
+# kubectl create job job1 --image=ubuntu -- /bin/bash -c "exit 0" --restart=OnFailure
 job.batch/job1 created
 
-$ kubectl create job job2 --image=ubuntu -- /bin/bash -c "exit 1" --restart=OnFailure
+# kubectl create job job2 --image=ubuntu -- /bin/bash -c "exit 1" --restart=OnFailure
 job.batch/job2 created
 
-$ kubectl get all
+# kubectl get all
 NAME                READY   STATUS              RESTARTS   AGE
 pod/job1--1-j576z   0/1     Completed           0          96s
 pod/job2--1-fr6n7   0/1     ContainerCreating   0          4s
@@ -248,7 +248,7 @@ NAME             COMPLETIONS   DURATION   AGE
 job.batch/job1   1/1           4s         96s
 job.batch/job2   0/1           77s        77s
 
-$ kubectl get jobs
+# kubectl get jobs
 NAME   COMPLETIONS   DURATION   AGE
 job1   1/1           10s        18h
 job2   0/1           18h        18h

@@ -3,7 +3,7 @@
 ## Vagrant 시작
 
 ```bash
-$ vagrant init
+# vagrant init
 ```
 
 [ Vagrantfile ]
@@ -109,11 +109,11 @@ VirtualBox Guest Additions 설치를 하지 않아서 발생한다. 무시해도
 
 
 ```bash
-$ vagrant up
+# vagrant up
 
-$ vagrant ssh
+# vagrant ssh
 
-[vagrant@k8s ~]$ ls -al
+[vagrant@k8s ~]# ls -al
 합계 16
 drwx------. 3 vagrant vagrant  95  9월 15  2019 .
 drwxr-xr-x. 3 root    root     21  9월 15  2019 ..
@@ -123,20 +123,20 @@ drwxr-xr-x. 3 root    root     21  9월 15  2019 ..
 -rw-r--r--. 1 vagrant vagrant 231 10월 31  2018 .bashrc
 drwx------. 2 vagrant vagrant  29 12월 14 10:41 .ssh
 
-[vagrant@k8s ~]$ uptime
+[vagrant@k8s ~]# uptime
  11:45:13 up 18 min,  1 user,  load average: 0.00, 0.01, 0.01
 
-[vagrant@k8s ~]$ date
+[vagrant@k8s ~]# date
 2021. 12. 14. (화) 11:46:11 KST
 
-[vagrant@k8s ~]$ cat /etc/redhat-release 
+[vagrant@k8s ~]# cat /etc/redhat-release 
 CentOS Linux release 7.8.2003 (Core)
 
-[vagrant@k8s ~]$ exit
+[vagrant@k8s ~]# exit
 logout
 Connection to 127.0.0.1 closed.
 
-$ vagrant destroy -f
+# vagrant destroy -f
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
 ```
@@ -166,17 +166,17 @@ end
 ```
 
 ```bash
-$ vagrant up
+# vagrant up
 
-$ vagrant port
+# vagrant port
     22 (guest) => 60010 (host)
 
-$ netstat -an | findstr 60010
+# netstat -an | findstr 60010
   TCP    0.0.0.0:60010          0.0.0.0:0              LISTENING
 
-$ vagrant ssh
+# vagrant ssh
 
-[vagrant@m-k8s ~]$ ip addr show eth1
+[vagrant@m-k8s ~]# ip addr show eth1
 3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:bd:18:28 brd ff:ff:ff:ff:ff:ff
     inet 192.168.1.10/24 brd 192.168.1.255 scope global noprefixroute eth1
@@ -184,7 +184,7 @@ $ vagrant ssh
     inet6 fe80::a00:27ff:febd:1828/64 scope link
        valid_lft forever preferred_lft forever
 
-[vagrant@m-k8s ~]$ exit
+[vagrant@m-k8s ~]# exit
 logout
 Connection to 127.0.0.1 closed.
 ```
@@ -222,11 +222,11 @@ yum install vim-enhanced -y
 ```
 
 ```bash
-$ vagrant provision
+# vagrant provision
 
-$ vagrant ssh
+# vagrant ssh
 
-[vagrant@m-k8s ~]$ yum repolist
+[vagrant@m-k8s ~]# yum repolist
 Loaded plugins: fastestmirror
 Determining fastest mirrors
  * base: mirror.kakao.com
@@ -240,7 +240,7 @@ extras/7/x86_64                           CentOS-7 - Extras                     
 updates/7/x86_64                          CentOS-7 - Updates                                                       3,190
 repolist: 27,453
 
-[vagrant@m-k8s ~]$ vi .bashrc
+[vagrant@m-k8s ~]# vi .bashrc
 # .bashrc
 
 # Source global definitions
@@ -253,7 +253,7 @@ fi
 
 # User specific aliases and functions
 
-[vagrant@m-k8s ~]$ exit
+[vagrant@m-k8s ~]# exit
 logout
 Connection to 127.0.0.1 closed.
 ```
@@ -330,14 +330,14 @@ chmod 744 ./ping_2_nds.sh
 ```
 
 ```bash
-$ vagrant up
+# vagrant up
 
-$ vagrant ssh
+# vagrant ssh
 This command requires a specific VM name to target in a multi-VM environment.
 
-$ vagrant ssh m-k8s
+# vagrant ssh m-k8s
 
-[vagrant@m-k8s ~]$ ./ping_2_nds.sh
+[vagrant@m-k8s ~]# ./ping_2_nds.sh
 \PING 192.168.1.101 (192.168.1.101) 56(84) bytes of data.
 64 bytes from 192.168.1.101: icmp_seq=1 ttl=64 time=1.46 ms
 64 bytes from 192.168.1.101: icmp_seq=2 ttl=64 time=1.38 ms
@@ -527,7 +527,7 @@ kubeadm join --token 123456.1234567890123456 \
 ```
 
 ```bash
-$ vagrant up
+# vagrant up
 
 // ScureCRT at master
 [root@m-k8s ~]# kubectl get nodes

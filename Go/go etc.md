@@ -3,7 +3,7 @@
 ## Multiple Platforms 지원
 
 ```bash
-$ env GOOS=target-OS GOARCH=target-architecture go build package-import-path
+# env GOOS=target-OS GOARCH=target-architecture go build package-import-path
 ```
 
 | GOOS - Target Operating System | GOARCH - Target Platform |
@@ -40,5 +40,5 @@ $ env GOOS=target-OS GOARCH=target-architecture go build package-import-path
 | windows | amd64 |
 
 ```bash
-$ env GOOS=linux GOARCH=amd64 go build
+# env GOOS=linux GOARCH=amd64 go build
 ```

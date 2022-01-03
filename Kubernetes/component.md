@@ -1,7 +1,7 @@
 # 구성요소 기능 검증
 
 ```bash
-$ vagrant up
+# vagrant up
 ```
 master, node1, node2, node3을 구동시켜 준다.
 

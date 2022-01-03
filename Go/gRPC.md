@@ -44,14 +44,14 @@ message ConfigResponse {
 일부러 Parameter가 없는 Sample을 사용했다. 인터넷을 찾아보면 Parameter가 있는 Sample들이 대부분이므로 비교하면서 보면 도움이 될 것이다.
 
 ```bash
-$ go get -u google.golang.org/grpc
-$ go get -u github.com/golang/protobuf/protoc-gen-go
+# go get -u google.golang.org/grpc
+# go get -u github.com/golang/protobuf/protoc-gen-go
 ```
 
 gRPC를 사용하기 위한 모듈 설치. 모듈이 설치되어 있다면 생략해도 된다.
 
 ```bash
-$ protoc -I config config.proto --go_out=plugins=grpc:.
+# protoc -I config config.proto --go_out=plugins=grpc:.
 ```
 
 protobuf를 사용해서 go파일을 생성한다.
