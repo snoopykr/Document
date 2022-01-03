@@ -308,3 +308,218 @@ hello-world-deployment-67b5744646-tht29   1/1     Running   0          114s
 # curl --header "Host: abc.sample.com" http://172.16.20.99/
 <html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-g2zt5</h1></body></html
 ```
+
+## SSL/TLS 암호화
+
+[ application1.yml ]
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - image: "strm/helloworld-http"
+          name: hello-world-container
+          ports:
+            - containerPort: 80
+  selector:
+    matchLabels:
+      app: hello-world
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-svc
+spec:
+  type: NodePort
+  ports:
+     -  port: 8080
+        protocol: TCP
+        targetPort: 80
+        nodePort: 31445
+  selector:
+    app: hello-world
+```
+
+[ application2.yml ]
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - image: nginx
+          name:  nginx
+          ports:
+            - containerPort: 80
+  selector:
+    matchLabels:
+      app: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  selector:
+    app: nginx
+  ports:
+     -  port: 9080
+        targetPort: 80
+```
+
+[ application3.yml ]
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: liberty
+    spec:
+      containers:
+        - image: openliberty/open-liberty:javaee8-ubi-min-amd64
+          name:  open-liberty
+          ports:
+            - containerPort: 9080
+              name: httpport
+  selector:
+    matchLabels:
+      app: liberty
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-svc
+spec:
+  selector:
+    app: liberty
+  ports:
+     -  port: 9080
+        targetPort: 9080
+```
+
+[ ingress.yml ]
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: abc.sample.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-svc
+          servicePort: 8080
+      - path: /apl2
+        backend:
+          serviceName: nginx-svc
+          servicePort: 9080
+  - host: xyz.sample.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: java-svc
+          servicePort: 9080
+```
+
+[ ingress-iks.yml ]
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    # kubernetes.io/ingress.class: 'nginx'
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    ingress.bluemix.net/rewrite-path: "serviceName=nginx-svc rewrite=/;serviceName=java-svc rewrite=/"
+    ingress.bluemix.net/redirect-to-https: "True"
+spec:
+  tls:
+  - hosts:
+    - iks2.jp-tok.containers.appdomain.cloud
+    secretName: iks2
+  rules:
+  - host: iks2.jp-tok.containers.appdomain.cloud
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-svc
+          servicePort: 8080
+      - path: /apl2
+        backend:
+          serviceName: nginx-svc
+          servicePort: 9080
+  - host: xyz.sample.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: java-svc
+          servicePort: 9080
+```
+
+[ ingress-tls.yml ]
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+
+spec:
+  tls:
+  - hosts:
+    - abc.sample.com
+    secretName: tls-certificate
+    
+  rules:
+  - host: abc.sample.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-svc
+          servicePort: 8080
+      - path: /apl2
+        backend:
+          serviceName: nginx-svc
+          servicePort: 9080
+  - host: xyz.sample.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: java-svc
+          servicePort: 9080
+```
