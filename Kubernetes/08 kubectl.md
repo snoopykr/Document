@@ -306,7 +306,19 @@ hello-world-deployment-67b5744646-t8xz6   1/1     Running   0          114s
 hello-world-deployment-67b5744646-tht29   1/1     Running   0          114s
 
 # curl --header "Host: abc.sample.com" http://172.16.20.99/
+<html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-sbx4s</h1></body></html
+
+# curl --header "Host: abc.sample.com" http://172.16.20.99/
 <html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-g2zt5</h1></body></html
+
+# curl --header "Host: abc.sample.com" http://172.16.20.99/
+<html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-tht29</h1></body></html
+
+# curl --header "Host: abc.sample.com" http://172.16.20.99/
+<html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-t8xz6</h1></body></html
+
+# curl --header "Host: abc.sample.com" http://172.16.20.99/
+<html><head><title>HTTP Hello World</title></head><body><h1>Hello from hello-world-deployment-67b5744646-6tndj</h1></body></html
 ```
 
 ## SSL/TLS 암호화
