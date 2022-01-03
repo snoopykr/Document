@@ -609,8 +609,7 @@ exit
 
 # while true; do date; kubectl get po -o wide; echo; sleep 15; done 
 
-// # vagrant halt w3-k8s
-// ==> w3-k8s: Attempting graceful shutdown of VM...
+// # vagrant halt w3-k8s 실행 후
 Mon Jan  3 14:03:26 KST 2022
 NAME      READY   STATUS    RESTARTS   AGE   IP             NODE     NOMINATED NODE   READINESS GATES
 mysql-0   1/1     Running   0          16m   172.16.132.7   w3-k8s   <none>           <none>
@@ -623,7 +622,7 @@ Mon Jan  3 14:03:56 KST 2022
 NAME      READY   STATUS    RESTARTS   AGE   IP             NODE     NOMINATED NODE   READINESS GATES
 mysql-0   1/1     Running   0          16m   172.16.132.7   w3-k8s   <none>           <none>
 
-// # kubectl delete node w3-k8s
+// # kubectl delete node w3-k8s 실행 후
 Mon Jan  3 14:06:59 KST 2022
 NAME      READY   STATUS    RESTARTS   AGE   IP               NODE     NOMINATED NODE   READINESS GATES
 mysql-0   1/1     Running   0          8s    172.16.221.130   w1-k8s   <none>           <none>
