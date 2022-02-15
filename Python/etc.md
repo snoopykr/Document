@@ -86,3 +86,85 @@ extend()는 파라미터가 반복 자료인 경우 원소단위로 추가
 >>> myList
 ['Thoughts', 'become', 'things']
 ```
+
+## Comprehension
+```python
+>>> nums = [1, 2, 3, 4, 5]
+>>> squares = []
+>>> for x in nums:
+...    squares.append(x ** 2)
+...    
+>>> squares
+[1, 4, 9, 16, 25]
+```
+
+```python
+>>> nums = [1, 2, 3, 4, 5]
+>>> squares = [x ** 2 for x in nums]
+>>> squares
+[1, 4, 9, 16, 25]
+```
+
+```python
+>>> nums = [1, 2, 3, 4, 5]
+>>> squares = [x ** 2 for x in nums if x % 2 == 0]
+>>> squares
+[4, 16]
+```
+
+## 문자열 포맷
+```python
+>>> crispr = {'EDIT': 'Editas Medicine', 'NTLA': "Intellia Therapeutics"}
+>>> crispr['CRSP'] = 'CRISPR Therapeutics'
+>>> len(crispr)
+3
+>>> for x in crispr:
+...    print('%s : %s' % (x, crispr[x]))
+...    
+EDIT : Editas Medicine
+NTLA : Intellia Therapeutics
+CRSP : CRISPR Therapeutics
+>>> for x in crispr:
+...    print('{} : {}'.format(x, crispr[x]))
+...    
+EDIT : Editas Medicine
+NTLA : Intellia Therapeutics
+CRSP : CRISPR Therapeutics
+>>> for x in crispr:
+...    print(f'{x} : {crispr[x]}')
+...    
+EDIT : Editas Medicine
+NTLA : Intellia Therapeutics
+CRSP : CRISPR Therapeutics
+```
+
+## set
+```python
+>>> s = {'A', 'P', 'P', 'L', 'E'}
+>>> s
+{'P', 'E', 'A', 'L'}
+>>> if 'A' in s:
+...    print("'A' exists in", s)
+...    
+'A' exists in {'P', 'E', 'A', 'L'}
+>>> setA = {1, 2, 3, 4, 5}
+>>> setB = {3, 4, 5, 6, 7}
+>>> setA & setB
+{3, 4, 5}
+>>> setA | setB
+{1, 2, 3, 4, 5, 6, 7}
+>>> setA - setB
+{1, 2}
+>>> setB - setA
+{6, 7}
+```
+
+```python
+>>> ls = []
+>>> d = {}
+>>> t = ()
+>>> s = set()
+>>> ls = [1, 3, 5, 2, 2, 3, 4, 2, 1, 1, 1, 5]
+>>> list(set(ls))
+[1, 2, 3, 4, 5]
+```
