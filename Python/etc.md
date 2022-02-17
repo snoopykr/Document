@@ -250,3 +250,81 @@ print(s)
 print(l)
 print(f)
 ```
+
+## lambda
+```python
+>>> InsertComma = lambda x : format(x, ',')
+>>> InsertComma(1234567890)
+'1,234,567,890'
+```
+
+```
+[참고]
+def lambda (인수):
+    return 표현식
+```
+
+## help()
+```python
+>>> help('modules')
+Please wait a moment while I gather a list of all available modules...
+PIL                 _warnings           idna                queue
+PyPDF2              _weakref            imaplib             quopri
+PyQt5               _weakrefset         imghdr              random
+__future__          _winapi             imp                 re
+_abc                abc                 importlib           reprlib
+
+~~~ 이하 생략 ~~~
+
+>>> help('modules time')
+Here is a list of modules whose name or summary contains 'time'.
+If there are any, enter a module name to get more help.
+_datetime - Fast implementation of the datetime type.
+time - This module provides various functions to manipulate time values.
+_strptime - Strptime-related classes and functions.
+
+~~~ 이하 생략 ~~~
+
+>>> help('datetime')
+Help on module datetime:
+NAME
+    datetime - Fast implementation of the datetime type.
+MODULE REFERENCE
+    https://docs.python.org/3.7/library/datetime
+
+~~~ 이하 생략 ~~~
+```
+
+## import
+```python
+>>> import keyword
+>>> keyword.kwlist
+['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield']
+>>> keyword.__file__
+'D:\\Application\\anaconda3\\envs\\Tools\\lib\\keyword.py'
+
+>>> import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+
+## package
