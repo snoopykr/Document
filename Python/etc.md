@@ -168,3 +168,94 @@ CRSP : CRISPR Therapeutics
 >>> list(set(ls))
 [1, 2, 3, 4, 5]
 ```
+
+## timeit
+```python
+>>> import timeit
+
+>>> iteration_test = """
+...for i in itr:
+...    pass
+..."""
+>>> timeit.timeit(iteration_test, setup='itr = list(range(100000))', number=10000)
+6.676608499999986
+>>> timeit.timeit(iteration_test, setup='itr = tuple(range(100000))', number=10000)
+6.654467300000022
+>>> timeit.timeit(iteration_test, setup='itr = set(range(100000))', number=10000)
+15.978206999999998
+
+>>> search_test = """
+...import random
+...x = random.randint(0, len(itr)-1)
+...if x in itr:
+...  pass
+..."""
+>>> timeit.timeit(search_test, setup='itr = list(range(100000))', number=10000)
+5.642429400000083
+>>> timeit.timeit(search_test, setup='itr = tuple(range(100000))', number=10000)
+5.339672700000051
+>>> timeit.timeit(search_test, setup='itr = set(range(100000))', number=10000)
+0.021988299999975425
+```
+
+## python의 int
+```python
+>>> googol = 10 ** 100
+>>> type(googol)
+<class 'int'>
+>>> googol
+10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+```
+python에서 정수는 제한이 없다.
+
+## 연평균 성장률 (CAGR)
+```python
+def getCAGR(first, last, years):
+    return (last / first) ** (1 / years) - 1
+
+
+cagr = getCAGR(65300, 2669000, 20)
+
+print('SEC CAGR : {:.2%}'.format(cagr))
+```
+삼성전자 연평균 성장률을 계산 했다.
+
+## None
+```python
+def func1():
+    pass
+
+
+def func2():
+    return
+
+
+def func3():
+    return None
+
+
+print(func1())
+print(func2())
+print(func3())
+
+print(type(None))
+print(func1() is None)
+```
+
+## function
+```python
+def myFunc():
+    var1 = 'a'
+    var2 = [1, 2, 3]
+    var3 = max
+    return var1, var2, var3
+
+
+print(myFunc())
+
+s, l, f = myFunc()
+
+print(s)
+print(l)
+print(f)
+```
