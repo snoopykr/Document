@@ -13,16 +13,7 @@ while i > 0:
 else:
     print('Condition is False')
 ```
-
-```
-9
-7
-5
-3
-1
-Condition is False
-```
-else를 사용하면 반복을 종료하고 
+반복을 종료하고 else블록을 실행, Python만의 특징...
 
 ## sort()와 sorted()
 ```python
