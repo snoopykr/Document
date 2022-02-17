@@ -328,3 +328,77 @@ Namespaces are one honking great idea -- let's do more of those!
 ```
 
 ## package
+[ myPageckage/__init__.py ]
+```python
+__all__ = ['moduleA', 'moduleB']
+```
+
+[ myPageckage/moduleA.py ]
+```python
+def functionA():
+    print("FUNCTION_A")
+
+
+print('MODULE_A : ', __name__)
+```
+
+[ myPageckage/moduleB.py ]
+```python
+def functionB():
+    print("FUNCTION_B")
+
+
+print('MODULE_B : ', __name__)
+```
+
+[ PackageTest.py ]
+```python
+from myPackage import *
+
+moduleA.functionA()
+```
+
+## class
+```python
+>>> class MyFirstClass:
+...    clsVar = 'The best way to predict the future is to invent it.'
+...
+...    def clsMethod(self):
+...        print(MyFirstClass.clsVar + '\t- Alan Curties Kay -')
+...        
+>>> mfc = MyFirstClass()
+>>> mfc.clsVar
+'The best way to predict the future is to invent it.'
+>>> mfc.clsMethod()
+The best way to predict the future is to invent it.	- Alan Curties Kay -
+```
+
+```python
+class A:
+    def methodA(self):
+        print("Calling A's methodA")
+
+    def method(self):
+        print("Calling A's method")
+
+
+class B:
+    def methodB(self):
+        print("Calling B's methodB")
+
+
+class C(A, B):
+    def methodC(self):
+        print("Calling C's methodC")
+
+    def method(self):
+        print("Calling C's overridden method")
+        super().method()
+
+
+c = C()
+c.methodA()
+c.methodB()
+c.methodC()
+c.method()
+```
