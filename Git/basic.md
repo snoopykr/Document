@@ -72,4 +72,7 @@ $ git config --global core.editor "에디터경로"
 
 // 파일 등록과 커밋을 동시에 진행
 $ git commit -a
+
+// log 확인
+$ git log
 ```
