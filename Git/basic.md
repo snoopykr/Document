@@ -47,7 +47,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 // 스테이지에 저장되어 있는 즉 tracked된 파일 목록
 $ git ls-files --stage
+```
 
+## 파일 이름 변경
+```bash
 // 등록된 파일 이름이 변경된 경우
 // git mv 파일이름 새파일이름
 $ git mv test.go testing.go
@@ -56,4 +59,17 @@ $ git mv test.go testing.go
 $ mv test.go testing.go
 $ git rm test.go
 $ git add testing.go
+```
+
+## git commit
+```bash
+// commit 도움말...
+$ git commit --help
+$ git commit -h
+
+// 외부 에디터 사용을 위한 한경 설정
+$ git config --global core.editor "에디터경로"
+
+// 파일 등록과 커밋을 동시에 진행
+$ git commit -a
 ```
