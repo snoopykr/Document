@@ -4,7 +4,7 @@
 설치 참조 https://docs.docker.com/engine/install/ubuntu/
 
 ```bash
-// 피키지 업데이트
+// 패키지 업데이트
 # sudo apt-get update
 
 // 필수 패키지 설치
